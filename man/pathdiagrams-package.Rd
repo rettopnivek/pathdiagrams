@@ -7,7 +7,7 @@
 \description{
 The \pkg{pathdiagrams} package provides a set of
 functions to streamline creation of path diagrams
-and flow charts. A complete  list of the
+and flow charts. A complete list of the
 functions available in the package can be obtained
 via the command \code{ls(pos = "package:pathdiagrams")}.
 }

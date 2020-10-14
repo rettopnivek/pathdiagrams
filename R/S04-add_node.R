@@ -39,6 +39,7 @@ add_node = function( content,
   shape = content$shape
   spacing = content$spacing
   border_color = content$border_color
+  border_width = content$border_width
   node_color = content$node_color
   text_size = content$text_size
   text_color = content$text_color
@@ -60,6 +61,9 @@ add_node = function( content,
 
       if ( is.null( border_color ) )
         border_color = style_guide$node$border_color
+
+      if ( is.null( border_width ) )
+        border_width = style_guide$node$border_width
 
       if ( is.null( node_color ) )
         node_color = style_guide$node$node_color
@@ -87,6 +91,9 @@ add_node = function( content,
 
   if ( is.null( border_color ) )
     border_color = 'black'
+
+  if ( is.null( border_width ) )
+    border_width = 2
 
   if ( is.null( node_color ) )
     node_color = 'white'
@@ -174,6 +181,7 @@ add_node = function( content,
     polygon( xa, ya,
              col = node_color,
              border = border_color,
+             lwd = border_width,
              ... )
 
   }

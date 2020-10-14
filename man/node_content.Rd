@@ -12,6 +12,7 @@ node_content(
   shape = NULL,
   spacing = NULL,
   border_color = NULL,
+  border_width = 2,
   node_color = NULL,
   text_size = NULL,
   text_color = NULL,
