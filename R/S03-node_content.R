@@ -8,7 +8,13 @@
 #' @param y The y-axis position of the node (the top).
 #' @param text_content Either 1) a character vector with
 #'   each line of text, or 2) a named list with the elements...
-#'
+#'   \itemize{
+#'     \item \code{left}: Left-most text content.
+#'     \item \code{special}: Text content with special
+#'       formatting (e.g., bold text).
+#'     \item \code{right} Right-most text content.
+#'     \item \code{font} The type of formatting.
+#'   }
 #' @param dimensions An optional vector giving the width
 #'   and height of the node (assuming a relative plot width
 #'   and height of 1).
