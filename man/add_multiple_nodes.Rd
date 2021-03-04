@@ -8,21 +8,22 @@ add_multiple_nodes(
   input,
   paths = NULL,
   output = F,
-  node_shape = "box",
-  node_shape.col = "white",
-  node_shape.lwd = 2,
-  node_shape.border = "black",
-  node_shape.pad = 0.5,
-  node_text.size = 1.25,
-  node_text.col = "black",
-  node_text.font = NULL,
-  path_line.pad = 0.025,
-  path_line.lwd = 2,
-  path_line.col = "black",
-  path_line.length = 0.25,
-  path_line.angle = 30,
-  path_line.lty = 1,
-  path_line.code = "->"
+  shape = "box",
+  shape.col = "white",
+  shape.lwd = 2,
+  shape.border = "black",
+  shape.lty = 1,
+  shape.pad = 0.5,
+  text.size = 1.25,
+  text.col = "black",
+  text.font = NULL,
+  path.pad = 0.025,
+  path.lwd = 2,
+  path.col = "black",
+  path.length = 0.25,
+  path.angle = 30,
+  path.lty = 1,
+  path.code = "->"
 )
 }
 \arguments{
@@ -35,56 +36,56 @@ see details for more information.}
 \item{output}{Logical; if \code{TRUE} returns a list with the
 x and y-axis coordinates for each node.}
 
-\item{node_shape}{The default shape for nodes, either 'box',
+\item{shape}{The default shape for nodes, either 'box',
 'circle', or 'blank'; options for individual nodes can be
 specified with the tag \code{ns=}.}
 
-\item{node_shape.col}{The default color for nodes; options
+\item{shape.col}{The default color for nodes; options
 for individual nodes can be specified with the tag \code{nc=}.}
 
-\item{node_shape.lwd}{The default line width for node borders;
+\item{shape.lwd}{The default line width for node borders;
 options for individual nodes can be specified with the
 tag \code{nw=}.}
 
-\item{node_shape.border}{The default border color for nodes;
+\item{shape.border}{The default border color for nodes;
 options for individual nodes can be specified with the
 tag \code{nb=}.}
 
-\item{node_text.size}{The default size for text content;
+\item{text.size}{The default size for text content;
 options for individual nodes can be specified with the
 tag \code{ts=}.}
 
-\item{node_text.col}{The default color for text content;
+\item{text.col}{The default color for text content;
 options for individual nodes can be specified with the
 tag \code{tc=}.}
 
-\item{node_text.font}{The default font for text content;
+\item{text.font}{The default font for text content;
 options for individual nodes can be specified with the
 tag \code{tf=}.}
 
-\item{path_line.pad}{...}
+\item{path.pad}{...}
 
-\item{path_line.lwd}{The default line width for paths;
+\item{path.lwd}{The default line width for paths;
 options for individual nodes can be specified with the
 tag \code{lw=}.}
 
-\item{path_line.col}{The default line color for paths;
+\item{path.col}{The default line color for paths;
 options for individual nodes can be specified with the
 tag \code{lc=}.}
 
-\item{path_line.length}{The default arrowhead length for paths;
+\item{path.length}{The default arrowhead length for paths;
 options for individual nodes can be specified with the
 tag \code{ll=}.}
 
-\item{path_line.angle}{The default angle of arrowheads for paths;
+\item{path.angle}{The default angle of arrowheads for paths;
 options for individual nodes can be specified with the
 tag \code{la=}.}
 
-\item{path_line.lty}{The default line type for paths;
+\item{path.lty}{The default line type for paths;
 options for individual nodes can be specified with the
 tag \code{lt=}.}
 
-\item{path_line.code}{The default arrow direction for paths;
+\item{path.code}{The default arrow direction for paths;
 options for individual nodes can be specified with the
 tag \code{cd=}. Directions
 are specified with the symbols \code{->}, \code{<-},

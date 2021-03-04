@@ -21,25 +21,26 @@ multiple_node_aes = function( tag,
   # Default output
 
   # Node shape
-  if ( tag == 'ns=' ) out = lod$node_shape
-  if ( tag == 'nc=' ) out = lod$node_shape.col
-  if ( tag == 'nb=' ) out = lod$node_shape.border
-  if ( tag == 'nw=' ) out = lod$node_shape.lwd
-  if ( tag == 'np=' ) out = lod$node_shape.pad
+  if ( tag == 'ns=' ) out = lod$shape
+  if ( tag == 'nc=' ) out = lod$shape.col
+  if ( tag == 'nb=' ) out = lod$shape.border
+  if ( tag == 'nw=' ) out = lod$shape.lwd
+  if ( tag == 'nt=' ) out = lod$shape.lty
+  if ( tag == 'np=' ) out = lod$shape.pad
 
   # Node text
-  if ( tag == 'ts=' ) out = lod$node_text.size
-  if ( tag == 'tc=' ) out = lod$node_text.col
-  if ( tag == 'tf=' ) out = lod$node_text.font
+  if ( tag == 'ts=' ) out = lod$text.size
+  if ( tag == 'tc=' ) out = lod$text.col
+  if ( tag == 'tf=' ) out = lod$text.font
 
   # Path line
-  if ( tag == 'lp=' ) out = lod$path_line.pad
-  if ( tag == 'lw=' ) out = lod$path_line.lwd
-  if ( tag == 'lc=' ) out = lod$path_line.col
-  if ( tag == 'll=' ) out = lod$path_line.length
-  if ( tag == 'la=' ) out = lod$path_line.angle
-  if ( tag == 'lt=' ) out = lod$path_line.lty
-  if ( tag == 'cd=' )  out = lod$path_line.code
+  if ( tag == 'lp=' ) out = lod$path.pad
+  if ( tag == 'lw=' ) out = lod$path.lwd
+  if ( tag == 'lc=' ) out = lod$path.col
+  if ( tag == 'll=' ) out = lod$path.length
+  if ( tag == 'la=' ) out = lod$path.angle
+  if ( tag == 'lt=' ) out = lod$path.lty
+  if ( tag == 'cd=' ) out = lod$path.code
 
   check = grepl( tag, input_parts, fixed = T )
 
@@ -62,8 +63,8 @@ multiple_node_aes = function( tag,
     }
 
     # Numeric output tags
-    if ( tag %in% c( 'nw=', 'ts=', 'lp=', 'lw=', 'll=',
-                     'la=', 'lt=' ) ) {
+    if ( tag %in% c( 'nw=', 'nt=', 'ts=', 'lp=', 'lw=',
+                     'll=', 'la=', 'lt=' ) ) {
 
       val = input_parts[ check ]
 
@@ -91,43 +92,43 @@ multiple_node_aes = function( tag,
 #'   see details for more information.
 #' @param output Logical; if \code{TRUE} returns a list with the
 #'   x and y-axis coordinates for each node.
-#' @param node_shape The default shape for nodes, either 'box',
+#' @param shape The default shape for nodes, either 'box',
 #'   'circle', or 'blank'; options for individual nodes can be
 #'   specified with the tag \code{ns=}.
-#' @param node_shape.col The default color for nodes; options
+#' @param shape.col The default color for nodes; options
 #'   for individual nodes can be specified with the tag \code{nc=}.
-#' @param node_shape.lwd The default line width for node borders;
+#' @param shape.lwd The default line width for node borders;
 #'   options for individual nodes can be specified with the
 #'   tag \code{nw=}.
-#' @param node_shape.border The default border color for nodes;
+#' @param shape.border The default border color for nodes;
 #'   options for individual nodes can be specified with the
 #'   tag \code{nb=}.
-#' @param node_text.size The default size for text content;
+#' @param text.size The default size for text content;
 #'   options for individual nodes can be specified with the
 #'   tag \code{ts=}.
-#' @param node_text.col The default color for text content;
+#' @param text.col The default color for text content;
 #'   options for individual nodes can be specified with the
 #'   tag \code{tc=}.
-#' @param node_text.font The default font for text content;
+#' @param text.font The default font for text content;
 #'   options for individual nodes can be specified with the
 #'   tag \code{tf=}.
-#' @param path_line.pad ...
-#' @param path_line.lwd The default line width for paths;
+#' @param path.pad ...
+#' @param path.lwd The default line width for paths;
 #'   options for individual nodes can be specified with the
 #'   tag \code{lw=}.
-#' @param path_line.col The default line color for paths;
+#' @param path.col The default line color for paths;
 #'   options for individual nodes can be specified with the
 #'   tag \code{lc=}.
-#' @param path_line.length The default arrowhead length for paths;
+#' @param path.length The default arrowhead length for paths;
 #'   options for individual nodes can be specified with the
 #'   tag \code{ll=}.
-#' @param path_line.angle The default angle of arrowheads for paths;
+#' @param path.angle The default angle of arrowheads for paths;
 #'   options for individual nodes can be specified with the
 #'   tag \code{la=}.
-#' @param path_line.lty The default line type for paths;
+#' @param path.lty The default line type for paths;
 #'   options for individual nodes can be specified with the
 #'   tag \code{lt=}.
-#' @param path_line.code The default arrow direction for paths;
+#' @param path.code The default arrow direction for paths;
 #'   options for individual nodes can be specified with the
 #'   tag \code{cd=}. Directions
 #'   are specified with the symbols \code{->}, \code{<-},
@@ -209,44 +210,46 @@ add_multiple_nodes = function( input,
                                output = F,
                                # Default values
                                #   Node shape
-                               node_shape = 'box',
-                               node_shape.col = 'white',
-                               node_shape.lwd = 2,
-                               node_shape.border = 'black',
-                               node_shape.pad = .5,
+                               shape = 'box',
+                               shape.col = 'white',
+                               shape.lwd = 2,
+                               shape.border = 'black',
+                               shape.lty = 1,
+                               shape.pad = .5,
                                #   Node text
-                               node_text.size = 1.25,
-                               node_text.col = 'black',
-                               node_text.font = NULL,
+                               text.size = 1.25,
+                               text.col = 'black',
+                               text.font = NULL,
                                #   Path line
-                               path_line.pad = .025,
-                               path_line.lwd = 2,
-                               path_line.col = 'black',
-                               path_line.length = .25,
-                               path_line.angle = 30,
-                               path_line.lty = 1,
-                               path_line.code = '->' ) {
+                               path.pad = .025,
+                               path.lwd = 2,
+                               path.col = 'black',
+                               path.length = .25,
+                               path.angle = 30,
+                               path.lty = 1,
+                               path.code = '->' ) {
 
   # Specify default settings for node aesthetics
   lod = list(
     # Node shape
-    node_shape = node_shape,
-    node_shape.col = node_shape.col,
-    node_shape.lwd = node_shape.lwd,
-    node_shape.border = node_shape.border,
-    node_shape.pad = node_shape.pad,
+    shape = shape,
+    shape.col = shape.col,
+    shape.lwd = shape.lwd,
+    shape.border = shape.border,
+    shape.lty = shape.lty,
+    shape.pad = shape.pad,
     # Node text
-    node_text.size = node_text.size,
-    node_text.col = node_text.col,
-    node_text.font = node_text.font,
+    text.size = text.size,
+    text.col = text.col,
+    text.font = text.font,
     # Path line
-    path_line.pad = path_line.pad,
-    path_line.lwd = path_line.lwd,
-    path_line.col = path_line.col,
-    path_line.length = path_line.length,
-    path_line.angle = path_line.angle,
-    path_line.lty = path_line.lty,
-    path_line.code = path_line.code
+    path.pad = path.pad,
+    path.lwd = path.lwd,
+    path.col = path.col,
+    path.length = path.length,
+    path.angle = path.angle,
+    path.lty = path.lty,
+    path.code = path.code
   )
 
   # Initialize list with node coordinates
@@ -264,14 +267,15 @@ add_multiple_nodes = function( input,
     input_parts = strsplit( input[ i ], split = '|', fixed = T )[[1]]
 
     # Check for additional options
-    node_shape = multiple_node_aes( 'ns=', input_parts, lod )
-    node_shape.col = multiple_node_aes( 'nc=', input_parts, lod )
-    node_shape.width = multiple_node_aes( 'nw=', input_parts, lod )
-    node_shape.border = multiple_node_aes( 'nb=', input_parts, lod )
-    node_shape.pad = multiple_node_aes( 'np=', input_parts, lod )
-    node_text.size = multiple_node_aes( 'ts=', input_parts, lod )
-    node_text.color = multiple_node_aes( 'tc=', input_parts, lod )
-    node_text.font = multiple_node_aes( 'tf=', input_parts, lod )
+    shape = multiple_node_aes( 'ns=', input_parts, lod )
+    shape.col = multiple_node_aes( 'nc=', input_parts, lod )
+    shape.width = multiple_node_aes( 'nw=', input_parts, lod )
+    shape.border = multiple_node_aes( 'nb=', input_parts, lod )
+    shape.lty = multiple_node_aes( 'nt=', input_parts, lod )
+    shape.pad = multiple_node_aes( 'np=', input_parts, lod )
+    text.size = multiple_node_aes( 'ts=', input_parts, lod )
+    text.color = multiple_node_aes( 'tc=', input_parts, lod )
+    text.font = multiple_node_aes( 'tf=', input_parts, lod )
 
     # At a minimum
     # Text | x-axis coordinates | y-axis coordinates
@@ -281,12 +285,12 @@ add_multiple_nodes = function( input,
     yp = as.numeric( gsub( 'y=', '', input_parts[3] ) )
 
     # Determine width/height of text
-    sw = strwidth( input_parts[1], cex = node_text.size )
-    sh = strheight( input_parts[1], cex = node_text.size )
+    sw = strwidth( input_parts[1], cex = text.size )
+    sh = strheight( input_parts[1], cex = text.size )
 
     # Pad dimensions of node to be slightly
     # larger than text content
-    adj = sh * node_shape.pad
+    adj = sh * shape.pad
 
     # x-axis lower and upper boundaries
     xb = c( xp - sw/2 - adj,
@@ -311,20 +315,21 @@ add_multiple_nodes = function( input,
     # Add shape around node
 
     # Draw a rectangle around the text
-    if ( node_shape %in% c( 'box', 'rectangle', 'rect', 'square' ) ) {
+    if ( shape %in% c( 'box', 'rectangle', 'rect', 'square' ) ) {
 
       # Draw shape
       polygon( xb[c(1,1,2,2)],
                yb[c(1,2,2,1)],
-               col = node_shape.col,
-               border = node_shape.border,
-               lwd = node_shape.lwd )
+               col = shape.col,
+               border = shape.border,
+               lwd = shape.lwd,
+               lty = shape.lty )
 
       # Close conditional for rectangle
     }
 
     # Draw an ellipse around node
-    if ( node_shape %in% c( 'circle', 'ellipse', 'circ', 'ell' ) ) {
+    if ( shape %in% c( 'circle', 'ellipse', 'circ', 'ell' ) ) {
 
       # Distence of center to foci
       ctf = diff( xb )/2
@@ -346,9 +351,10 @@ add_multiple_nodes = function( input,
       # Draw shape
       polygon( xv,
                yv,
-               col = node_shape.col,
-               border = node_shape.border,
-               lwd = node_shape.lwd )
+               col = shape.col,
+               border = shape.border,
+               lwd = shape.lwd,
+               lty = shape.lty)
 
       # Close conditional for ellipse
     }
@@ -356,11 +362,9 @@ add_multiple_nodes = function( input,
     # Add text content
     text( xp, yp,
           input_parts[1],
-          cex = node_text.size,
-          col = node_text.color,
-          font = node_text.font )
-
-
+          cex = text.size,
+          col = text.color,
+          font = text.font )
 
     # Close loop over node inputs
   }
@@ -376,13 +380,13 @@ add_multiple_nodes = function( input,
       path_parts = strsplit( paths[ i ], split = '|', fixed = T )[[1]]
 
       # Check for additional options
-      path_line.pad = multiple_node_aes( 'lp=', path_parts, lod )
-      path_line.lwd = multiple_node_aes( 'lw=', path_parts, lod )
-      path_line.col = multiple_node_aes( 'lc=', path_parts, lod )
-      path_line.length = multiple_node_aes( 'll=', path_parts, lod )
-      path_line.angle = multiple_node_aes( 'la=', path_parts, lod )
-      path_line.lty = multiple_node_aes( 'lt=', path_parts, lod )
-      path_line.code = multiple_node_aes( 'cd=', path_parts, lod )
+      path.pad = multiple_node_aes( 'lp=', path_parts, lod )
+      path.lwd = multiple_node_aes( 'lw=', path_parts, lod )
+      path.col = multiple_node_aes( 'lc=', path_parts, lod )
+      path.length = multiple_node_aes( 'll=', path_parts, lod )
+      path.angle = multiple_node_aes( 'la=', path_parts, lod )
+      path.lty = multiple_node_aes( 'lt=', path_parts, lod )
+      path.code = multiple_node_aes( 'cd=', path_parts, lod )
 
       # At a minimum
       # Node label - start | Node coordinate - start
@@ -408,77 +412,77 @@ add_multiple_nodes = function( input,
       pp = 2
 
       if ( path_parts[pp] == 'bottom' ) {
-        start_pos[2] = start_pos[2] - path_line.pad
+        start_pos[2] = start_pos[2] - path.pad
       }
       if ( path_parts[pp] == 'top' ) {
-        start_pos[2] = start_pos[2] + path_line.pad
+        start_pos[2] = start_pos[2] + path.pad
       }
       if ( path_parts[pp] == 'right' ) {
-        start_pos[1] = start_pos[1] + path_line.pad
+        start_pos[1] = start_pos[1] + path.pad
       }
       if ( path_parts[pp] == 'left' ) {
-        start_pos[1] = start_pos[1] - path_line.pad
+        start_pos[1] = start_pos[1] - path.pad
       }
       if ( path_parts[pp] == 'bottomleft' ) {
-        start_pos[1] = start_pos[1] - path_line.pad
-        start_pos[2] = start_pos[2] - path_line.pad
+        start_pos[1] = start_pos[1] - path.pad
+        start_pos[2] = start_pos[2] - path.pad
       }
       if ( path_parts[pp] == 'topleft' ) {
-        start_pos[1] = start_pos[1] - path_line.pad
-        start_pos[2] = start_pos[2] + path_line.pad
+        start_pos[1] = start_pos[1] - path.pad
+        start_pos[2] = start_pos[2] + path.pad
       }
       if ( path_parts[pp] == 'topright' ) {
-        start_pos[1] = start_pos[1] + path_line.pad
-        start_pos[2] = start_pos[2] + path_line.pad
+        start_pos[1] = start_pos[1] + path.pad
+        start_pos[2] = start_pos[2] + path.pad
       }
       if ( path_parts[pp] == 'bottomright' ) {
-        start_pos[1] = start_pos[1] + path_line.pad
-        start_pos[2] = start_pos[2] - path_line.pad
+        start_pos[1] = start_pos[1] + path.pad
+        start_pos[2] = start_pos[2] - path.pad
       }
 
       # End point
       pp = 4
 
       if ( path_parts[pp] == 'bottom' ) {
-        end_pos[2] = end_pos[2] - path_line.pad
+        end_pos[2] = end_pos[2] - path.pad
       }
       if ( path_parts[pp] == 'top' ) {
-        end_pos[2] = end_pos[2] + path_line.pad
+        end_pos[2] = end_pos[2] + path.pad
       }
       if ( path_parts[pp] == 'right' ) {
-        end_pos[1] = end_pos[1] + path_line.pad
+        end_pos[1] = end_pos[1] + path.pad
       }
       if ( path_parts[pp] == 'left' ) {
-        end_pos[1] = end_pos[1] - path_line.pad
+        end_pos[1] = end_pos[1] - path.pad
       }
       if ( path_parts[pp] == 'bottomleft' ) {
-        end_pos[1] = end_pos[1] - path_line.pad
-        end_pos[2] = end_pos[2] - path_line.pad
+        end_pos[1] = end_pos[1] - path.pad
+        end_pos[2] = end_pos[2] - path.pad
       }
       if ( path_parts[pp] == 'topleft' ) {
-        end_pos[1] = end_pos[1] - path_line.pad
-        end_pos[2] = end_pos[2] + path_line.pad
+        end_pos[1] = end_pos[1] - path.pad
+        end_pos[2] = end_pos[2] + path.pad
       }
       if ( path_parts[pp] == 'topright' ) {
-        end_pos[1] = end_pos[1] + path_line.pad
-        end_pos[2] = end_pos[2] + path_line.pad
+        end_pos[1] = end_pos[1] + path.pad
+        end_pos[2] = end_pos[2] + path.pad
       }
       if ( path_parts[pp] == 'bottomright' ) {
-        end_pos[1] = end_pos[1] + path_line.pad
-        end_pos[2] = end_pos[2] - path_line.pad
+        end_pos[1] = end_pos[1] + path.pad
+        end_pos[2] = end_pos[2] - path.pad
       }
 
       # Determine type of line
-      if ( path_line.code == '->' ) {
+      if ( path.code == '->' ) {
         arrow_type = 2
       }
-      if ( path_line.code == '<-' ) {
+      if ( path.code == '<-' ) {
         arrow_type = 1
       }
-      if ( path_line.code == '<->' ) {
+      if ( path.code == '<->' ) {
         arrow_type = 3
       }
-      if ( path_line.code == '-' ) {
+      if ( path.code == '-' ) {
         arrow_type = 0
       }
 
@@ -486,11 +490,11 @@ add_multiple_nodes = function( input,
       arrows( start_pos[1], start_pos[2],
               end_pos[1], end_pos[2],
               code = arrow_type,
-              length = path_line.length,
-              angle = path_line.angle,
-              col = path_line.col,
-              lty = path_line.lty,
-              lwd = path_line.lwd )
+              length = path.length,
+              angle = path.angle,
+              col = path.col,
+              lty = path.lty,
+              lwd = path.lwd )
 
       # Close loop over inputs
     }
