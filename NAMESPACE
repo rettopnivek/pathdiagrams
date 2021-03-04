@@ -2,6 +2,8 @@
 
 export(add_arrow)
 export(add_line)
+export(add_lines_of_text)
+export(add_multiple_nodes)
 export(add_node)
 export(create_base_figure)
 export(create_style_guide)
