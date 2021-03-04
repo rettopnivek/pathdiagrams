@@ -21,25 +21,25 @@ multiple_node_aes = function( tag,
   # Default output
 
   # Node shape
-  if ( tag == 'ns-' ) out = lod$node_shape
-  if ( tag == 'nc-' ) out = lod$node_shape.col
-  if ( tag == 'nb-' ) out = lod$node_shape.border
-  if ( tag == 'nw-' ) out = lod$node_shape.lwd
-  if ( tag == 'np-' ) out = lod$node_shape.pad
+  if ( tag == 'ns=' ) out = lod$node_shape
+  if ( tag == 'nc=' ) out = lod$node_shape.col
+  if ( tag == 'nb=' ) out = lod$node_shape.border
+  if ( tag == 'nw=' ) out = lod$node_shape.lwd
+  if ( tag == 'np=' ) out = lod$node_shape.pad
 
   # Node text
-  if ( tag == 'ts-' ) out = lod$node_text.size
-  if ( tag == 'tc-' ) out = lod$node_text.col
-  if ( tag == 'tf-' ) out = lod$node_text.font
+  if ( tag == 'ts=' ) out = lod$node_text.size
+  if ( tag == 'tc=' ) out = lod$node_text.col
+  if ( tag == 'tf=' ) out = lod$node_text.font
 
   # Path line
-  if ( tag == 'lp-' ) out = lod$path_line.pad
-  if ( tag == 'lw-' ) out = lod$path_line.lwd
-  if ( tag == 'lc-' ) out = lod$path_line.col
-  if ( tag == 'll-' ) out = lod$path_line.length
-  if ( tag == 'la-' ) out = lod$path_line.angle
-  if ( tag == 'lt-' ) out = lod$path_line.lty
-  if ( tag == 'cd' )  out = lod$path_line.code
+  if ( tag == 'lp=' ) out = lod$path_line.pad
+  if ( tag == 'lw=' ) out = lod$path_line.lwd
+  if ( tag == 'lc=' ) out = lod$path_line.col
+  if ( tag == 'll=' ) out = lod$path_line.length
+  if ( tag == 'la=' ) out = lod$path_line.angle
+  if ( tag == 'lt=' ) out = lod$path_line.lty
+  if ( tag == 'cd=' )  out = lod$path_line.code
 
   check = grepl( tag, input_parts, fixed = T )
 
@@ -47,8 +47,8 @@ multiple_node_aes = function( tag,
 
 
     # Character output tags
-    if ( tag %in% c( 'ns-', 'nc-', 'nb-', 'tc-', 'tf-',
-                     'cd', 'lc-' ) ) {
+    if ( tag %in% c( 'ns=', 'nc=', 'nb=', 'tc=', 'tf=',
+                     'cd=', 'lc=' ) ) {
 
       val = input_parts[ check ]
 
@@ -62,13 +62,12 @@ multiple_node_aes = function( tag,
     }
 
     # Numeric output tags
-    if ( tag %in% c( 'nw-', 'ts-', 'lp-', 'lw-', 'll-',
-                     'la-', 'lt-' ) ) {
+    if ( tag %in% c( 'nw=', 'ts=', 'lp=', 'lw=', 'll=',
+                     'la=', 'lt=' ) ) {
 
       val = input_parts[ check ]
 
       val = as.numeric( gsub( tag, '', val, fixed = T ) )
-      print( val )
 
       out = val
 
@@ -94,43 +93,43 @@ multiple_node_aes = function( tag,
 #'   x and y-axis coordinates for each node.
 #' @param node_shape The default shape for nodes, either 'box',
 #'   'circle', or 'blank'; options for individual nodes can be
-#'   specified with the tag \code{ns-}.
+#'   specified with the tag \code{ns=}.
 #' @param node_shape.col The default color for nodes; options
-#'   for individual nodes can be specified with the tag \code{nc-}.
+#'   for individual nodes can be specified with the tag \code{nc=}.
 #' @param node_shape.lwd The default line width for node borders;
 #'   options for individual nodes can be specified with the
-#'   tag \code{nw-}.
+#'   tag \code{nw=}.
 #' @param node_shape.border The default border color for nodes;
 #'   options for individual nodes can be specified with the
-#'   tag \code{nb-}.
+#'   tag \code{nb=}.
 #' @param node_text.size The default size for text content;
 #'   options for individual nodes can be specified with the
-#'   tag \code{ts-}.
+#'   tag \code{ts=}.
 #' @param node_text.col The default color for text content;
 #'   options for individual nodes can be specified with the
-#'   tag \code{tc-}.
+#'   tag \code{tc=}.
 #' @param node_text.font The default font for text content;
 #'   options for individual nodes can be specified with the
-#'   tag \code{tf-}.
+#'   tag \code{tf=}.
 #' @param path_line.pad ...
 #' @param path_line.lwd The default line width for paths;
 #'   options for individual nodes can be specified with the
-#'   tag \code{lw-}.
+#'   tag \code{lw=}.
 #' @param path_line.col The default line color for paths;
 #'   options for individual nodes can be specified with the
-#'   tag \code{lc-}.
+#'   tag \code{lc=}.
 #' @param path_line.length The default arrowhead length for paths;
 #'   options for individual nodes can be specified with the
-#'   tag \code{ll-}.
+#'   tag \code{ll=}.
 #' @param path_line.angle The default angle of arrowheads for paths;
 #'   options for individual nodes can be specified with the
-#'   tag \code{la-}.
+#'   tag \code{la=}.
 #' @param path_line.lty The default line type for paths;
 #'   options for individual nodes can be specified with the
-#'   tag \code{lt-}.
+#'   tag \code{lt=}.
 #' @param path_line.code The default arrow direction for paths;
 #'   options for individual nodes can be specified with the
-#'   tag \code{cd} (note the lack of hyphen). Directions
+#'   tag \code{cd=}. Directions
 #'   are specified with the symbols \code{->}, \code{<-},
 #'   \code{<->}, or \code{-}.
 #'
@@ -138,16 +137,16 @@ multiple_node_aes = function( tag,
 #'
 #' Each node is specified via a text string in the format:
 #'
-#' \code{"Text content|x-[value]|y-[value]|..."}
+#' \code{"Text content|x=value|y=value|..."}
 #'
-#' substituting \code{[value]} with the respective x and
+#' substituting \code{value} with the respective x and
 #' y-axis coordinate positions for the node, and \code{...}
 #' referring to additional options controlling node
 #' aesthetics.
 #'
 #' Options are specified as a tag followed by a value; for
-#' example, to draw a node as an ellipse one combines
-#' the tag \code{ns-} and value \code{circle}. Multiple
+#' example, to draw a node as an ellipse, one uses the
+#' combined tag and value: \code{ns=circle}. Multiple
 #' options can be specified by separating them with the
 #' \code{|} symbol.
 #'
@@ -167,17 +166,17 @@ multiple_node_aes = function( tag,
 #' As before, additional aesthetic options can be specified
 #' via a tag and value, with multiple cases separated by the
 #' \code{|} symbol. For example, the width of a path line
-#' can be set via the tag and value: \code{lt-2}.
+#' can be set via the tag and value: \code{lt=2}.
 #'
 #' @examples
 #' # Define vector of string inputs for nodes to draw
 #' input = c(
-#'   # [Node label] = "Text|x-[value]|y-[value]|..."
-#'   N01 = 'Node-01|x.2|y.33',
+#'   # [Node label] = "Text|x=value|y=value|..."
+#'   N01 = 'Node-01|x=.2|y=.33',
 #'   # Set node shape to ellipse; resize and color text
-#'   N02 = 'Node-02|x.5|y.66|ns-circle|ts-2|tc-blue',
+#'   N02 = 'Node-02|x=.5|y=.66|ns=circle|ts=2|tc=blue',
 #'   # Color node and remove border
-#'   N03 = 'Node-03|x.8|y.33|nc-grey80|nb-NA'
+#'   N03 = 'Node-03|x=.8|y=.33|nc=grey80|nb=NA'
 #' )
 #'
 #' # Define vector of string inputs to draw paths
@@ -188,11 +187,11 @@ multiple_node_aes = function( tag,
 #'   'N01|right|N03|left',
 #'   # Connect various nodes and coordinates
 #'   'N02|right|N03|top',
-#'   'N02|bottomright|N03|topleft'
+#'   'N02|bottomright|N03|topleft',
 #'   # Orange dashed thick line
-#'   'N01|top|N02|bottom|lc-orange|lt-2|lw-4',
+#'   'N01|top|N02|bottom|lc=orange|lt=2|lw=4',
 #'   # Blue double-headed arrow with small arrowhead
-#'   'N01|topright|N02|bottomleft|lc-blue|ll-.1|cd<->'
+#'   'N01|topright|N02|bottomleft|lc=blue|ll=.1|cd=<->'
 #' )
 #'
 #' # Create empty figure
@@ -265,21 +264,21 @@ add_multiple_nodes = function( input,
     input_parts = strsplit( input[ i ], split = '|', fixed = T )[[1]]
 
     # Check for additional options
-    node_shape = multiple_node_aes( 'ns-', input_parts, lod )
-    node_shape.col = multiple_node_aes( 'nc-', input_parts, lod )
-    node_shape.width = multiple_node_aes( 'nw-', input_parts, lod )
-    node_shape.border = multiple_node_aes( 'nb-', input_parts, lod )
-    node_shape.pad = multiple_node_aes( 'np-', input_parts, lod )
-    node_text.size = multiple_node_aes( 'ts-', input_parts, lod )
-    node_text.color = multiple_node_aes( 'tc-', input_parts, lod )
-    node_text.font = multiple_node_aes( 'tf-', input_parts, lod )
+    node_shape = multiple_node_aes( 'ns=', input_parts, lod )
+    node_shape.col = multiple_node_aes( 'nc=', input_parts, lod )
+    node_shape.width = multiple_node_aes( 'nw=', input_parts, lod )
+    node_shape.border = multiple_node_aes( 'nb=', input_parts, lod )
+    node_shape.pad = multiple_node_aes( 'np=', input_parts, lod )
+    node_text.size = multiple_node_aes( 'ts=', input_parts, lod )
+    node_text.color = multiple_node_aes( 'tc=', input_parts, lod )
+    node_text.font = multiple_node_aes( 'tf=', input_parts, lod )
 
     # At a minimum
     # Text | x-axis coordinates | y-axis coordinates
 
     # Extract coordinates
-    xp = as.numeric( gsub( 'x', '', input_parts[2] ) )
-    yp = as.numeric( gsub( 'y', '', input_parts[3] ) )
+    xp = as.numeric( gsub( 'x=', '', input_parts[2] ) )
+    yp = as.numeric( gsub( 'y=', '', input_parts[3] ) )
 
     # Determine width/height of text
     sw = strwidth( input_parts[1], cex = node_text.size )
@@ -377,13 +376,13 @@ add_multiple_nodes = function( input,
       path_parts = strsplit( paths[ i ], split = '|', fixed = T )[[1]]
 
       # Check for additional options
-      path_line.pad = multiple_node_aes( 'lp-', path_parts, lod )
-      path_line.lwd = multiple_node_aes( 'lw-', path_parts, lod )
-      path_line.col = multiple_node_aes( 'lc-', path_parts, lod )
-      path_line.length = multiple_node_aes( 'll-', path_parts, lod )
-      path_line.angle = multiple_node_aes( 'la-', path_parts, lod )
-      path_line.lty = multiple_node_aes( 'lt-', path_parts, lod )
-      path_line.code = multiple_node_aes( 'cd', path_parts, lod )
+      path_line.pad = multiple_node_aes( 'lp=', path_parts, lod )
+      path_line.lwd = multiple_node_aes( 'lw=', path_parts, lod )
+      path_line.col = multiple_node_aes( 'lc=', path_parts, lod )
+      path_line.length = multiple_node_aes( 'll=', path_parts, lod )
+      path_line.angle = multiple_node_aes( 'la=', path_parts, lod )
+      path_line.lty = multiple_node_aes( 'lt=', path_parts, lod )
+      path_line.code = multiple_node_aes( 'cd=', path_parts, lod )
 
       # At a minimum
       # Node label - start | Node coordinate - start

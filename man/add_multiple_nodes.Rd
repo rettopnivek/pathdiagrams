@@ -37,56 +37,56 @@ x and y-axis coordinates for each node.}
 
 \item{node_shape}{The default shape for nodes, either 'box',
 'circle', or 'blank'; options for individual nodes can be
-specified with the tag \code{ns-}.}
+specified with the tag \code{ns=}.}
 
 \item{node_shape.col}{The default color for nodes; options
-for individual nodes can be specified with the tag \code{nc-}.}
+for individual nodes can be specified with the tag \code{nc=}.}
 
 \item{node_shape.lwd}{The default line width for node borders;
 options for individual nodes can be specified with the
-tag \code{nw-}.}
+tag \code{nw=}.}
 
 \item{node_shape.border}{The default border color for nodes;
 options for individual nodes can be specified with the
-tag \code{nb-}.}
+tag \code{nb=}.}
 
 \item{node_text.size}{The default size for text content;
 options for individual nodes can be specified with the
-tag \code{ts-}.}
+tag \code{ts=}.}
 
 \item{node_text.col}{The default color for text content;
 options for individual nodes can be specified with the
-tag \code{tc-}.}
+tag \code{tc=}.}
 
 \item{node_text.font}{The default font for text content;
 options for individual nodes can be specified with the
-tag \code{tf-}.}
+tag \code{tf=}.}
 
 \item{path_line.pad}{...}
 
 \item{path_line.lwd}{The default line width for paths;
 options for individual nodes can be specified with the
-tag \code{lw-}.}
+tag \code{lw=}.}
 
 \item{path_line.col}{The default line color for paths;
 options for individual nodes can be specified with the
-tag \code{lc-}.}
+tag \code{lc=}.}
 
 \item{path_line.length}{The default arrowhead length for paths;
 options for individual nodes can be specified with the
-tag \code{ll-}.}
+tag \code{ll=}.}
 
 \item{path_line.angle}{The default angle of arrowheads for paths;
 options for individual nodes can be specified with the
-tag \code{la-}.}
+tag \code{la=}.}
 
 \item{path_line.lty}{The default line type for paths;
 options for individual nodes can be specified with the
-tag \code{lt-}.}
+tag \code{lt=}.}
 
 \item{path_line.code}{The default arrow direction for paths;
 options for individual nodes can be specified with the
-tag \code{cd} (note the lack of hyphen). Directions
+tag \code{cd=}. Directions
 are specified with the symbols \code{->}, \code{<-},
 \code{<->}, or \code{-}.}
 }
@@ -97,16 +97,16 @@ paths) to an existing path diagram.
 \details{
 Each node is specified via a text string in the format:
 
-\code{"Text content|x-[value]|y-[value]|..."}
+\code{"Text content|x=value|y=value|..."}
 
-substituting \code{[value]} with the respective x and
+substituting \code{value} with the respective x and
 y-axis coordinate positions for the node, and \code{...}
 referring to additional options controlling node
 aesthetics.
 
 Options are specified as a tag followed by a value; for
-example, to draw a node as an ellipse one combines
-the tag \code{ns-} and value \code{circle}. Multiple
+example, to draw a node as an ellipse, one uses the
+combined tag and value: \code{ns=circle}. Multiple
 options can be specified by separating them with the
 \code{|} symbol.
 
@@ -126,17 +126,17 @@ is one of eight values: \code{bottom}, \code{left},
 As before, additional aesthetic options can be specified
 via a tag and value, with multiple cases separated by the
 \code{|} symbol. For example, the width of a path line
-can be set via the tag and value: \code{lt-2}.
+can be set via the tag and value: \code{lt=2}.
 }
 \examples{
 # Define vector of string inputs for nodes to draw
 input = c(
-  # [Node label] = "Text|x-[value]|y-[value]|..."
-  N01 = 'Node-01|x.2|y.33',
+  # [Node label] = "Text|x=value|y=value|..."
+  N01 = 'Node-01|x=.2|y=.33',
   # Set node shape to ellipse; resize and color text
-  N02 = 'Node-02|x.5|y.66|ns-circle|ts-2|tc-blue',
+  N02 = 'Node-02|x=.5|y=.66|ns=circle|ts=2|tc=blue',
   # Color node and remove border
-  N03 = 'Node-03|x.8|y.33|nc-grey80|nb-NA'
+  N03 = 'Node-03|x=.8|y=.33|nc=grey80|nb=NA'
 )
 
 # Define vector of string inputs to draw paths
@@ -147,11 +147,11 @@ paths = c(
   'N01|right|N03|left',
   # Connect various nodes and coordinates
   'N02|right|N03|top',
-  'N02|bottomright|N03|topleft'
+  'N02|bottomright|N03|topleft',
   # Orange dashed thick line
-  'N01|top|N02|bottom|lc-orange|lt-2|lw-4',
+  'N01|top|N02|bottom|lc=orange|lt=2|lw=4',
   # Blue double-headed arrow with small arrowhead
-  'N01|topright|N02|bottomleft|lc-blue|ll-.1|cd<->'
+  'N01|topright|N02|bottomleft|lc=blue|ll=.1|cd=<->'
 )
 
 # Create empty figure
