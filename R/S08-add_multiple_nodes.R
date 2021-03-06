@@ -219,7 +219,6 @@ add_multiple_nodes = function( input,
                                #   Node text
                                text.size = 1.25,
                                text.col = 'black',
-                               text.font = NULL,
                                #   Path line
                                path.pad = .025,
                                path.lwd = 2,
@@ -241,7 +240,6 @@ add_multiple_nodes = function( input,
     # Node text
     text.size = text.size,
     text.col = text.col,
-    text.font = text.font,
     # Path line
     path.pad = path.pad,
     path.lwd = path.lwd,
@@ -275,7 +273,6 @@ add_multiple_nodes = function( input,
     shape.pad = multiple_node_aes( 'np=', input_parts, lod )
     text.size = multiple_node_aes( 'ts=', input_parts, lod )
     text.color = multiple_node_aes( 'tc=', input_parts, lod )
-    text.font = multiple_node_aes( 'tf=', input_parts, lod )
 
     # At a minimum
     # Text | x-axis coordinates | y-axis coordinates
@@ -311,6 +308,9 @@ add_multiple_nodes = function( input,
 
     nd[[ i ]]$topleft = c( xb[1], yb[2] )
     nd[[ i ]]$topright = c( xb[2], yb[2] )
+
+    if ( !grepl( '\n', input_parts[1], fixed = T ) ) {
+      # Check if single line
 
     # Add shape around node
 
@@ -354,7 +354,7 @@ add_multiple_nodes = function( input,
                col = shape.col,
                border = shape.border,
                lwd = shape.lwd,
-               lty = shape.lty)
+               lty = shape.lty )
 
       # Close conditional for ellipse
     }
@@ -363,8 +363,28 @@ add_multiple_nodes = function( input,
     text( xp, yp,
           input_parts[1],
           cex = text.size,
-          col = text.color,
-          font = text.font )
+          col = text.color )
+
+      # Close conditional on single line
+    } else {
+
+      string_vector = strsplit( input_parts[1],
+                                split = '\n', fixed = T )[[1]]
+
+      pathdiagrams::add_lines_of_text(
+        string_vector,
+        x = xp, y = yp,
+        cex = text.size,
+        col = text.color,
+        shape = shape,
+        shape.col = shape.col,
+        shape.border = shape.border,
+        shape.lwd = shape.lwd,
+        shape.lty = shape.lty
+      )
+
+      # Close conditional on multiple lines
+    }
 
     # Close loop over node inputs
   }

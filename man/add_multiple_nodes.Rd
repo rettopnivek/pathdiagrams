@@ -16,7 +16,6 @@ add_multiple_nodes(
   shape.pad = 0.5,
   text.size = 1.25,
   text.col = "black",
-  text.font = NULL,
   path.pad = 0.025,
   path.lwd = 2,
   path.col = "black",
@@ -59,10 +58,6 @@ tag \code{ts=}.}
 options for individual nodes can be specified with the
 tag \code{tc=}.}
 
-\item{text.font}{The default font for text content;
-options for individual nodes can be specified with the
-tag \code{tf=}.}
-
 \item{path.pad}{...}
 
 \item{path.lwd}{The default line width for paths;
@@ -90,6 +85,10 @@ options for individual nodes can be specified with the
 tag \code{cd=}. Directions
 are specified with the symbols \code{->}, \code{<-},
 \code{<->}, or \code{-}.}
+
+\item{text.font}{The default font for text content;
+options for individual nodes can be specified with the
+tag \code{tf=}.}
 }
 \description{
 Function to add multiple nodes (and associated

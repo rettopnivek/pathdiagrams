@@ -22,10 +22,20 @@ the internal text box for the node.}
 \item{shape}{The default shape for nodes, either 'box',
 or 'circle'.}
 
-\item{shape.col}{The default color for the node.}
+\item{shape.col}{The fill color for the node.}
 
-\item{shape.border}{The default border color for the node
+\item{shape.lwd}{The line wide for the node border.}
+
+\item{shape.border}{The mode border color
 (\code{NA} will suppress the border).}
+
+\item{shape.lty}{The line type for the node.}
+
+\item{xpd}{A logical value or NA. If \code{FALSE}, all
+plotting is clipped to the plot region, if
+\code{TRUE}, all plotting is clipped to the figure
+region, and if NA, all plotting is clipped to the
+device region.}
 }
 \description{
 Given a list with the x and y-axis coordinates for the

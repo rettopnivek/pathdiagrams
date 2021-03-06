@@ -9,10 +9,10 @@
 #'   lines of text.
 #' @param y The y-axis coordinate for the top
 #'   line of the text.
-#' @param pad The spacing between lines of text, either
+#' @param spacing The spacing between lines of text, either
 #'   as a percentage of the text height or as a fixed
 #'   amount.
-#' @param pad.fixed Logical; if \code{TRUE} spacing
+#' @param spacing.fixed Logical; if \code{TRUE} spacing
 #'   between lines will be by a fixed amount rather
 #'   than a percentage.
 #' @param shape.pad The percentage of the text
@@ -31,6 +31,13 @@
 #'   Values are recycled to match the number of lines.
 #' @param output Logical; if \code{TRUE} return list
 #'   of coordinates for box around text.
+#' @param shape The default shape for nodes, either 'box',
+#'   or 'circle'.
+#' @param shape.col The fill color for the node.
+#' @param shape.lwd The line wide for the node border.
+#' @param shape.border The mode border color
+#'   (\code{NA} will suppress the border).
+#' @param shape.lty The line type for the node.
 #' @param ... Additional arguments to the
 #'   \code{\link[graphics]{text}} function.
 #'
@@ -41,7 +48,7 @@
 #' # Several lines of text
 #' string = c(
 #'   'Header',
-#'   'Some values: 1, 2, 3',
+#'   '   Indent',
 #'   expression( y[i] == beta[0] + beta[1]*x[i] + epsilon[i] )
 #' )
 #'
@@ -74,8 +81,8 @@
 add_lines_of_text = function( string,
                               x = .5,
                               y = .5,
-                              pad = .65,
-                              pad.fixed = F,
+                              spacing = .65,
+                              spacing.fixed = F,
                               shape.pad = .5,
                               shape.pad_first = T,
                               align = 'left',
@@ -83,6 +90,11 @@ add_lines_of_text = function( string,
                               col = 'black',
                               offset = 0,
                               output = F,
+                              shape = 'blank',
+                              shape.col = 'white',
+                              shape.lwd = 2,
+                              shape.border = 'black',
+                              shape.lty = 1,
                               ... ) {
 
   # Number of lines
@@ -108,6 +120,9 @@ add_lines_of_text = function( string,
   y_top = NA
   first_sh = NA
 
+  # Variable for y-axis position
+  y_pos = rep( NA, n )
+
   # Loop through lines of text
   for ( i in 1:n ) {
 
@@ -120,8 +135,8 @@ add_lines_of_text = function( string,
     sh = strheight( string[i], cex = cex[i] )
     sw = strwidth( string[i], cex = cex[i] )
 
-    text( x, cur_y, string[i], cex = cex[i], pos = pos,
-          col = col[i], offset = offset, ... )
+    # Save y-axis position for each line of text
+    y_pos[i] = cur_y
 
     # Variables to track dimensions of text box
     if ( i == 1 ) {
@@ -164,10 +179,10 @@ add_lines_of_text = function( string,
 
     # Determine spacing for next line
     if ( i < n ) {
-      if ( !pad.fixed ) {
-        cur_y = cur_y - sh/2 - sh*pad
+      if ( !spacing.fixed ) {
+        cur_y = cur_y - sh/2 - sh*spacing
       } else {
-        cur_y = cur_y - sh/2 - pad
+        cur_y = cur_y - sh/2 - spacing
       }
     }
 
@@ -217,6 +232,31 @@ add_lines_of_text = function( string,
   nd_pos$bottomright = c( x_right, y_bottom )
   nd_pos$bottomleft = c( x_left, y_bottom )
   nd_pos$topright = c( x_right, y_top )
+
+  # Add shape
+  pathdiagrams::add_node_shape(
+    nd_pos,
+    shape = shape,
+    shape.col = shape.col,
+    shape.lwd = shape.lwd,
+    shape.border = shape.border,
+    shape.lty = shape.lty
+  )
+
+  # Loop over lines
+  for ( i in 1:n ) {
+
+    # Determine alignment
+    pos = NULL
+    if ( align[i] == 'left' ) pos = 4
+    if ( align[i] == 'right' ) pos = 2
+
+    # Add text
+    text( x, y_pos[i], string[i], cex = cex[i], pos = pos,
+          col = col[i], offset = offset, ... )
+
+    # Close loop over lines
+  }
 
   # Debugging for text box dimensions
   if ( FALSE ) {

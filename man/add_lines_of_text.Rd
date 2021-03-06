@@ -8,8 +8,8 @@ add_lines_of_text(
   string,
   x = 0.5,
   y = 0.5,
-  pad = 0.65,
-  pad.fixed = F,
+  spacing = 0.65,
+  spacing.fixed = F,
   shape.pad = 0.5,
   shape.pad_first = T,
   align = "left",
@@ -17,6 +17,11 @@ add_lines_of_text(
   col = "black",
   offset = 0,
   output = F,
+  shape = "blank",
+  shape.col = "white",
+  shape.lwd = 2,
+  shape.border = "black",
+  shape.lty = 1,
   ...
 )
 }
@@ -30,11 +35,11 @@ lines of text.}
 \item{y}{The y-axis coordinate for the top
 line of the text.}
 
-\item{pad}{The spacing between lines of text, either
+\item{spacing}{The spacing between lines of text, either
 as a percentage of the text height or as a fixed
 amount.}
 
-\item{pad.fixed}{Logical; if \code{TRUE} spacing
+\item{spacing.fixed}{Logical; if \code{TRUE} spacing
 between lines will be by a fixed amount rather
 than a percentage.}
 
@@ -60,6 +65,18 @@ Values are recycled to match the number of lines.}
 \item{output}{Logical; if \code{TRUE} return list
 of coordinates for box around text.}
 
+\item{shape}{The default shape for nodes, either 'box',
+or 'circle'.}
+
+\item{shape.col}{The fill color for the node.}
+
+\item{shape.lwd}{The line wide for the node border.}
+
+\item{shape.border}{The mode border color
+(\code{NA} will suppress the border).}
+
+\item{shape.lty}{The line type for the node.}
+
 \item{...}{Additional arguments to the
 \code{\link[graphics]{text}} function.}
 }
@@ -74,7 +91,7 @@ create_base_figure()
 # Several lines of text
 string = c(
   'Header',
-  'Some values: 1, 2, 3',
+  '   Indent',
   expression( y[i] == beta[0] + beta[1]*x[i] + epsilon[i] )
 )
 

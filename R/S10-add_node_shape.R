@@ -9,9 +9,16 @@
 #'   the internal text box for the node.
 #' @param shape The default shape for nodes, either 'box',
 #'   or 'circle'.
-#' @param shape.col The default color for the node.
-#' @param shape.border The default border color for the node
+#' @param shape.col The fill color for the node.
+#' @param shape.lwd The line wide for the node border.
+#' @param shape.border The mode border color
 #'   (\code{NA} will suppress the border).
+#' @param shape.lty The line type for the node.
+#' @param xpd A logical value or NA. If \code{FALSE}, all
+#'   plotting is clipped to the plot region, if
+#'   \code{TRUE}, all plotting is clipped to the figure
+#'   region, and if NA, all plotting is clipped to the
+#'   device region.
 #'
 #' @examples
 #' # Empty plot
