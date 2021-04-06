@@ -38,6 +38,8 @@
 #' @param shape.border The mode border color
 #'   (\code{NA} will suppress the border).
 #' @param shape.lty The line type for the node.
+#' @param shape.x The fixed width for the x-axis.
+#' @param shape.y The fixed height for the y-axis.
 #' @param ... Additional arguments to the
 #'   \code{\link[graphics]{text}} function.
 #'
@@ -95,6 +97,8 @@ add_lines_of_text = function( string,
                               shape.lwd = 2,
                               shape.border = 'black',
                               shape.lty = 1,
+                              shape.x = NA,
+                              shape.y = NA,
                               ... ) {
 
   # Number of lines
@@ -218,9 +222,8 @@ add_lines_of_text = function( string,
   # Additional variables for text box specification
   x_left = x_left_right[1]
   x_right = x_left_right[2]
-  x_center = x_left + diff( x_left_right )
+  x_center = x_left + diff( x_left_right )/2
   y_center = y_top - (y_top - y_bottom)/2
-
 
   # Update list of node coordinates for text box
   nd_pos$top = c( x_center, y_top )
@@ -240,7 +243,9 @@ add_lines_of_text = function( string,
     shape.col = shape.col,
     shape.lwd = shape.lwd,
     shape.border = shape.border,
-    shape.lty = shape.lty
+    shape.lty = shape.lty,
+    shape.x = shape.x,
+    shape.y = shape.y
   )
 
   # Loop over lines

@@ -14,8 +14,11 @@ add_multiple_nodes(
   shape.border = "black",
   shape.lty = 1,
   shape.pad = 0.5,
+  shape.x = NA,
+  shape.y = NA,
   text.size = 1.25,
   text.col = "black",
+  text.spacing = NULL,
   path.pad = 0.025,
   path.lwd = 2,
   path.col = "black",
@@ -50,6 +53,22 @@ tag \code{nw=}.}
 options for individual nodes can be specified with the
 tag \code{nb=}.}
 
+\item{shape.lty}{The default border line type for nodes;
+options for individual nodes can be specified with the
+tag \code{nt=}.}
+
+\item{shape.pad}{The default space between lines of text
+for nodes; options for individual nodes can be specified
+with the tag \code{np=}.}
+
+\item{shape.x}{The default fixed width for nodes;
+options for individual nodes can be specified with the
+tag \code{nx=}.}
+
+\item{shape.y}{The default fixed height for nodes;
+options for individual nodes can be specified with the
+tag \code{ny=}.}
+
 \item{text.size}{The default size for text content;
 options for individual nodes can be specified with the
 tag \code{ts=}.}
@@ -58,7 +77,13 @@ tag \code{ts=}.}
 options for individual nodes can be specified with the
 tag \code{tc=}.}
 
-\item{path.pad}{...}
+\item{text.spacing}{The space between multiple lines of text;
+options for individual nodes can be specified with the
+tag \code{th=}.}
+
+\item{path.pad}{The space between a line or arrow and a node;
+options for individual nodes can be specified with the
+tag \code{lp=}.}
 
 \item{path.lwd}{The default line width for paths;
 options for individual nodes can be specified with the
@@ -85,10 +110,6 @@ options for individual nodes can be specified with the
 tag \code{cd=}. Directions
 are specified with the symbols \code{->}, \code{<-},
 \code{<->}, or \code{-}.}
-
-\item{text.font}{The default font for text content;
-options for individual nodes can be specified with the
-tag \code{tf=}.}
 }
 \description{
 Function to add multiple nodes (and associated
@@ -112,8 +133,6 @@ options can be specified by separating them with the
 
 Paths (lines or arrows) can be drawn between existing
 nodes whose string input is labeled, via the format:
-
-\code{ Starting point   Ending point}
 
 \code{"Label|coordinate|Label|coordinate|..."}
 

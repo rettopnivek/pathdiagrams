@@ -14,6 +14,8 @@
 #' @param shape.border The mode border color
 #'   (\code{NA} will suppress the border).
 #' @param shape.lty The line type for the node.
+#' @param shape.x The fixed width for the x-axis.
+#' @param shape.y The fixed height for the y-axis.
 #' @param xpd A logical value or NA. If \code{FALSE}, all
 #'   plotting is clipped to the plot region, if
 #'   \code{TRUE}, all plotting is clipped to the figure
@@ -48,19 +50,54 @@ add_node_shape = function( nd,
                            shape.lwd = 2,
                            shape.border = 'black',
                            shape.lty = 1,
+                           shape.x = NA,
+                           shape.y = NA,
                            xpd = NA ) {
 
-  # Draw rectangle
+  #< Draw rectangle
   if ( shape %in% c( 'box', 'rectangle', 'rect', 'square' ) ) {
-    x_coord = c(
-      rep( nd$left[1], 2 ),
-      rep( nd$right[1], 2 )
-    )
-    y_coord = c(
-      nd$top[2],
-      rep( nd$bottom[2], 2 ),
-      nd$top[2]
-    )
+
+    #<< No fixed dimensions for the x-axis
+    if ( is.na( shape.x ) ) {
+
+      x_coord = c(
+        rep( nd$left[1], 2 ),
+        rep( nd$right[1], 2 )
+      )
+
+      #>> Close conditional for no fixed dimensions
+    } else {
+
+      x_coord = c(
+        rep( nd$bottom[1] - shape.x/2, 2 ),
+        rep( nd$bottom[1] + shape.x/2, 2 )
+      )
+
+      #>> Close conditional for fixed dimensions
+    }
+
+
+    #<< No fixed dimensions for the y-axis
+    if ( is.na( shape.y ) ) {
+
+      y_coord = c(
+        nd$top[2],
+        rep( nd$bottom[2], 2 ),
+        nd$top[2]
+      )
+
+      #> Close conditional for no fixed dimensions
+    } else {
+
+      y_coord = c(
+        nd$left[2] - shape.y/2,
+        rep( nd$left[2] + shape.y/2, 2 ),
+        nd$left[2] - shape.y/2
+      )
+
+      #>> Close conditional for fixed dimensions
+    }
+
     polygon( x_coord, y_coord,
              col = shape.col,
              lwd = shape.lwd,
@@ -68,19 +105,43 @@ add_node_shape = function( nd,
              lty = shape.lty,
              xpd = xpd )
 
-    # Close conditional for rectangle
+    #>> Close conditional for rectangle
   }
 
-  # Draw ellipse
+  #< Draw ellipse
   if ( shape %in% c( 'circle', 'ellipse', 'circ', 'ell' ) ) {
 
-    x_coord = c( nd$left[1], nd$right[1] )
-    y_coord = c( nd$bottom[2], nd$top[2] )
+    #<< No fixed dimensions for the x-axis
+    if ( is.na( shape.x ) ) {
+
+      x_coord = c( nd$left[1], nd$right[1] )
+
+      #>> Close conditional for no fixed dimensions
+    } else {
+
+      x_coord = nd$center[1] + c( -shape.x/2, shape.x/2 )
+
+      #>> Close conditional for fixed dimensions
+    }
+
+
+    #<< No fixed dimensions for the y-axis
+    if ( is.na( shape.y ) ) {
+
+      y_coord = c( nd$bottom[2], nd$top[2] )
+
+      #>> Close conditional for no fixed dimensions
+    } else {
+
+      y_coord = nd$center[2] + c( -shape.y/2, shape.y/2 )
+
+      #>> Close conditional for fixed dimensions
+    }
 
     xc = x_coord[1] + diff( x_coord )/2
     yc = y_coord[1] + diff( y_coord )/2
 
-    # Distence of center to foci
+    # Distance of center to foci
     ctf = diff( x_coord )/2
 
     # Semi-latus rectum
@@ -106,7 +167,7 @@ add_node_shape = function( nd,
              lty = shape.lty,
              xpd = xpd )
 
-    # Close conditional for ellipse
+    #> Close conditional for ellipse
   }
 
 }

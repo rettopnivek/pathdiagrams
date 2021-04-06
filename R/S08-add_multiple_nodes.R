@@ -27,11 +27,14 @@ multiple_node_aes = function( tag,
   if ( tag == 'nw=' ) out = lod$shape.lwd
   if ( tag == 'nt=' ) out = lod$shape.lty
   if ( tag == 'np=' ) out = lod$shape.pad
+  if ( tag == 'nx=' ) out = lod$shape.x
+  if ( tag == 'ny=' ) out = lod$shape.y
 
   # Node text
   if ( tag == 'ts=' ) out = lod$text.size
   if ( tag == 'tc=' ) out = lod$text.col
   if ( tag == 'tf=' ) out = lod$text.font
+  if ( tag == 'th=' ) out = lod$text.spacing
 
   # Path line
   if ( tag == 'lp=' ) out = lod$path.pad
@@ -44,10 +47,10 @@ multiple_node_aes = function( tag,
 
   check = grepl( tag, input_parts, fixed = T )
 
+  #< Check for any inputted tags
   if ( any( check ) ) {
 
-
-    # Character output tags
+    #<< Character output tags
     if ( tag %in% c( 'ns=', 'nc=', 'nb=', 'tc=', 'tf=',
                      'cd=', 'lc=' ) ) {
 
@@ -59,22 +62,26 @@ multiple_node_aes = function( tag,
 
       out = val
 
-      # Close conditional for node shape
+      #>> Close conditional for node shape
     }
 
-    # Numeric output tags
+    #<< Numeric output tags
     if ( tag %in% c( 'nw=', 'nt=', 'ts=', 'lp=', 'lw=',
-                     'll=', 'la=', 'lt=' ) ) {
+                     'll=', 'la=', 'lt=', 'th=', 'nx=',
+                     'ny=' ) ) {
 
       val = input_parts[ check ]
 
-      val = as.numeric( gsub( tag, '', val, fixed = T ) )
+      val = gsub( tag, '', val, fixed = T )
 
-      out = val
+      if ( val == 'NA' ) val = NA
 
-      # Close conditional for node shape
+      out = as.numeric( val )
+
+      #>> Close conditional for node shape
     }
 
+    #> Close conditional for any inputted tags
   }
 
   return( out )
@@ -103,16 +110,30 @@ multiple_node_aes = function( tag,
 #' @param shape.border The default border color for nodes;
 #'   options for individual nodes can be specified with the
 #'   tag \code{nb=}.
+#' @param shape.lty The default border line type for nodes;
+#'   options for individual nodes can be specified with the
+#'   tag \code{nt=}.
+#' @param shape.pad The default space between lines of text
+#'   for nodes; options for individual nodes can be specified
+#'   with the tag \code{np=}.
+#' @param shape.x The default fixed width for nodes;
+#'   options for individual nodes can be specified with the
+#'   tag \code{nx=}.
+#' @param shape.y The default fixed height for nodes;
+#'   options for individual nodes can be specified with the
+#'   tag \code{ny=}.
 #' @param text.size The default size for text content;
 #'   options for individual nodes can be specified with the
 #'   tag \code{ts=}.
 #' @param text.col The default color for text content;
 #'   options for individual nodes can be specified with the
 #'   tag \code{tc=}.
-#' @param text.font The default font for text content;
+#' @param text.spacing The space between multiple lines of text;
 #'   options for individual nodes can be specified with the
-#'   tag \code{tf=}.
-#' @param path.pad ...
+#'   tag \code{th=}.
+#' @param path.pad The space between a line or arrow and a node;
+#'   options for individual nodes can be specified with the
+#'   tag \code{lp=}.
 #' @param path.lwd The default line width for paths;
 #'   options for individual nodes can be specified with the
 #'   tag \code{lw=}.
@@ -153,8 +174,6 @@ multiple_node_aes = function( tag,
 #'
 #' Paths (lines or arrows) can be drawn between existing
 #' nodes whose string input is labeled, via the format:
-#'
-#' \code{ Starting point   Ending point}
 #'
 #' \code{"Label|coordinate|Label|coordinate|..."}
 #'
@@ -216,9 +235,12 @@ add_multiple_nodes = function( input,
                                shape.border = 'black',
                                shape.lty = 1,
                                shape.pad = .5,
+                               shape.x = NA,
+                               shape.y = NA,
                                #   Node text
                                text.size = 1.25,
                                text.col = 'black',
+                               text.spacing = NULL,
                                #   Path line
                                path.pad = .025,
                                path.lwd = 2,
@@ -227,6 +249,26 @@ add_multiple_nodes = function( input,
                                path.angle = 30,
                                path.lty = 1,
                                path.code = '->' ) {
+
+  #< Default options for text spacing
+  if ( is.null( text.spacing ) ) {
+
+    # Default
+    text.spacing = .05
+
+    # Scale text spacing
+    current_spacing = text.spacing
+
+    # Text height with default cex = 1.25
+    def_text_h = strheight( 'A', cex = 1.25 )
+
+    # Specified height
+    cur_text_h = strheight( 'A', cex = text.size )
+
+    text.spacing = current_spacing * ( cur_text_h / def_text_h )
+
+    #< Close conditional for default options for text spacing
+  }
 
   # Specify default settings for node aesthetics
   lod = list(
@@ -237,9 +279,12 @@ add_multiple_nodes = function( input,
     shape.border = shape.border,
     shape.lty = shape.lty,
     shape.pad = shape.pad,
+    shape.x = shape.x,
+    shape.y = shape.y,
     # Node text
     text.size = text.size,
     text.col = text.col,
+    text.spacing = text.spacing,
     # Path line
     path.pad = path.pad,
     path.lwd = path.lwd,
@@ -258,21 +303,28 @@ add_multiple_nodes = function( input,
   nd = lapply( 1:length( input ), function(x) nd_pos )
   names( nd ) = names( input )
 
-  # Loop over inputs
+  #< Loop over inputs
   for ( i in 1:length( input ) ) {
 
     # Extract details on current node
     input_parts = strsplit( input[ i ], split = '|', fixed = T )[[1]]
 
     # Check for additional options
+
+    # Node options
     shape = multiple_node_aes( 'ns=', input_parts, lod )
     shape.col = multiple_node_aes( 'nc=', input_parts, lod )
     shape.width = multiple_node_aes( 'nw=', input_parts, lod )
     shape.border = multiple_node_aes( 'nb=', input_parts, lod )
     shape.lty = multiple_node_aes( 'nt=', input_parts, lod )
     shape.pad = multiple_node_aes( 'np=', input_parts, lod )
+    shape.x = multiple_node_aes( 'nx=', input_parts, lod )
+    shape.y = multiple_node_aes( 'ny=', input_parts, lod )
+
+    # Text options
     text.size = multiple_node_aes( 'ts=', input_parts, lod )
     text.color = multiple_node_aes( 'tc=', input_parts, lod )
+    text.spacing = multiple_node_aes( 'th=', input_parts, lod )
 
     # At a minimum
     # Text | x-axis coordinates | y-axis coordinates
@@ -289,12 +341,39 @@ add_multiple_nodes = function( input,
     # larger than text content
     adj = sh * shape.pad
 
-    # x-axis lower and upper boundaries
-    xb = c( xp - sw/2 - adj,
-            xp + sw/2 + adj )
-    # y-axis lower and upper boundaries
-    yb = c( yp - sh/2 - adj,
-            yp + sh/2 + adj )
+    #<< x-axis lower and upper boundaries
+    if ( is.na( shape.x ) ) {
+      # If no fixed dimensions are provided
+
+      # Size based on string dimensions
+      xb = c( xp - sw/2 - adj,
+              xp + sw/2 + adj )
+
+      #>> Close conditional on string dimensions
+    } else {
+
+      xb = c( xp - shape.x/2,
+              xp + shape.x/2 )
+
+      #>> Close conditional on fixed dimensions
+    }
+
+    #<< y-axis lower and upper boundaries
+    if ( is.na( shape.y ) ) {
+      # If no fixed dimensions are provided
+
+      # Size based on string dimensions
+      yb = c( yp - sh/2 - adj,
+              yp + sh/2 + adj )
+
+      #>> Close conditional on string dimensions
+    } else {
+
+      yb = c( yp - shape.y/2,
+              yp + shape.y/2 )
+
+      #>> Close conditional on fixed dimensions
+    }
 
     # Coordinates for node
     nd[[ i ]]$left = c( xb[1], yp )
@@ -309,84 +388,91 @@ add_multiple_nodes = function( input,
     nd[[ i ]]$topleft = c( xb[1], yb[2] )
     nd[[ i ]]$topright = c( xb[2], yb[2] )
 
+    #<< Check if single line
     if ( !grepl( '\n', input_parts[1], fixed = T ) ) {
-      # Check if single line
 
-    # Add shape around node
+      # Add shape around node
 
-    # Draw a rectangle around the text
-    if ( shape %in% c( 'box', 'rectangle', 'rect', 'square' ) ) {
+      #<<< Draw a rectangle around the text
+      if ( shape %in% c( 'box', 'rectangle', 'rect', 'square' ) ) {
 
-      # Draw shape
-      polygon( xb[c(1,1,2,2)],
-               yb[c(1,2,2,1)],
-               col = shape.col,
-               border = shape.border,
-               lwd = shape.lwd,
-               lty = shape.lty )
+        # Draw shape
+        polygon( xb[c(1,1,2,2)],
+                 yb[c(1,2,2,1)],
+                 col = shape.col,
+                 border = shape.border,
+                 lwd = shape.lwd,
+                 lty = shape.lty )
 
-      # Close conditional for rectangle
-    }
+        #>>> Close conditional for rectangle
+      }
 
-    # Draw an ellipse around node
-    if ( shape %in% c( 'circle', 'ellipse', 'circ', 'ell' ) ) {
+      #<<< Draw an ellipse around node
+      if ( shape %in% c( 'circle', 'ellipse', 'circ', 'ell' ) ) {
 
-      # Distence of center to foci
-      ctf = diff( xb )/2
+        # Distence of center to foci
+        ctf = diff( xb )/2
 
-      # Semi-latus rectum
-      slr = diff(yb)/2
+        # Semi-latus rectum
+        slr = diff(yb)/2
 
-      # Semi-major axis
-      smja = sqrt( ( ctf )^2 + ( slr )^2 )
+        # Semi-major axis
+        smja = sqrt( ( ctf )^2 + ( slr )^2 )
 
-      # Semi-minor axis
-      smna = sqrt( smja^2 - ctf^2 )
+        # Semi-minor axis
+        smna = sqrt( smja^2 - ctf^2 )
 
-      # x and y coordinates for ellipse
-      pts = seq( 0, 2 * pi, length.out = 100 )
-      xv = smja * cos( pts ) + xp
-      yv = smna * sin( pts ) + yp
+        # x and y coordinates for ellipse
+        pts = seq( 0, 2 * pi, length.out = 100 )
+        xv = smja * cos( pts ) + xp
+        yv = smna * sin( pts ) + yp
 
-      # Draw shape
-      polygon( xv,
-               yv,
-               col = shape.col,
-               border = shape.border,
-               lwd = shape.lwd,
-               lty = shape.lty )
+        # Draw shape
+        polygon( xv,
+                 yv,
+                 col = shape.col,
+                 border = shape.border,
+                 lwd = shape.lwd,
+                 lty = shape.lty )
 
-      # Close conditional for ellipse
-    }
+        #>>> Close conditional for ellipse
+      }
 
-    # Add text content
-    text( xp, yp,
-          input_parts[1],
-          cex = text.size,
-          col = text.color )
+      # Add text content
+      text( xp, yp,
+            input_parts[1],
+            cex = text.size,
+            col = text.color )
 
-      # Close conditional on single line
+      #>> Close conditional on single line
     } else {
 
       string_vector = strsplit( input_parts[1],
                                 split = '\n', fixed = T )[[1]]
 
-      pathdiagrams::add_lines_of_text(
+      nd[[ i ]] = pathdiagrams::add_lines_of_text(
         string_vector,
         x = xp, y = yp,
+        spacing = text.spacing,
+        spacing.fixed = T,
         cex = text.size,
         col = text.color,
         shape = shape,
         shape.col = shape.col,
         shape.border = shape.border,
         shape.lwd = shape.lwd,
-        shape.lty = shape.lty
+        shape.lty = shape.lty,
+        shape.x = shape.x,
+        shape.y = shape.y,
+        output = T
       )
+      # spacing
+      # spacing.fixed
 
-      # Close conditional on multiple lines
+      #>> Close conditional on multiple lines
     }
 
-    # Close loop over node inputs
+    #> Close loop over node inputs
   }
 
   # Check if vector of inputs for arrows
@@ -412,19 +498,29 @@ add_multiple_nodes = function( input,
       # Node label - start | Node coordinate - start
       # ... Node label - end | Node coordinate - end
 
-      start_pos = nd[[ path_parts[1] ]][[ path_parts[2] ]]
-      end_pos = nd[[ path_parts[3] ]][[ path_parts[4] ]]
+      # If a node name and coordinate are provided
 
-      positions = c(
-        'bottom',     # [1]
-        'top',        # [2]
-        'right',      # [3]
-        'left',       # [4]
-        'bottomleft', # [5]
-        'topleft',    # [6]
-        'topright',   # [7]
-        'bottomright' # [8]
-      )
+      if ( path_parts[1] %in% names( input ) ) {
+        start_pos = nd[[ path_parts[1] ]][[ path_parts[2] ]]
+      }
+
+      if ( path_parts[3] %in% names( input ) ) {
+        end_pos = nd[[ path_parts[3] ]][[ path_parts[4] ]]
+      }
+
+      # If raw x and y-axis coordinates are provided
+
+      if ( path_parts[1] == 'x,y' ) {
+        start_pos = as.numeric(
+          strsplit( path_parts[2], split = ',', fixed = T )[[1]]
+        )
+      }
+
+      if ( path_parts[3] == 'x,y' ) {
+        end_pos = as.numeric(
+          strsplit( path_parts[4], split = ',', fixed = T )[[1]]
+        )
+      }
 
       # Pad start and end-points of line
 

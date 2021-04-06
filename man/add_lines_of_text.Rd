@@ -22,6 +22,8 @@ add_lines_of_text(
   shape.lwd = 2,
   shape.border = "black",
   shape.lty = 1,
+  shape.x = NA,
+  shape.y = NA,
   ...
 )
 }
@@ -76,6 +78,10 @@ or 'circle'.}
 (\code{NA} will suppress the border).}
 
 \item{shape.lty}{The line type for the node.}
+
+\item{shape.x}{The fixed width for the x-axis.}
+
+\item{shape.y}{The fixed height for the y-axis.}
 
 \item{...}{Additional arguments to the
 \code{\link[graphics]{text}} function.}
