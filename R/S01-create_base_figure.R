@@ -106,12 +106,12 @@ create_base_figure = function( default = NULL,
                plot_range$start,
                guide_positions,
                plot_range$end,
-               col = 'grey95' )
+               col = 'grey90' )
     segments(  plot_range$start,
                guide_positions,
                plot_range$end,
                guide_positions,
-               col = 'grey95' )
+               col = 'grey90' )
 
     # Outer margins
     abline( v = 0, xpd = NA )
@@ -131,17 +131,21 @@ create_base_figure = function( default = NULL,
       dm_outer[2] - dm_margins[1] - dm_margins[3]
     )
 
-    text( guide_positions,
-          rep( ( dm_outer[2] - guide_adjust * dm_margins[3] ) / dm_inner[2],
-               length( guide_positions ) ),
-          guide_positions,
-          xpd = NA )
+    text(
+      guide_positions,
+      rep( ( dm_outer[2] - guide_adjust * dm_margins[3] ) / dm_inner[2],
+           length( guide_positions ) ),
+      guide_positions,
+      xpd = NA
+    )
 
-    text( rep( 1 - ( dm_outer[1] - guide_adjust * dm_margins[2] ) / dm_inner[1],
-               length( guide_positions ) ),
-          guide_positions,
-          guide_positions,
-          xpd = NA )
+    text(
+      rep( 1 - ( dm_outer[1] - guide_adjust * dm_margins[2] ) / dm_inner[1],
+           length( guide_positions ) ),
+      guide_positions,
+      guide_positions,
+      xpd = NA
+    )
 
   }
 
