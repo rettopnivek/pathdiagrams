@@ -2,7 +2,7 @@
 #'
 #' ...
 #'
-#' @param node
+#' @param node ...
 #'
 #' @examples
 #' # Forthcoming
@@ -22,10 +22,10 @@ size = function( node ) {
 #'
 #' ...
 #'
-#' @param nodes
-#' @param labels
-#' @param dimension
-#' @param desired
+#' @param nodes ...
+#' @param labels ...
+#' @param dimension ...
+#' @param desired ...
 #'
 #' @examples
 #' # Forthcoming
