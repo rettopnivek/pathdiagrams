@@ -2,7 +2,7 @@
 % Please edit documentation in R/S11-size_sep.R
 \name{sep}
 \alias{sep}
-\title{...}
+\title{Determine Separation Between Nodes}
 \usage{
 sep(nodes, labels, dimension = "height", desired = NULL)
 }

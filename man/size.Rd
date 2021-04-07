@@ -2,18 +2,36 @@
 % Please edit documentation in R/S11-size_sep.R
 \name{size}
 \alias{size}
-\title{...}
+\title{Determine Width and Height of a Node}
 \usage{
 size(node)
 }
 \arguments{
-\item{node}{...}
+\item{node}{A list with x and y
+coordinates for the bottom, left,
+top, right, and associated corners
+for a node (e.g., see output of
+\code{\link{add_multiple_nodes}} or
+\code{\link{add_lines_of_text}}).}
 }
 \description{
-...
+Determine the size (width and height)
+of a node in an existing path diagram.
 }
 \examples{
-# Forthcoming
+# Base figure
+create_base_figure()
 
+# Add nodes
+nodes <- add_multiple_nodes(
+  c( N1 = 'Node-1|x=.25|y=.5',
+     N2 = 'Node-2\n  Indent|x=.75|y=.5'
+  ),
+  output = TRUE
+)
+
+# Dimension of nodes in diagram
+size( nodes$N1 )
+size( nodes$N2 )
 
 }
