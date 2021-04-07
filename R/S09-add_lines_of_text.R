@@ -110,7 +110,10 @@ add_lines_of_text = function( string,
   col = rep_len( col, n )
 
   # Starting position
-  cur_y = y
+
+  exst_plt = par( "usr" )
+  cur_y = exst_plt[3] + (exst_plt[4] - exst_plt[3])/2
+  cur_x = exst_plt[1] + (exst_plt[2] - exst_plt[1])/2
 
   # Initialize list with node coordinates
   nd_pos = list(
@@ -124,7 +127,8 @@ add_lines_of_text = function( string,
   y_top = NA
   first_sh = NA
 
-  # Variable for y-axis position
+  # Variables for x and y-axis positions
+  x_pos = rep( NA, n )
   y_pos = rep( NA, n )
 
   # Loop through lines of text
@@ -145,38 +149,38 @@ add_lines_of_text = function( string,
     # Variables to track dimensions of text box
     if ( i == 1 ) {
       # Top of text box
-      y_top = y + sh/2
+      y_top = cur_y + sh/2
       # Height of initial text
       first_sh = sh
 
       # Left and right limits of text box
       if ( align[i] == 'left' ) {
-        x_left_right[1] = x
-        x_left_right[2] = x + sw
+        x_left_right[1] = cur_x
+        x_left_right[2] = cur_x + sw
       }
       if ( align[i] == 'right' ) {
-        x_left_right[1] = x - sw
-        x_left_right[2] = x
+        x_left_right[1] = cur_x - sw
+        x_left_right[2] = cur_x
       }
       if ( !align[i] %in% c( 'left', 'right' ) ) {
-        x_left_right[1] = x - sw/2
-        x_left_right[2] = x + sw/2
+        x_left_right[1] = cur_x - sw/2
+        x_left_right[2] = cur_x + sw/2
       }
 
     } else {
 
       # Left and right limits of text box
       if ( align[i] == 'left' ) {
-        x_left_right[1] = min( x_left_right[1], x )
-        x_left_right[2] = max( x_left_right[2], x + sw )
+        x_left_right[1] = min( x_left_right[1], cur_x )
+        x_left_right[2] = max( x_left_right[2], cur_x + sw )
       }
       if ( align[i] == 'right' ) {
-        x_left_right[1] = min( x_left_right[1], x - sw )
-        x_left_right[2] = max( x_left_right[2], x )
+        x_left_right[1] = min( x_left_right[1], cur_x - sw )
+        x_left_right[2] = max( x_left_right[2], cur_x )
       }
       if ( !align[i] %in% c( 'left', 'right' ) ) {
-        x_left_right[1] = min( x_left_right[1], x - sw/2 )
-        x_left_right[2] = max( x_left_right[2], x + sw/2 )
+        x_left_right[1] = min( x_left_right[1], cur_x - sw/2 )
+        x_left_right[2] = max( x_left_right[2], cur_x + sw/2 )
       }
 
     }
@@ -196,7 +200,6 @@ add_lines_of_text = function( string,
   # Height of final text
   last_sh = sh
 
-
   if ( shape.pad_first ) {
     # If spacing is based on first line
 
@@ -205,6 +208,8 @@ add_lines_of_text = function( string,
 
     x_left_right =
       x_left_right + c(-1,1)*first_sh*shape.pad
+
+    final_pad = first_sh*shape.pad
 
     # Close conditional for first line
   } else {
@@ -216,14 +221,21 @@ add_lines_of_text = function( string,
     x_left_right =
       x_left_right + c(-1,1)*last_sh*shape.pad
 
+    final_pad = last_sh*shape.pad
+
     # Close conditional for last line
   }
 
-  # Additional variables for text box specification
-  x_left = x_left_right[1]
-  x_right = x_left_right[2]
-  x_center = x_left + diff( x_left_right )/2
-  y_center = y_top - (y_top - y_bottom)/2
+  # Center based on user-supplied x and y coordinates
+  x_center = x
+  y_center = y
+
+  x_left = x_center - abs( diff( x_left_right )/2 )
+  x_right = x_center + abs( diff( x_left_right )/2 )
+
+  y_top_bottom = c( y_top, y_bottom )
+  y_top = y_center + abs( diff( y_top_bottom ) )/2
+  y_bottom = y_center - abs( diff( y_top_bottom ) )/2
 
   # Update list of node coordinates for text box
   nd_pos$top = c( x_center, y_top )
@@ -248,16 +260,36 @@ add_lines_of_text = function( string,
     shape.y = shape.y
   )
 
+  if ( !is.na( shape.x ) ) {
+
+    nd_pos$left[1] = x_center - shape.x/2
+    nd_pos$topleft[1] = x_center - shape.x/2
+    nd_pos$bottomleft[1] = x_center - shape.x/2
+
+    nd_pos$right[1] = x_center + shape.x/2
+    nd_pos$topright[1] = x_center + shape.x/2
+    nd_pos$bottomright[1] = x_center + shape.x/2
+
+  }
+
   # Loop over lines
   for ( i in 1:n ) {
 
     # Determine alignment
     pos = NULL
-    if ( align[i] == 'left' ) pos = 4
-    if ( align[i] == 'right' ) pos = 2
+    cur_x = x_center
+    if ( align[i] == 'left' ) {
+      pos = 4
+      cur_x = nd_pos$left[1] + final_pad
+    }
+    if ( align[i] == 'right' ) {
+      pos = 2
+      cur_x = nd_pos$right[1] - final_pad
+    }
 
     # Add text
-    text( x, y_pos[i], string[i], cex = cex[i], pos = pos,
+    text( cur_x, (y_pos[i] - y_top_bottom[1]) + y_top,
+          string[i], cex = cex[i], pos = pos,
           col = col[i], offset = offset, ... )
 
     # Close loop over lines
@@ -269,6 +301,7 @@ add_lines_of_text = function( string,
       points( nd_pos[[j]][1], nd_pos[[j]][2],
               pch = 19, xpd = NA )
     }
+    points( nd_pos$top[1], nd_pos$left[2], pch = 22 )
   }
 
   if ( output ) {

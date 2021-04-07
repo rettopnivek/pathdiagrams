@@ -472,6 +472,15 @@ add_multiple_nodes = function( input,
       #>> Close conditional on multiple lines
     }
 
+    # Debugging for node dimensions
+    if ( FALSE ) {
+      for ( k in 1:length( nd[[ i ]] ) ) {
+        points( nd[[i]][[k]][1],
+                nd[[i]][[k]][2],
+                pch = 19, cex = .75 )
+      }
+    }
+
     #> Close loop over node inputs
   }
 
