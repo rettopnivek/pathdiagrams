@@ -4,22 +4,75 @@
 \alias{sep}
 \title{Determine Separation Between Nodes}
 \usage{
-sep(nodes, labels, dimension = "height", desired = NULL)
+sep(nodes, labels, dimension = "y-axis", desired = NULL)
 }
 \arguments{
-\item{nodes}{...}
+\item{nodes}{A list of lists, each list
+giving the x and y coordinates for the
+bottom, left, top, right and associated
+corners for a given node (e.g., see output
+of \code{\link{add_multiple_nodes}} or
+\code{\link{add_lines_of_text}}).}
 
-\item{labels}{...}
+\item{labels}{Either...
+\itemize{
+  \item A character vector of length 2, giving
+    the names of the lists for the two nodes to
+    compare;
+  \item A integer vector of length 2, giving
+    the positions in the list of lists for
+    the two nodes to compare.
+  }}
 
-\item{dimension}{...}
+\item{dimension}{The set of coordinates to
+compare between nodes, either \code{'x-axis'}
+or \code{'y-axis'}.}
 
-\item{desired}{...}
+\item{desired}{An optional value specifying
+the desired distance between the two
+nodes; when provided, the function outputs
+the new x or y-axis coordinate needed
+for the second node to have the desired
+distance from the first node.}
 }
 \description{
-...
+Determine the distance between x-axis
+or y-axis coordinates for two nodes in
+a path diagram.
 }
 \examples{
-# Forthcoming
+# Create simple path diagram
+create_base_figure()
+# Add nodes
+nodes <- add_multiple_nodes(
+  c( N1 = 'Node-01|x=.3|y=.7',
+     N2 = 'Node-02|x=.7|y=.3' ),
+  output = TRUE )
 
+# Distance from bottom of node 'N1'
+# and top of node 'N2'
+sep( nodes, c( 'N1', 'N2' ) )
+
+# Determine new y-axis coordinate for 'N2' so
+# that distance between nodes would be 0.1
+sep( nodes, c( 'N1', 'N2' ), desired = .1 )[2]
+# Add new node using proposed y-axis coordinate
+add_multiple_nodes( c( N3 = 'Node-03|x=.3|y=.534' ) )
+
+# Determine new y-axis coordinate for 'N1' so
+# that distance between nodes would be 0.1
+sep( nodes, c( 'N2', 'N1' ), desired = .1 )[2]
+# Add new node using proposed y-axis coordinate
+add_multiple_nodes( c( N4 = 'Node-04|x=.7|y=.466' ) )
+
+# Distance from left edge of 'N1' and
+# right edge of 'N2'
+sep( nodes, c( 'N1', 'N2' ), dimension = 'x-axis' )
+
+# Determine new x-axis coordinate for 'N2' so
+# that distance between nodes would be 0.1
+sep( nodes, c( 'N1', 'N2' ), 'x-axis', desired = .1 )[2]
+# Add new node using proposed x-axis coordinate
+add_multiple_nodes( c( N5 = 'Node-05|x=.589|y=.7' ) )
 
 }
