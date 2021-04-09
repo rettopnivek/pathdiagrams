@@ -206,3 +206,60 @@ sep <- function( nodes, labels,
   return( out )
 }
 
+
+#' Replace Placeholders with Values
+#'
+#' Replaces placeholder text in a
+#' character vector with user specified
+#' values.
+#'
+#' @param x A character vector
+#' @param values A vector of values with
+#'   which to replace placeholder text.
+#' @param placeholder A function defining
+#'   how to identify placeholder text based
+#'   on the index position of the vector
+#'   \code{values}.
+#' @param ... Additional parameters for the
+#'   \code{placeholder} function.
+#'
+#' @examples
+#' # Character vector with placeholder text
+#' # '[[i]]' for the ith element to replace
+#' x <- c( 'Value: [[1]]', 'Value: [[2]]' )
+#' replace_with_values( x, c( 1, 2 ) )
+#'
+#' # Custom function to replace different
+#' # placeholder text
+#' placeholder <- function( i ) paste0( '***', LETTERS[i] )
+#' x <- c( 'Value: ***A', 'Value: ***B' )
+#' replace_with_values( x, c( 1, 2 ), placeholder )
+#'
+#' @export
+
+replace_with_values <- function( x, values,
+                                 placeholder = function(i) {
+                                   paste0( '[[', i, ']]' )
+                                 },
+                                 ... ) {
+
+  out <- x
+  n <- length( values )
+
+  #< Loop over values
+  for ( i in 1:n ) {
+
+    # Replace '[[i]]' with ith value
+    out <- gsub(
+      placeholder( i, ... ),
+      values[i],
+      out,
+      fixed = T
+    )
+
+    #> Close loop over values
+  }
+
+  return( out )
+}
+
