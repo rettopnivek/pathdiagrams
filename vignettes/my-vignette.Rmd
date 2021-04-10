@@ -1,0 +1,103 @@
+---
+title: "my-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+%\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  ---
+  
+  ```{r, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+```
+
+```{r setup}
+library(pathdiagrams)
+```
+
+## Table of contents
+
+1. Introduction
+2. Tutorial
+3. Diagram for path analysis
+4. Diagram for factor analysis
+5. CONSORT diagram
+
+## 1) Introduction
+
+The *pathdiagrams* package provides an extension to base R's plotting tools for creating various types of path diagrams. The package can be used to help create diagrams displaying various structural equation model (SEM) analyses, such as factor or path analyses. The package can also be used to create CONSORT-type diagrams (subject enrollment and retention in a study).
+
+## 2) Tutorial
+
+## 3) Path analysis diagram
+
+Forthcoming
+
+```{r}
+# ???
+create_base_figure( w = 5, h = 5, guidelines = FALSE, new = FALSE )
+
+inputs = c(
+  # 
+  N01 = 'X|x=.3|y=.8|nb=blue|tc=blue',
+  N02 = 'M|x=.5|y=.9',
+  N03 = 'Y|x=.7|y=.8|nb=blue|tc=blue',
+  #
+  N04 = 'X|x=.3|y=.5|nb=blue|tc=blue',
+  N05 = 'M|x=.5|y=.6|nb=blue|tc=blue',
+  N06 = 'Y|x=.7|y=.5',
+  #
+  N07 = 'X|x=.3|y=.2|nb=blue|tc=blue',
+  N08 = 'M|x=.5|y=.3|nb=blue|tc=blue',
+  N09 = 'Y|x=.7|y=.2|nb=blue|tc=blue'
+)
+
+paths = c(
+  # 
+  'N01|right|N03|left|lc=blue',
+  'N01|top|N02|left',
+  'N02|right|N03|top',
+  # 
+  'N04|right|N06|left',
+  'N04|top|N05|left|left|lc=blue',
+  'N05|right|N06|top',
+  # 
+  'N07|right|N09|left|lc=blue',
+  'N07|top|N08|left',
+  'N08|right|N09|top|lc=blue'
+)
+
+par( xpd = NA )
+
+add_nodes( inputs, paths = paths,
+           shape.lwd = 3,
+           shape.border = 'grey',
+           text.col = 'grey', 
+           path.col = 'grey',
+           path.length = .1,
+           path.lwd = 3 )
+
+text( .5, .67, 
+      expression(
+        Y[i] == alpha[1] + beta[1] * X[i] + epsilon[i]
+      ), 
+      pos = 3 )
+text( .5, .37, 
+      expression(
+        M[i] == alpha[2] + beta[2] * X[i] + epsilon[i]
+      ), 
+      pos = 3 )
+text( .5, .07, 
+      expression(
+        Y[i] == alpha[3] + 
+          beta[3] * X[i] + beta[4] * M[i] + 
+          epsilon[i]
+      ), 
+      pos = 3 )
+
+par( xpd = F )
+```
+
