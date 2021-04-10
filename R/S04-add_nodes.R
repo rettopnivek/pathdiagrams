@@ -68,7 +68,7 @@ multiple_node_aes = function( tag,
     #<< Numeric output tags
     if ( tag %in% c( 'nw=', 'nt=', 'ts=', 'lp=', 'lw=',
                      'll=', 'la=', 'lt=', 'th=', 'nx=',
-                     'ny=' ) ) {
+                     'ny=', 'np=' ) ) {
 
       val = input_parts[ check ]
 
@@ -410,7 +410,7 @@ add_nodes = function( input,
       #<<< Draw an ellipse around node
       if ( shape %in% c( 'circle', 'ellipse', 'circ', 'ell' ) ) {
 
-        # Distence of center to foci
+        # Distance of center to foci
         ctf = diff( xb )/2
 
         # Semi-latus rectum
