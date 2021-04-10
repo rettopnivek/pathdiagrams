@@ -314,7 +314,7 @@ add_nodes = function( input,
     # Node options
     shape = multiple_node_aes( 'ns=', input_parts, lod )
     shape.col = multiple_node_aes( 'nc=', input_parts, lod )
-    shape.width = multiple_node_aes( 'nw=', input_parts, lod )
+    shape.lwd = multiple_node_aes( 'nw=', input_parts, lod )
     shape.border = multiple_node_aes( 'nb=', input_parts, lod )
     shape.lty = multiple_node_aes( 'nt=', input_parts, lod )
     shape.pad = multiple_node_aes( 'np=', input_parts, lod )
