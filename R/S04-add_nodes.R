@@ -218,37 +218,37 @@ multiple_node_aes = function( tag,
 #' create_base_figure()
 #'
 #' # Add nodes and paths
-#' add_multiple_nodes(
+#' add_nodes(
 #'   input, paths = paths
 #' )
 #'
 #' @export
 
-add_multiple_nodes = function( input,
-                               paths = NULL,
-                               output = F,
-                               # Default values
-                               #   Node shape
-                               shape = 'box',
-                               shape.col = 'white',
-                               shape.lwd = 2,
-                               shape.border = 'black',
-                               shape.lty = 1,
-                               shape.pad = .5,
-                               shape.x = NA,
-                               shape.y = NA,
-                               #   Node text
-                               text.size = 1.25,
-                               text.col = 'black',
-                               text.spacing = NULL,
-                               #   Path line
-                               path.pad = .025,
-                               path.lwd = 2,
-                               path.col = 'black',
-                               path.length = .25,
-                               path.angle = 30,
-                               path.lty = 1,
-                               path.code = '->' ) {
+add_nodes = function( input,
+                      paths = NULL,
+                      output = F,
+                      # Default values
+                      #   Node shape
+                      shape = 'box',
+                      shape.col = 'white',
+                      shape.lwd = 2,
+                      shape.border = 'black',
+                      shape.lty = 1,
+                      shape.pad = .5,
+                      shape.x = NA,
+                      shape.y = NA,
+                      #   Node text
+                      text.size = 1.25,
+                      text.col = 'black',
+                      text.spacing = NULL,
+                      #   Path line
+                      path.pad = .025,
+                      path.lwd = 2,
+                      path.col = 'black',
+                      path.length = .25,
+                      path.angle = 30,
+                      path.lty = 1,
+                      path.code = '->' ) {
 
   #< Default options for text spacing
   if ( is.null( text.spacing ) ) {
