@@ -11,7 +11,8 @@ create_base_figure(
   orientation = "landscape",
   margin = rep(0.25, 4),
   guidelines = T,
-  guide_positions = seq(0.1, 0.9, 0.1),
+  guide_major = seq(0.1, 0.9, 0.1),
+  guide_minor = seq(0.05, 0.95, 0.1),
   guide_adjust = 3/4,
   new = T
 )
@@ -38,8 +39,12 @@ the bottom, left, top, and right, respectively.}
 \item{guidelines}{Logical; if \code{TRUE}, includes
 guidelines when generating the figure.}
 
-\item{guide_positions}{Vector giving the guideline
+\item{guide_major}{Vector giving the major guideline
 positions (values must be between 0 and 1).}
+
+\item{guide_minor}{Vector giving the minor guideline
+positions (values must be between 0 and 1).
+If \code{NULL}, no minor guidelines are included.}
 
 \item{guide_adjust}{An adjustment controlling the
 position on the axes for the guideline numbers.}

@@ -18,8 +18,11 @@
 #'   the bottom, left, top, and right, respectively.
 #' @param guidelines Logical; if \code{TRUE}, includes
 #'   guidelines when generating the figure.
-#' @param guide_positions Vector giving the guideline
+#' @param guide_major Vector giving the major guideline
 #'   positions (values must be between 0 and 1).
+#' @param guide_minor Vector giving the minor guideline
+#'   positions (values must be between 0 and 1).
+#'   If \code{NULL}, no minor guidelines are included.
 #' @param guide_adjust An adjustment controlling the
 #'   position on the axes for the guideline numbers.
 #' @param new Logical; if \code{TRUE} a new plotting
@@ -45,7 +48,8 @@ create_base_figure = function( default = NULL,
                                orientation = 'landscape',
                                margin = rep( .25, 4 ),
                                guidelines = T,
-                               guide_positions = seq( .1, .9, .1 ),
+                               guide_major = seq( .1, .9, .1 ),
+                               guide_minor = seq( .05, .95, .1 ),
                                guide_adjust = 3/4,
                                new = T ) {
 
@@ -97,21 +101,44 @@ create_base_figure = function( default = NULL,
   if ( guidelines ) {
 
     plot_range = list(
-      start = rep( 0, length( guide_positions ) ),
-      end = rep( 1, length( guide_positions ) )
+      start = rep( 0, length( guide_major ) ),
+      end = rep( 1, length( guide_major ) )
     )
 
     # Grid lines
-    segments(  guide_positions,
+    segments(  guide_major,
                plot_range$start,
-               guide_positions,
+               guide_major,
                plot_range$end,
-               col = 'grey90' )
+               col = 'grey85' )
     segments(  plot_range$start,
-               guide_positions,
+               guide_major,
                plot_range$end,
-               guide_positions,
-               col = 'grey90' )
+               guide_major,
+               col = 'grey85' )
+
+    if ( !is.null( guide_minor ) ) {
+
+      plot_range = list(
+        start = rep( 0, length( guide_minor ) ),
+        end = rep( 1, length( guide_minor ) )
+      )
+
+      # Grid lines
+      segments(  guide_minor,
+                 plot_range$start,
+                 guide_minor,
+                 plot_range$end,
+                 col = 'grey85',
+                 lty = 3 )
+      segments(  plot_range$start,
+                 guide_minor,
+                 plot_range$end,
+                 guide_minor,
+                 col = 'grey85',
+                 lty = 3 )
+
+    }
 
     # Outer margins
     abline( v = 0, xpd = NA )
@@ -132,18 +159,18 @@ create_base_figure = function( default = NULL,
     )
 
     text(
-      guide_positions,
+      guide_major,
       rep( ( dm_outer[2] - guide_adjust * dm_margins[3] ) / dm_inner[2],
-           length( guide_positions ) ),
-      guide_positions,
+           length( guide_major ) ),
+      guide_major,
       xpd = NA
     )
 
     text(
       rep( 1 - ( dm_outer[1] - guide_adjust * dm_margins[2] ) / dm_inner[1],
-           length( guide_positions ) ),
-      guide_positions,
-      guide_positions,
+           length( guide_major ) ),
+      guide_major,
+      guide_major,
       xpd = NA
     )
 
