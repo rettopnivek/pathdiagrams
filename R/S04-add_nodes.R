@@ -248,7 +248,8 @@ add_nodes = function( input,
                       path.length = .25,
                       path.angle = 30,
                       path.lty = 1,
-                      path.code = '->' ) {
+                      path.code = '->',
+                      xpd = NA ) {
 
   #< Default options for text spacing
   if ( is.null( text.spacing ) ) {
@@ -402,7 +403,8 @@ add_nodes = function( input,
                  col = shape.col,
                  border = shape.border,
                  lwd = shape.lwd,
-                 lty = shape.lty )
+                 lty = shape.lty,
+                 xpd = xpd )
 
         #>>> Close conditional for rectangle
       }
@@ -433,7 +435,8 @@ add_nodes = function( input,
                  col = shape.col,
                  border = shape.border,
                  lwd = shape.lwd,
-                 lty = shape.lty )
+                 lty = shape.lty,
+                 xpd = xpd  )
 
         #>>> Close conditional for ellipse
       }
@@ -442,7 +445,8 @@ add_nodes = function( input,
       text( xp, yp,
             input_parts[1],
             cex = text.size,
-            col = text.color )
+            col = text.color,
+            xpd = xpd )
 
       #>> Close conditional on single line
     } else {
@@ -464,6 +468,7 @@ add_nodes = function( input,
         shape.lty = shape.lty,
         shape.x = shape.x,
         shape.y = shape.y,
+        xpd = xpd,
         output = T
       )
       # spacing
@@ -477,7 +482,7 @@ add_nodes = function( input,
       for ( k in 1:length( nd[[ i ]] ) ) {
         points( nd[[i]][[k]][1],
                 nd[[i]][[k]][2],
-                pch = 19, cex = .75 )
+                pch = 19, cex = .75, xpd = xpd )
       }
     }
 
@@ -619,7 +624,8 @@ add_nodes = function( input,
               angle = path.angle,
               col = path.col,
               lty = path.lty,
-              lwd = path.lwd )
+              lwd = path.lwd,
+              xpd = xpd )
 
       # Close loop over inputs
     }

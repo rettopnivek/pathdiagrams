@@ -99,6 +99,7 @@ add_lines_of_text = function( string,
                               shape.lty = 1,
                               shape.x = NA,
                               shape.y = NA,
+                              xpd = NA,
                               ... ) {
 
   # Number of lines
@@ -290,7 +291,7 @@ add_lines_of_text = function( string,
     # Add text
     text( cur_x, (y_pos[i] - y_top_bottom[1]) + y_top,
           string[i], cex = cex[i], pos = pos,
-          col = col[i], offset = offset, ... )
+          col = col[i], offset = offset, xpd = xpd, ... )
 
     # Close loop over lines
   }
