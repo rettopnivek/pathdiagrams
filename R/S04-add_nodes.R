@@ -442,11 +442,21 @@ add_nodes = function( input,
       }
 
       # Add text content
-      text( xp, yp,
-            input_parts[1],
-            cex = text.size,
-            col = text.color,
-            xpd = xpd )
+      if ( grepl( '*', input_parts[1], fixed = T ) &
+           is.character( input_parts[1] ) ) {
+        # Add text
+        plain_bold_italic_text(
+          xp, yp,
+          input_parts[1], cex = text.size,
+          col = text.color, xpd = xpd )
+      } else {
+        # Add text
+        text( xp, yp,
+              input_parts[1],
+              cex = text.size,
+              col = text.color,
+              xpd = xpd )
+      }
 
       #>> Close conditional on single line
     } else {
