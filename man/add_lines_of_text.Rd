@@ -89,7 +89,7 @@ or 'circle'.}
 }
 \description{
 A function to add multiple lines of
-text simultaneously to an existing path diagram
+text simultaneously to an existing path diagram.
 }
 \examples{
 # Empty figure

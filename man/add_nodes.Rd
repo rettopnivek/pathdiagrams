@@ -22,7 +22,7 @@ add_nodes(
   path.pad = 0.025,
   path.lwd = 2,
   path.col = "black",
-  path.length = 0.25,
+  path.length = 0.1,
   path.angle = 30,
   path.lty = 1,
   path.code = "->",
