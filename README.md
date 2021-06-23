@@ -4,13 +4,13 @@ The **pathdiagrams** package provides a set of functions to streamline creation 
 
 ## Prerequisites
 
-R (version > 4.0)
+R (version > 3.0)
 
 ## Installation
 
 ```{r}
 # Install development version from Github
-devtools::install_github("rettopnivek/arfpam")
+devtools::install_github("rettopnivek/pathdiagrams")
 ```
 
 ## Usage
@@ -18,5 +18,5 @@ devtools::install_github("rettopnivek/arfpam")
 One can see a complete list of the functions provided by **pathdiagrams** via the command:
 
 ```{r}
-ls(pos = "package:arfpam")
+ls(pos = "package:pathdiagrams")
 ```
