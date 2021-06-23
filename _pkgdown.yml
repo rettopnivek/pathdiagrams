@@ -1,0 +1,19 @@
+reference:
+- title: "Node and Text Functions"
+  desc: >
+    Functions to create figures and add
+    nodes and text to them.
+- contents:
+  - add_lines_of_text
+  - add_nodes
+  - add_node_shape
+  - create_base_figure
+- title: "Functions to Evaluate/Update Characteristics"
+  desc: >
+    Functions to evaluate the characteristics
+    of a node (i.e., size, position, content)
+    and update them as necessary.
+- contents:
+  - replace_with_values
+  - sep
+  - size
