@@ -8,7 +8,7 @@ add_lines_of_text(
   string,
   x = 0.5,
   y = 0.5,
-  spacing = 0.65,
+  spacing = 0.8,
   spacing.fixed = F,
   shape.pad = 0.5,
   shape.pad_first = T,
@@ -24,6 +24,7 @@ add_lines_of_text(
   shape.lty = 1,
   shape.x = NA,
   shape.y = NA,
+  xpd = NA,
   ...
 )
 }

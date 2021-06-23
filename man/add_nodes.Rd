@@ -25,7 +25,8 @@ add_nodes(
   path.length = 0.25,
   path.angle = 30,
   path.lty = 1,
-  path.code = "->"
+  path.code = "->",
+  xpd = NA
 )
 }
 \arguments{

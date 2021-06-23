@@ -13,7 +13,7 @@ create_base_figure(
   guidelines = T,
   guide_major = seq(0.1, 0.9, 0.1),
   guide_minor = seq(0.05, 0.95, 0.1),
-  guide_adjust = 3/4,
+  guide_adjust = 1.25,
   new = T
 )
 }

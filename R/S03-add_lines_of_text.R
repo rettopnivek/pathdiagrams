@@ -1,3 +1,74 @@
+# ...
+#
+# ...
+#
+# @param x
+# @param y
+# @param txt
+# @param cex
+# @param pos
+# @param ...
+
+plain_bold_italic_text <- function( x, y, txt, cex = 1,
+                                    pos = NULL, ... ) {
+
+  # fin_txt <- gsub( '*', '', txt, fixed = T )
+  # strwidth( fin_txt, cex = cex )
+
+  each_elem <- strsplit( txt, split = '*', fixed = T )[[1]]
+  each_elem[ each_elem != "" ]
+
+  each_elem = each_elem[ each_elem != "" ]
+
+  elem_type = rep( 1, length( each_elem ) )
+  for ( i in 1:length( elem_type ) ) {
+
+
+    if ( grepl( paste0( '*', each_elem[i] ), txt, fixed = T ) &
+         !grepl( '* ', paste0( '*', each_elem[i] ), fixed = T ) ) {
+      elem_type[i] = 3
+    }
+
+    if ( grepl( paste0( '**', each_elem[i] ), txt, fixed = T ) &
+         !grepl( '** ', paste0( '**', each_elem[i] ), fixed = T ) ) {
+      elem_type[i] = 2
+    }
+
+  }
+
+  elem_sz = strwidth( each_elem, cex = cex )
+
+  # half_elem_sz = elem_sz/2
+
+  # pst <- rep( NA, length( elem_sz ) )
+  pst = cumsum( elem_sz )
+  if ( is.null( pos ) ) {
+    x_pst = pst + x - sum( elem_sz )/2
+  } else {
+    if ( pos == 2 ) {
+      x_pst = pst + x - sum( elem_sz ) - elem_sz[1]
+    }
+    if ( pos == 4 ) {
+      x_pst = pst + x
+    }
+  }
+
+  txt_h = strheight(each_elem,
+                    cex = cex,
+                    font = elem_type )
+  y_pst = y - max( txt_h )/2
+
+  for ( i in 1:length( each_elem ) ) {
+
+    # Add text
+    text( x_pst[i], y_pst + txt_h[i]/2,
+          each_elem[i], cex = cex, pos = 2,
+          font = elem_type[i], ... )
+
+  }
+
+}
+
 #' Add Lines of Text to a Path Diagram
 #'
 #' A function to add multiple lines of
@@ -83,7 +154,7 @@
 add_lines_of_text = function( string,
                               x = .5,
                               y = .5,
-                              spacing = .65,
+                              spacing = .8,
                               spacing.fixed = F,
                               shape.pad = .5,
                               shape.pad_first = T,
@@ -288,10 +359,19 @@ add_lines_of_text = function( string,
       cur_x = nd_pos$right[1] - final_pad
     }
 
-    # Add text
-    text( cur_x, (y_pos[i] - y_top_bottom[1]) + y_top,
-          string[i], cex = cex[i], pos = pos,
-          col = col[i], offset = offset, xpd = xpd, ... )
+    if ( grepl( '*', string[i], fixed = T ) &
+         is.character( string[i] ) ) {
+      # Add text
+      plain_bold_italic_text(
+        cur_x, (y_pos[i] - y_top_bottom[1]) + y_top,
+        string[i], cex = cex[i], pos = pos,
+        col = col[i], offset = offset, xpd = xpd, ... )
+    } else {
+      # Add text
+      text( cur_x, (y_pos[i] - y_top_bottom[1]) + y_top,
+            string[i], cex = cex[i], pos = pos,
+            col = col[i], offset = offset, xpd = xpd, ... )
+    }
 
     # Close loop over lines
   }
@@ -309,4 +389,5 @@ add_lines_of_text = function( string,
     return( nd_pos )
   }
 }
+
 
