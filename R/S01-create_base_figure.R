@@ -51,7 +51,7 @@ create_base_figure = function( default = NULL,
                                guide_major = seq( .1, .9, .1 ),
                                guide_minor = seq( .05, .95, .1 ),
                                guide_adjust = 1.25,
-                               new = T ) {
+                               new = F ) {
 
   if ( !is.null( default ) ) {
 

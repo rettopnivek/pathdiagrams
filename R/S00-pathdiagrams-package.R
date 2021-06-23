@@ -9,6 +9,8 @@
 # library(devtools)
 # library(roxygen2)
 
+# Website URL: https://rettopnivek.github.io/pathdiagrams/
+
 #' Tools to Create Path Diagrams
 #'
 #' @docType package
