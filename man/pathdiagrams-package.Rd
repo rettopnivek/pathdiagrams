@@ -10,4 +10,7 @@ functions to streamline creation of path diagrams
 and flow charts. A complete list of the
 functions available in the package can be obtained
 via the command \code{ls(pos = "package:pathdiagrams")}.
+A website with function documentation and vignettes on
+how to use the package is available at
+https://rettopnivek.github.io/pathdiagrams/.
 }

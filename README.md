@@ -15,6 +15,10 @@ devtools::install_github("rettopnivek/pathdiagrams")
 
 ## Usage
 
+The **pathdiagrams** package has... 
+
+* An in-depth [tutorial](https://rettopnivek.github.io/pathdiagrams/articles/Tutorial.html)
+
 One can see a complete list of the functions provided by **pathdiagrams** via the command:
 
 ```{r}

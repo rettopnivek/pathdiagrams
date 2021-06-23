@@ -108,7 +108,8 @@ multiple_node_aes = function( tag,
 #   'text' function.
 
 plain_bold_italic_text <- function( x, y, txt, cex = 1,
-                                    pos = NULL, ... ) {
+                                    pos = NULL, offset = 0,
+                                    ... ) {
 
   # fin_txt <- gsub( '*', '', txt, fixed = T )
   # strwidth( fin_txt, cex = cex )
@@ -141,7 +142,7 @@ plain_bold_italic_text <- function( x, y, txt, cex = 1,
   # pst <- rep( NA, length( elem_sz ) )
   pst = cumsum( elem_sz )
   if ( is.null( pos ) ) {
-    x_pst = pst + x - sum( elem_sz )/2
+    x_pst = pst + x - sum( elem_sz )/2# - elem_sz[1]/2
   } else {
     if ( pos == 2 ) {
       x_pst = pst + x - sum( elem_sz ) - elem_sz[1]
@@ -161,7 +162,7 @@ plain_bold_italic_text <- function( x, y, txt, cex = 1,
     # Add text
     text( x_pst[i], y_pst + txt_h[i]/2,
           each_elem[i], cex = cex, pos = 2,
-          font = elem_type[i], ... )
+          font = elem_type[i], offset = offset, ... )
 
   }
 

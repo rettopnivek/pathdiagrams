@@ -147,6 +147,7 @@ text simultaneously to an existing path diagram.</p>
   shape.x <span class='op'>=</span> <span class='cn'>NA</span>,
   shape.y <span class='op'>=</span> <span class='cn'>NA</span>,
   xpd <span class='op'>=</span> <span class='cn'>NA</span>,
+  ignore_asterisk <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -243,6 +244,12 @@ or 'circle'.</p></td>
     <tr>
       <th>shape.y</th>
       <td><p>The fixed height for the y-axis.</p></td>
+    </tr>
+    <tr>
+      <th>ignore_asterisk</th>
+      <td><p>Logical; if <code>TRUE</code> ignores
+asterisks for dimension purposes since they are used
+to indicate bold/italic font.</p></td>
     </tr>
     <tr>
       <th>...</th>
