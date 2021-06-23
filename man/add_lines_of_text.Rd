@@ -25,6 +25,7 @@ add_lines_of_text(
   shape.x = NA,
   shape.y = NA,
   xpd = NA,
+  ignore_asterisk = TRUE,
   ...
 )
 }
@@ -83,6 +84,10 @@ or 'circle'.}
 \item{shape.x}{The fixed width for the x-axis.}
 
 \item{shape.y}{The fixed height for the y-axis.}
+
+\item{ignore_asterisk}{Logical; if \code{TRUE} ignores
+asterisks for dimension purposes since they are used
+to indicate bold/italic font.}
 
 \item{...}{Additional arguments to the
 \code{\link[graphics]{text}} function.}

@@ -40,6 +40,9 @@
 #' @param shape.lty The line type for the node.
 #' @param shape.x The fixed width for the x-axis.
 #' @param shape.y The fixed height for the y-axis.
+#' @param ignore_asterisk Logical; if \code{TRUE} ignores
+#'   asterisks for dimension purposes since they are used
+#'   to indicate bold/italic font.
 #' @param ... Additional arguments to the
 #'   \code{\link[graphics]{text}} function.
 #'
@@ -100,6 +103,7 @@ add_lines_of_text = function( string,
                               shape.x = NA,
                               shape.y = NA,
                               xpd = NA,
+                              ignore_asterisk = TRUE,
                               ... ) {
 
   # Number of lines
@@ -140,9 +144,20 @@ add_lines_of_text = function( string,
     if ( align[i] == 'left' ) pos = 4
     if ( align[i] == 'right' ) pos = 2
 
-    # Determine height of current string
-    sh = strheight( string[i], cex = cex[i] )
-    sw = strwidth( string[i], cex = cex[i] )
+    # Determine width/height of current string
+    if ( ignore_asterisk ) {
+      sh = strheight(
+        gsub( '*', '', string[i], fixed = T ),
+        cex = cex[i]
+      )
+      sw = strwidth(
+        gsub( '*', '', string[i], fixed = T ),
+        cex = cex[i]
+      )
+    } else {
+      sh = strheight( string[i], cex = cex[i] )
+      sw = strwidth( string[i], cex = cex[i] )
+    }
 
     # Save y-axis position for each line of text
     y_pos[i] = cur_y

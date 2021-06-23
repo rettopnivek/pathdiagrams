@@ -26,7 +26,8 @@ add_nodes(
   path.angle = 30,
   path.lty = 1,
   path.code = "->",
-  xpd = NA
+  xpd = NA,
+  ignore_asterisk = TRUE
 )
 }
 \arguments{
@@ -111,6 +112,10 @@ options for individual nodes can be specified with the
 tag \code{cd=}. Directions
 are specified with the symbols \code{->}, \code{<-},
 \code{<->}, or \code{-}.}
+
+\item{ignore_asterisk}{Logical; if \code{TRUE} ignores
+asterisks for dimension purposes since they are used
+to indicate bold/italic font.}
 }
 \description{
 Function to add multiple nodes (and associated

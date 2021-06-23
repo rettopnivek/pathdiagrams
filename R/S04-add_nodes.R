@@ -64,6 +64,9 @@
 #'   tag \code{cd=}. Directions
 #'   are specified with the symbols \code{->}, \code{<-},
 #'   \code{<->}, or \code{-}.
+#' @param ignore_asterisk Logical; if \code{TRUE} ignores
+#'   asterisks for dimension purposes since they are used
+#'   to indicate bold/italic font.
 #'
 #' @details
 #'
@@ -159,7 +162,8 @@ add_nodes = function( input,
                       path.angle = 30,
                       path.lty = 1,
                       path.code = '->',
-                      xpd = NA ) {
+                      xpd = NA,
+                      ignore_asterisk = TRUE ) {
 
   #< Default options for text spacing
   if ( is.null( text.spacing ) ) {
@@ -245,8 +249,19 @@ add_nodes = function( input,
     yp = as.numeric( gsub( 'y=', '', input_parts[3] ) )
 
     # Determine width/height of text
-    sw = strwidth( input_parts[1], cex = text.size )
-    sh = strheight( input_parts[1], cex = text.size )
+    if ( ignore_asterisk ) {
+      sh = strheight(
+        gsub( '*', '', input_parts[1], fixed = T ),
+        cex = text.size
+      )
+      sw = strwidth(
+        gsub( '*', '', input_parts[1], fixed = T ),
+        cex = text.size
+      )
+    } else {
+      sw = strwidth( input_parts[1], cex = text.size )
+      sh = strheight( input_parts[1], cex = text.size )
+    }
 
     # Pad dimensions of node to be slightly
     # larger than text content
