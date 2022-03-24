@@ -43,6 +43,8 @@
 #' @param ignore_asterisk Logical; if \code{TRUE} ignores
 #'   asterisks for dimension purposes since they are used
 #'   to indicate bold/italic font.
+#' @param add Logical; if \code{TRUE} adds nodes (and
+#'   paths if specified) to an existing figure.
 #' @param ... Additional arguments to the
 #'   \code{\link[graphics]{text}} function.
 #'
@@ -94,7 +96,7 @@ add_lines_of_text = function( string,
                               cex = 1.1,
                               col = 'black',
                               offset = 0,
-                              output = F,
+                              output = FALSE,
                               shape = 'blank',
                               shape.col = 'white',
                               shape.lwd = 2,
@@ -104,6 +106,7 @@ add_lines_of_text = function( string,
                               shape.y = NA,
                               xpd = NA,
                               ignore_asterisk = TRUE,
+                              add = TRUE,
                               ... ) {
 
   # Number of lines
@@ -145,7 +148,10 @@ add_lines_of_text = function( string,
     if ( align[i] == 'right' ) pos = 2
 
     # Determine width/height of current string
+
+    # If asterisks should be ignored
     if ( ignore_asterisk ) {
+
       sh = strheight(
         gsub( '*', '', string[i], fixed = T ),
         cex = cex[i]
@@ -154,16 +160,24 @@ add_lines_of_text = function( string,
         gsub( '*', '', string[i], fixed = T ),
         cex = cex[i]
       )
+
+      # Close 'If asterisks should be ignored'
     } else {
+
       sh = strheight( string[i], cex = cex[i] )
       sw = strwidth( string[i], cex = cex[i] )
+
+      # Close else for 'If asterisks should be ignored'
     }
 
     # Save y-axis position for each line of text
     y_pos[i] = cur_y
 
     # Variables to track dimensions of text box
+
+    # First line
     if ( i == 1 ) {
+
       # Top of text box
       y_top = cur_y + sh/2
       # Height of initial text
@@ -183,6 +197,7 @@ add_lines_of_text = function( string,
         x_left_right[2] = cur_x + sw/2
       }
 
+      # Close 'First line'
     } else {
 
       # Left and right limits of text box
@@ -199,25 +214,29 @@ add_lines_of_text = function( string,
         x_left_right[2] = max( x_left_right[2], cur_x + sw/2 )
       }
 
+      # Close else for 'First line'
     }
 
     # Determine spacing for next line
     if ( i < n ) {
+
       if ( !spacing.fixed ) {
         cur_y = cur_y - sh/2 - sh*spacing
       } else {
         cur_y = cur_y - sh/2 - spacing
       }
+
+      # Close 'Determine spacing for next line'
     }
 
-    # Close loop for lines of text
+    # Close 'Loop through lines of text'
   }
 
   # Height of final text
   last_sh = sh
 
+  # If spacing is based on first line
   if ( shape.pad_first ) {
-    # If spacing is based on first line
 
     y_top = y_top + first_sh*shape.pad
     y_bottom = cur_y - last_sh/2 - first_sh*shape.pad
@@ -227,7 +246,7 @@ add_lines_of_text = function( string,
 
     final_pad = first_sh*shape.pad
 
-    # Close conditional for first line
+    # Close 'If spacing is based on first line'
   } else {
     # If spacing is based on last line
 
@@ -239,7 +258,7 @@ add_lines_of_text = function( string,
 
     final_pad = last_sh*shape.pad
 
-    # Close conditional for last line
+    # Close else for 'If spacing is based on first line'
   }
 
   # Center based on user-supplied x and y coordinates
@@ -264,18 +283,24 @@ add_lines_of_text = function( string,
   nd_pos$bottomleft = c( x_left, y_bottom )
   nd_pos$topright = c( x_right, y_top )
 
-  # Add shape
-  pathdiagrams::add_node_shape(
-    nd_pos,
-    shape = shape,
-    shape.col = shape.col,
-    shape.lwd = shape.lwd,
-    shape.border = shape.border,
-    shape.lty = shape.lty,
-    shape.x = shape.x,
-    shape.y = shape.y
-  )
+  # If specified add shape
+  if ( add ) {
 
+    pathdiagrams::add_node_shape(
+      nd_pos,
+      shape = shape,
+      shape.col = shape.col,
+      shape.lwd = shape.lwd,
+      shape.border = shape.border,
+      shape.lty = shape.lty,
+      shape.x = shape.x,
+      shape.y = shape.y
+    )
+
+    # Close 'If specified add shape'
+  }
+
+  # If shape was added
   if ( !is.na( shape.x ) ) {
 
     nd_pos$left[1] = x_center - shape.x/2
@@ -286,6 +311,7 @@ add_lines_of_text = function( string,
     nd_pos$topright[1] = x_center + shape.x/2
     nd_pos$bottomright[1] = x_center + shape.x/2
 
+    # Close 'If shape was added'
   }
 
   # Loop over lines
@@ -303,21 +329,38 @@ add_lines_of_text = function( string,
       cur_x = nd_pos$right[1] - final_pad
     }
 
+    # If asterisk found
     if ( grepl( '*', string[i], fixed = T ) &
          is.character( string[i] ) ) {
-      # Add text
-      plain_bold_italic_text(
-        cur_x, (y_pos[i] - y_top_bottom[1]) + y_top,
-        string[i], cex = cex[i], pos = pos,
-        col = col[i], offset = offset, xpd = xpd, ... )
+
+      # If specified add text
+      if ( add ) {
+
+        plain_bold_italic_text(
+          cur_x, (y_pos[i] - y_top_bottom[1]) + y_top,
+          string[i], cex = cex[i], pos = pos,
+          col = col[i], offset = offset, xpd = xpd, ... )
+
+        # Close 'If specified add text'
+      }
+
+      # Close 'If asterisk found'
     } else {
-      # Add text
-      text( cur_x, (y_pos[i] - y_top_bottom[1]) + y_top,
-            string[i], cex = cex[i], pos = pos,
-            col = col[i], offset = offset, xpd = xpd, ... )
+
+      # If specified add text
+      if ( add ) {
+
+        text( cur_x, (y_pos[i] - y_top_bottom[1]) + y_top,
+              string[i], cex = cex[i], pos = pos,
+              col = col[i], offset = offset, xpd = xpd, ... )
+
+        # Close 'If specified add text'
+      }
+
+      # Close else for 'If asterisk found'
     }
 
-    # Close loop over lines
+    # Close 'Loop over lines'
   }
 
   # Debugging for text box dimensions

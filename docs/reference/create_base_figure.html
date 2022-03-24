@@ -73,7 +73,7 @@ with optional guidelines, for a diagram." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathdiagrams</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -132,11 +132,11 @@ with optional guidelines, for a diagram.</p>
   h <span class='op'>=</span> <span class='fl'>6</span>,
   orientation <span class='op'>=</span> <span class='st'>"landscape"</span>,
   margin <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>4</span><span class='op'>)</span>,
-  guidelines <span class='op'>=</span> <span class='cn'>T</span>,
+  guidelines <span class='op'>=</span> <span class='cn'>TRUE</span>,
   guide_major <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>0.9</span>, <span class='fl'>0.1</span><span class='op'>)</span>,
   guide_minor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.95</span>, <span class='fl'>0.1</span><span class='op'>)</span>,
   guide_adjust <span class='op'>=</span> <span class='fl'>1.25</span>,
-  new <span class='op'>=</span> <span class='cn'>F</span>
+  new <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -145,9 +145,10 @@ with optional guidelines, for a diagram.</p>
     <tr>
       <th>default</th>
       <td><p>Pre-packaged figure sizes, including...</p><ul>
-<li><p>'US letter' (11 x 8.5 inches);</p></li>
-<li><p>'4.6' (4.6 x 4.6 inches);</p></li>
-<li><p>'9.2 x 4.6' (in inches).</p></li>
+<li><p>'US letter' or '8.5 x 11' (inches);</p></li>
+<li><p>'3.54 x 3.54' (inches);</p></li>
+<li><p>'5 x 5' (inches);</p></li>
+<li><p>'7.25 x 5' (inches).</p></li>
 </ul></td>
     </tr>
     <tr>

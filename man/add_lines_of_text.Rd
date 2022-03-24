@@ -16,7 +16,7 @@ add_lines_of_text(
   cex = 1.1,
   col = "black",
   offset = 0,
-  output = F,
+  output = FALSE,
   shape = "blank",
   shape.col = "white",
   shape.lwd = 2,
@@ -26,6 +26,7 @@ add_lines_of_text(
   shape.y = NA,
   xpd = NA,
   ignore_asterisk = TRUE,
+  add = TRUE,
   ...
 )
 }
@@ -88,6 +89,9 @@ or 'circle'.}
 \item{ignore_asterisk}{Logical; if \code{TRUE} ignores
 asterisks for dimension purposes since they are used
 to indicate bold/italic font.}
+
+\item{add}{Logical; if \code{TRUE} adds nodes (and
+paths if specified) to an existing figure.}
 
 \item{...}{Additional arguments to the
 \code{\link[graphics]{text}} function.}

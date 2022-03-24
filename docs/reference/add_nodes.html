@@ -73,7 +73,7 @@ paths) to an existing path diagram." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathdiagrams</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -149,7 +149,8 @@ paths) to an existing path diagram.</p>
   path.lty <span class='op'>=</span> <span class='fl'>1</span>,
   path.code <span class='op'>=</span> <span class='st'>"-&gt;"</span>,
   xpd <span class='op'>=</span> <span class='cn'>NA</span>,
-  ignore_asterisk <span class='op'>=</span> <span class='cn'>TRUE</span>
+  ignore_asterisk <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  add <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -284,6 +285,11 @@ are specified with the symbols <code>-&gt;</code>, <code>&lt;-</code>,
       <td><p>Logical; if <code>TRUE</code> ignores
 asterisks for dimension purposes since they are used
 to indicate bold/italic font.</p></td>
+    </tr>
+    <tr>
+      <th>add</th>
+      <td><p>Logical; if <code>TRUE</code> adds nodes (and
+paths if specified) to an existing figure.</p></td>
     </tr>
     </table>
 

@@ -27,7 +27,8 @@ add_nodes(
   path.lty = 1,
   path.code = "->",
   xpd = NA,
-  ignore_asterisk = TRUE
+  ignore_asterisk = TRUE,
+  add = TRUE
 )
 }
 \arguments{
@@ -116,6 +117,9 @@ are specified with the symbols \code{->}, \code{<-},
 \item{ignore_asterisk}{Logical; if \code{TRUE} ignores
 asterisks for dimension purposes since they are used
 to indicate bold/italic font.}
+
+\item{add}{Logical; if \code{TRUE} adds nodes (and
+paths if specified) to an existing figure.}
 }
 \description{
 Function to add multiple nodes (and associated

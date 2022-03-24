@@ -5,9 +5,10 @@
 #'
 #' @param default Pre-packaged figure sizes, including...
 #'   \itemize{
-#'     \item 'US letter' (11 x 8.5 inches);
-#'     \item '4.6' (4.6 x 4.6 inches);
-#'     \item '9.2 x 4.6' (in inches).
+#'     \item 'US letter' or '8.5 x 11' (inches);
+#'     \item '3.54 x 3.54' (inches);
+#'     \item '5 x 5' (inches);
+#'     \item '7.25 x 5' (inches).
 #'   }
 #' @param w Width (in inches) for the x-axis.
 #' @param h Height (in inches) for the y-axis.
@@ -47,15 +48,19 @@ create_base_figure = function( default = NULL,
                                w = 6, h = 6,
                                orientation = 'landscape',
                                margin = rep( .25, 4 ),
-                               guidelines = T,
+                               guidelines = TRUE,
                                guide_major = seq( .1, .9, .1 ),
                                guide_minor = seq( .05, .95, .1 ),
                                guide_adjust = 1.25,
-                               new = F ) {
+                               new = FALSE ) {
 
+  # If a default argument is provided
   if ( !is.null( default ) ) {
 
-    if ( default %in% 'US letter' ) {
+    # US letter
+    if ( default %in% c( 'US letter',
+                         '8.5 x 11 in', '8.5 x 11' ) ) {
+
       if ( orientation %in% c( 'Landscape', 'landscape', 'wide', 'Wide' ) ) {
         w = 11
         h = 8.5
@@ -64,24 +69,48 @@ create_base_figure = function( default = NULL,
         w = 8.5
         h = 11
       }
+
+      # Close 'US letter'
     }
 
-    if ( default %in% c( '4.6 x 4.6 in', '4.6' ) ) {
-      w = 4.6
-      h = 4.6
+    # Science guidelines for figure sizes (small)
+    if ( default %in% c( '3.54 x 3.54 in', '3.54 x 3.54', '3.54',
+                         '9 x 9 cm', '9' ) ) {
+
+      w = 3.54
+      h = 3.54
+
+      # Close 'Science guidelines for figure sizes (small)'
     }
 
-    if ( default %in% '9.2 x 4.6' ) {
+    # Science guidelines for figure sizes (medium)
+    if ( default %in% c( '5 x 5 in', '5 x 5', '5',
+                         '12.7 x 12.7 cm', '12.7' ) ) {
+
+      w = 5
+      h = 5
+
+      # Close 'Science guidelines for figure sizes (medium)'
+    }
+
+    # Science guidelines for figure sizes (wide)
+    if ( default %in% c( '7.25 x 5 in', '7.25 x 5', '7.25',
+                         '18.4 x 12.7 cm', '18.4 x 12.7', '18.4' ) ) {
+
       if ( orientation %in% c( 'Landscape', 'landscape', 'wide', 'Wide' ) ) {
-        w = 9.2
-        h = 4.6
+        w = 7.25
+        h = 5
       }
+
       if ( orientation %in% c( 'Portrait', 'portrait', 'Tall', 'tall' ) ) {
-        w = 4.6
-        h = 9.2
+        w = 5
+        h = 7.25
       }
+
+      # Close 'Science guidelines for figure sizes (wide)'
     }
 
+    # Close 'If a default argument is provided'
   }
 
   # Create plotting window
@@ -98,6 +127,7 @@ create_base_figure = function( default = NULL,
     bty = 'n', type = 'n'
   )
 
+  # Add guidelines to figure
   if ( guidelines ) {
 
     plot_range = list(
@@ -117,6 +147,7 @@ create_base_figure = function( default = NULL,
                guide_major,
                col = 'grey85' )
 
+    # Lines at minor tick positions
     if ( !is.null( guide_minor ) ) {
 
       plot_range = list(
@@ -138,6 +169,7 @@ create_base_figure = function( default = NULL,
                  col = 'grey85',
                  lty = 3 )
 
+      # Close 'Lines at minor tick positions'
     }
 
     # Outer margins
@@ -174,6 +206,7 @@ create_base_figure = function( default = NULL,
       xpd = NA
     )
 
+    # Close 'Add guidelines to figure'
   }
 
   # Reset margins

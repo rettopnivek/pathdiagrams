@@ -263,3 +263,161 @@ replace_with_values <- function( x, values,
   return( out )
 }
 
+
+#' Evenly Distribute Nodes
+#'
+#' Function that determines new y or x-axis
+#' values for the centers of a set of nodes
+#' in order to evenly distribute nodes
+#' vertically or horizontally.
+#'
+#' @param nodes A list of lists, each list
+#'   giving the x and y coordinates for the
+#'   bottom, left, top, right and associated
+#'   corners for a given node (e.g., see output
+#'   of \code{\link{add_nodes}} or
+#'   \code{\link{add_lines_of_text}}).
+#' @param vertical Logical; if \code{TRUE} adjusts
+#'   y-axis positions to have even spaces; otherwise
+#'   adjusts x-axis positions to have even spaces.
+#' @param flush Logical; if \code{TRUE} the spacing for
+#'   nodes is calculated such that the first and last
+#'   nodes are flush with the margins.
+#' @param space An optional value for the space between
+#'   nodes; if \code{NULL} automatically calculated.
+#' @param digits Number of digits to round output vector.
+#'
+#' @return A vector of values, either the new x or
+#' y-axis values for the centers of the nodes.
+#'
+#' @examples
+#' # Example for vertical spacing
+#' create_base_figure( new = FALSE )
+#'
+#' # Uneven spacing for y-axis positions
+#' x_y <- c(
+#'   # x-axis
+#'   c( .3, .3, .3 ),
+#'   # y-axis
+#'   c( .9, .65, .2 )
+#' )
+#'
+#' # Input with placeholders for x and y-axis values
+#' draft_inputs <- c(
+#'   N01 = 'Line 1\nLine 2|x=[[1]]|y=[[4]]',
+#'   N02 = 'Line 1|x=[[2]]|y=[[5]]',
+#'   N03 = 'Line 1\nLine 2\nLine 3|x=[[3]]|y=[[6]]'
+#' )
+#' # Update with values from 'x_y'
+#' inputs <- replace_with_values( draft_inputs, x_y )
+#'
+#' # Add nodes to figure
+#' nodes <- add_nodes( inputs, output = TRUE )
+#'
+#' # Determine even y-axis positions
+#' new_y <- distribute( nodes )
+#' # Update 'inputs' with new values
+#' x_y[1:3] <- .7; x_y[4:6] <- new_y
+#' inputs <- replace_with_values( draft_inputs, x_y )
+#'
+#' # Add nodes to figure
+#' nodes <- add_nodes( inputs, output = TRUE )
+#'
+#' @export
+
+distribute <- function( nodes,
+                        vertical = TRUE, flush = FALSE,
+                        space = NULL, digits = 4 ) {
+
+  N <- length( nodes )
+
+  if ( N == 1 ) {
+    stop( 'Must have more than one node' )
+  }
+
+  # Vertical spacing
+  if ( vertical ) {
+
+    top <- sapply( 1:N, function(n) nodes[[n]]$top[2] )
+    center <- sapply( 1:N, function(n) nodes[[n]]$left[2] )
+    bottom <- sapply( 1:N, function(n) nodes[[n]]$bottom[2] )
+
+    H <- top - bottom
+
+    if ( is.null( space ) ) {
+      space <- 1 - sum( H )
+
+      dnm <- N+1
+      if ( flush ) dnm <- N-1
+
+      space <- space / dnm
+    }
+
+    new_center <- rep( NA, N )
+
+    if ( flush ) {
+      start_position <- 1
+    } else {
+      start_position <- 1 - space
+    }
+    for ( n in 1:N ) {
+
+      new_center[n] <- start_position - H[n]/2
+
+      start_position <-
+        start_position - H[n] - space
+
+    }
+
+    if ( !is.null( digits ) ) {
+      new_center <- round( new_center, digits )
+    }
+
+    return( new_center )
+
+    # Close 'Vertical spacing'
+  } else {
+
+    left <- sapply( 1:N, function(n) nodes[[n]]$left[1] )
+    center <- sapply( 1:N, function(n) nodes[[n]]$top[1] )
+    right <- sapply( 1:N, function(n) nodes[[n]]$right[1] )
+
+    W <- right - left
+
+    if ( is.null( space ) ) {
+      space <- 1 - sum( W )
+
+      dnm <- N+1
+      if ( flush ) dnm <- N-1
+
+      space <- space / dnm
+    }
+
+    new_center <- rep( NA, N )
+
+    if ( flush ) {
+      start_position <- 0
+    } else {
+      start_position <- space
+    }
+    for ( n in 1:N ) {
+
+      new_center[n] <- start_position + W[n]/2
+
+      start_position <-
+        start_position + W[n] + space
+
+    }
+
+    if ( !is.null( digits ) ) {
+      new_center <- round( new_center, digits )
+    }
+
+    return( new_center )
+
+    # Close else for 'Vertical spacing'
+  }
+
+}
+
+

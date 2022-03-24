@@ -54,10 +54,10 @@ add_node_shape = function( nd,
                            shape.y = NA,
                            xpd = NA ) {
 
-  #< Draw rectangle
+  # Draw rectangle
   if ( shape %in% c( 'box', 'rectangle', 'rect', 'square' ) ) {
 
-    #<< No fixed dimensions for the x-axis
+    # No fixed dimensions for the x-axis
     if ( is.na( shape.x ) ) {
 
       x_coord = c(
@@ -65,7 +65,7 @@ add_node_shape = function( nd,
         rep( nd$right[1], 2 )
       )
 
-      #>> Close conditional for no fixed dimensions
+      # Close 'No fixed dimensions for the x-axis'
     } else {
 
       x_coord = c(
@@ -73,11 +73,11 @@ add_node_shape = function( nd,
         rep( nd$bottom[1] + shape.x/2, 2 )
       )
 
-      #>> Close conditional for fixed dimensions
+      # Close else for 'No fixed dimensions for the x-axis'
     }
 
 
-    #<< No fixed dimensions for the y-axis
+    # No fixed dimensions for the y-axis
     if ( is.na( shape.y ) ) {
 
       y_coord = c(
@@ -86,7 +86,7 @@ add_node_shape = function( nd,
         nd$top[2]
       )
 
-      #> Close conditional for no fixed dimensions
+      # Close 'No fixed dimensions for the y-axis'
     } else {
 
       y_coord = c(
@@ -95,7 +95,7 @@ add_node_shape = function( nd,
         nd$left[2] - shape.y/2
       )
 
-      #>> Close conditional for fixed dimensions
+      # Close else for 'No fixed dimensions for the y-axis'
     }
 
     polygon( x_coord, y_coord,
@@ -105,37 +105,37 @@ add_node_shape = function( nd,
              lty = shape.lty,
              xpd = xpd )
 
-    #>> Close conditional for rectangle
+    # Close 'Draw rectangle'
   }
 
-  #< Draw ellipse
+  # Draw ellipse
   if ( shape %in% c( 'circle', 'ellipse', 'circ', 'ell' ) ) {
 
-    #<< No fixed dimensions for the x-axis
+    # No fixed dimensions for the x-axis
     if ( is.na( shape.x ) ) {
 
       x_coord = c( nd$left[1], nd$right[1] )
 
-      #>> Close conditional for no fixed dimensions
+      # Close 'No fixed dimensions for the x-axis'
     } else {
 
       x_coord = nd$center[1] + c( -shape.x/2, shape.x/2 )
 
-      #>> Close conditional for fixed dimensions
+      # Close else for 'No fixed dimensions for the x-axis'
     }
 
 
-    #<< No fixed dimensions for the y-axis
+    # No fixed dimensions for the y-axis
     if ( is.na( shape.y ) ) {
 
       y_coord = c( nd$bottom[2], nd$top[2] )
 
-      #>> Close conditional for no fixed dimensions
+      # Close 'No fixed dimensions for the y-axis'
     } else {
 
       y_coord = nd$center[2] + c( -shape.y/2, shape.y/2 )
 
-      #>> Close conditional for fixed dimensions
+      # Close else for 'No fixed dimensions for the y-axis'
     }
 
     xc = x_coord[1] + diff( x_coord )/2
@@ -167,7 +167,7 @@ add_node_shape = function( nd,
              lty = shape.lty,
              xpd = xpd )
 
-    #> Close conditional for ellipse
+    # Close 'Draw ellipse'
   }
 
 }

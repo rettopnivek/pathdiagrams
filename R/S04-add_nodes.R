@@ -67,6 +67,8 @@
 #' @param ignore_asterisk Logical; if \code{TRUE} ignores
 #'   asterisks for dimension purposes since they are used
 #'   to indicate bold/italic font.
+#' @param add Logical; if \code{TRUE} adds nodes (and
+#'   paths if specified) to an existing figure.
 #'
 #' @details
 #'
@@ -162,10 +164,12 @@ add_nodes = function( input,
                       path.angle = 30,
                       path.lty = 1,
                       path.code = '->',
+                      #  Misc. options
                       xpd = NA,
-                      ignore_asterisk = TRUE ) {
+                      ignore_asterisk = TRUE,
+                      add = TRUE ) {
 
-  #< Default options for text spacing
+  # Default options for text spacing
   if ( is.null( text.spacing ) ) {
 
     # Default
@@ -182,7 +186,7 @@ add_nodes = function( input,
 
     text.spacing = current_spacing * ( cur_text_h / def_text_h )
 
-    #< Close conditional for default options for text spacing
+    # Close 'Default options for text spacing'
   }
 
   # Specify default settings for node aesthetics
@@ -218,7 +222,7 @@ add_nodes = function( input,
   nd = lapply( 1:length( input ), function(x) nd_pos )
   names( nd ) = names( input )
 
-  #< Loop over inputs
+  # Loop over inputs
   for ( i in 1:length( input ) ) {
 
     # Extract details on current node
@@ -249,7 +253,10 @@ add_nodes = function( input,
     yp = as.numeric( gsub( 'y=', '', input_parts[3] ) )
 
     # Determine width/height of text
+
+    # If asterisks should be ignored
     if ( ignore_asterisk ) {
+
       sh = strheight(
         gsub( '*', '', input_parts[1], fixed = T ),
         cex = text.size
@@ -258,16 +265,21 @@ add_nodes = function( input,
         gsub( '*', '', input_parts[1], fixed = T ),
         cex = text.size
       )
+
+      # Close 'If asterisks should be ignored'
     } else {
+
       sw = strwidth( input_parts[1], cex = text.size )
       sh = strheight( input_parts[1], cex = text.size )
+
+      # Close else for 'If asterisks should be ignored'
     }
 
     # Pad dimensions of node to be slightly
     # larger than text content
     adj = sh * shape.pad
 
-    #<< x-axis lower and upper boundaries
+    # x-axis lower and upper boundaries
     if ( is.na( shape.x ) ) {
       # If no fixed dimensions are provided
 
@@ -275,16 +287,16 @@ add_nodes = function( input,
       xb = c( xp - sw/2 - adj,
               xp + sw/2 + adj )
 
-      #>> Close conditional on string dimensions
+      # Close 'x-axis lower and upper boundaries'
     } else {
 
       xb = c( xp - shape.x/2,
               xp + shape.x/2 )
 
-      #>> Close conditional on fixed dimensions
+      # Close else for 'x-axis lower and upper boundaries'
     }
 
-    #<< y-axis lower and upper boundaries
+    # y-axis lower and upper boundaries
     if ( is.na( shape.y ) ) {
       # If no fixed dimensions are provided
 
@@ -292,13 +304,13 @@ add_nodes = function( input,
       yb = c( yp - sh/2 - adj,
               yp + sh/2 + adj )
 
-      #>> Close conditional on string dimensions
+      # Close 'y-axis lower and upper boundaries'
     } else {
 
       yb = c( yp - shape.y/2,
               yp + shape.y/2 )
 
-      #>> Close conditional on fixed dimensions
+      # Close else for 'y-axis lower and upper boundaries'
     }
 
     # Coordinates for node
@@ -314,27 +326,34 @@ add_nodes = function( input,
     nd[[ i ]]$topleft = c( xb[1], yb[2] )
     nd[[ i ]]$topright = c( xb[2], yb[2] )
 
-    #<< Check if single line
+    # Check if single line
     if ( !grepl( '\n', input_parts[1], fixed = T ) ) {
 
       # Add shape around node
 
-      #<<< Draw a rectangle around the text
+      # Draw a rectangle around the text
       if ( shape %in% c( 'box', 'rectangle', 'rect', 'square' ) ) {
 
         # Draw shape
-        polygon( xb[c(1,1,2,2)],
-                 yb[c(1,2,2,1)],
-                 col = shape.col,
-                 border = shape.border,
-                 lwd = shape.lwd,
-                 lty = shape.lty,
-                 xpd = xpd )
+        if ( add ) {
 
-        #>>> Close conditional for rectangle
+          polygon(
+            xb[c(1,1,2,2)],
+            yb[c(1,2,2,1)],
+            col = shape.col,
+            border = shape.border,
+            lwd = shape.lwd,
+            lty = shape.lty,
+            xpd = xpd
+          )
+
+          # Close 'Draw shape'
+        }
+
+        # Close 'Draw a rectangle around the text'
       }
 
-      #<<< Draw an ellipse around node
+      # Draw an ellipse around node
       if ( shape %in% c( 'circle', 'ellipse', 'circ', 'ell' ) ) {
 
         # Distance of center to foci
@@ -355,36 +374,63 @@ add_nodes = function( input,
         yv = smna * sin( pts ) + yp
 
         # Draw shape
-        polygon( xv,
-                 yv,
-                 col = shape.col,
-                 border = shape.border,
-                 lwd = shape.lwd,
-                 lty = shape.lty,
-                 xpd = xpd  )
+        if ( add ) {
 
-        #>>> Close conditional for ellipse
+          polygon(
+            xv,
+            yv,
+            col = shape.col,
+            border = shape.border,
+            lwd = shape.lwd,
+            lty = shape.lty,
+            xpd = xpd
+          )
+
+          # Close 'Draw shape'
+        }
+
+        # Close 'Draw an ellipse around node'
       }
 
-      # Add text content
+      # If asterisk found
       if ( grepl( '*', input_parts[1], fixed = T ) &
            is.character( input_parts[1] ) ) {
-        # Add text
-        plain_bold_italic_text(
-          xp, yp,
-          input_parts[1], cex = text.size,
-          col = text.color, xpd = xpd )
+
+        # If specified add text
+        if ( add ) {
+
+          plain_bold_italic_text(
+            xp, yp,
+            input_parts[1], cex = text.size,
+            col = text.color, xpd = xpd
+          )
+
+          # Close 'If specified add text'
+        }
+
+        # Close 'If asterisk found'
       } else {
-        # Add text
-        text( xp, yp,
-              input_parts[1],
-              cex = text.size,
-              col = text.color,
-              xpd = xpd )
+
+        # If specified add text
+        if ( add ) {
+
+          text(
+            xp, yp,
+            input_parts[1],
+            cex = text.size,
+            col = text.color,
+            xpd = xpd
+          )
+
+          # Close 'If specified add text'
+        }
+
+        # Close else for 'If asterisk found'
       }
 
-      #>> Close conditional on single line
+      # Close 'Check if single line'
     } else {
+      # Multiple lines
 
       string_vector = strsplit( input_parts[1],
                                 split = '\n', fixed = T )[[1]]
@@ -404,12 +450,13 @@ add_nodes = function( input,
         shape.x = shape.x,
         shape.y = shape.y,
         xpd = xpd,
-        output = T
+        output = TRUE,
+        add = add
       )
       # spacing
       # spacing.fixed
 
-      #>> Close conditional on multiple lines
+      # Close else for 'Check if single line'
     }
 
     # Debugging for node dimensions
@@ -421,11 +468,10 @@ add_nodes = function( input,
       }
     }
 
-    #> Close loop over node inputs
+    # Close 'Loop over inputs'
   }
 
-  # Check if vector of inputs for arrows
-  # was provided
+  # If inputs for paths found
   if ( !is.null( paths ) ) {
 
     # Loop over inputs
@@ -552,20 +598,27 @@ add_nodes = function( input,
       }
 
       # Draw path
-      arrows( start_pos[1], start_pos[2],
-              end_pos[1], end_pos[2],
-              code = arrow_type,
-              length = path.length,
-              angle = path.angle,
-              col = path.col,
-              lty = path.lty,
-              lwd = path.lwd,
-              xpd = xpd )
+      if ( add ) {
 
-      # Close loop over inputs
+        arrows(
+          start_pos[1], start_pos[2],
+          end_pos[1], end_pos[2],
+          code = arrow_type,
+          length = path.length,
+          angle = path.angle,
+          col = path.col,
+          lty = path.lty,
+          lwd = path.lwd,
+          xpd = xpd
+        )
+
+        # Close 'Draw path'
+      }
+
+      # Close 'Loop over inputs'
     }
 
-    # Close conditional on 'paths' argument
+    # Close 'If inputs for paths found'
   }
 
   # If specified return output

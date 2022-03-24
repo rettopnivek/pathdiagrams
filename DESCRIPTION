@@ -1,6 +1,6 @@
 Package: pathdiagrams
 Title: Tools to Create Path Diagrams
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: person("Kevin", "Potter",
   email = "kevin.w.potter@gmail.com", role = c("aut", "cre"))
 Description:
@@ -12,7 +12,7 @@ Depends:
 License: MIT + License
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     knitr,
     rmarkdown

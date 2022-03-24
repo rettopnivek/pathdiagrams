@@ -17,3 +17,4 @@ reference:
   - replace_with_values
   - sep
   - size
+  - distribute

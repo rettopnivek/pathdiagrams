@@ -10,19 +10,20 @@ create_base_figure(
   h = 6,
   orientation = "landscape",
   margin = rep(0.25, 4),
-  guidelines = T,
+  guidelines = TRUE,
   guide_major = seq(0.1, 0.9, 0.1),
   guide_minor = seq(0.05, 0.95, 0.1),
   guide_adjust = 1.25,
-  new = F
+  new = FALSE
 )
 }
 \arguments{
 \item{default}{Pre-packaged figure sizes, including...
 \itemize{
-  \item 'US letter' (11 x 8.5 inches);
-  \item '4.6' (4.6 x 4.6 inches);
-  \item '9.2 x 4.6' (in inches).
+  \item 'US letter' or '8.5 x 11' (inches);
+  \item '3.54 x 3.54' (inches);
+  \item '5 x 5' (inches);
+  \item '7.25 x 5' (inches).
 }}
 
 \item{w}{Width (in inches) for the x-axis.}

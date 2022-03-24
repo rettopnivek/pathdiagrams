@@ -3,13 +3,16 @@
 # email: kevin.w.potter@gmail.com
 # Please email me directly if you
 # have any questions or comments
-# Last updated 2021-06-23
+# Last updated 2022-03-24
 
 # Package development
 # library(devtools)
 # library(roxygen2)
 
 # Website URL: https://rettopnivek.github.io/pathdiagrams/
+
+# To update documentation
+# devtools::document()
 
 # To build website
 # pkgdown::build_site()
