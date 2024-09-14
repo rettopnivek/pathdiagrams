@@ -4,16 +4,19 @@ reference:
     Functions to create figures and add
     nodes and text to them.
 - contents:
+  - pd_base_figure
+  - pd_node
+  - pd_node_dimensions
+  - pd_draw_nodes
+- title: "Legacy functions"
+  desc: >
+    Functions from version 1.0.0 of the package,
+    included for backwards compatibility.
+- contents:
   - add_lines_of_text
   - add_nodes
   - add_node_shape
   - create_base_figure
-- title: "Functions to Evaluate/Update Characteristics"
-  desc: >
-    Functions to evaluate the characteristics
-    of a node (i.e., size, position, content)
-    and update them as necessary.
-- contents:
   - replace_with_values
   - sep
   - size
