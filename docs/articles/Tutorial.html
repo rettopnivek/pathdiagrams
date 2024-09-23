@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tutorial • pathdiagrams</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathdiagrams</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -69,7 +65,7 @@
 
       
 
-      </header><script src="Tutorial_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial</h1>
@@ -83,10 +79,10 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">pathdiagrams</span><span class="op">)</span></code></pre></div>
-<div id="table-of-contents" class="section level2">
-<h2 class="hasAnchor">
-<a href="#table-of-contents" class="anchor"></a>Table of contents</h2>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pathdiagrams</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="table-of-contents">Table of contents<a class="anchor" aria-label="anchor" href="#table-of-contents"></a>
+</h2>
 <ol style="list-style-type: decimal">
 <li>Introduction</li>
 <li>Creating a diagram and adding nodes</li>
@@ -97,244 +93,267 @@
 <li>Arrows and lines connecting nodes</li>
 </ol>
 </div>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>1) Introduction</h2>
-<p>The <em>pathdiagrams</em> package provides an extension to base R’s plotting tools for creating various types of path diagrams. The package can be used to help create diagrams displaying various structural equation model (SEM) analyses, such as factor or path analyses. The package can also be used to create CONSORT-type diagrams (subject enrollment and retention in a study).</p>
+<div class="section level2">
+<h2 id="introduction">1) Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>The <em>pathdiagrams</em> package provides an extension to base R’s
+plotting tools for creating various types of path diagrams. The package
+can be used to help create diagrams displaying various structural
+equation model (SEM) analyses, such as factor or path analyses. The
+package can also be used to create CONSORT-type diagrams (subject
+enrollment and retention in a study).</p>
 </div>
-<div id="creating-a-diagram-and-adding-nodes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#creating-a-diagram-and-adding-nodes" class="anchor"></a>2) Creating a diagram and adding nodes</h2>
-<p>Creation of a path diagram proceeds in two steps:</p>
+<div class="section level2">
+<h2 id="creating-a-diagram-and-adding-nodes">2) Creating a diagram and adding nodes<a class="anchor" aria-label="anchor" href="#creating-a-diagram-and-adding-nodes"></a>
+</h2>
+<p>Creation of a path diagram proceeds in three steps:</p>
 <ol style="list-style-type: decimal">
-<li>Create a blank figure using ‘create_base_figure’;
+<li>Create a blank figure using ‘pd_base_figure’;
 <ul>
 <li>The x and y-axis boundaries for the figure are between 0 and 1.</li>
 <li>By default, guidelines are provided to help with positioning.</li>
 </ul>
 </li>
-<li>Add nodes and lines/arrows via functions like ‘add_nodes’.
+<li>Create a list with details on the nodes to draw using ‘pd_node’;
 <ul>
-<li>Nodes can be created via the ‘add_nodes’ function per an input string of the format: ‘Text content|x=value|y=value’.</li>
-<li>Nodes are created centered at the specified x and y-axis values.</li>
-<li>Multiple nodes can be created by providing a vector of text strings.</li>
+<li>The function needs a name for the node, a vector giving the x and
+y-axis locations, and the text content for the node.</li>
+<li>Nodes are created centered at the specified x and y-axis
+values.</li>
+<li>Multiple calls to ‘pd_node’ can be strung together using the pipe
+operator ‘|&gt;’.</li>
+</ul>
+</li>
+<li>Draw the nodes on the figure using ‘pd_draw_node’.
+<ul>
+<li>Global options (fill color for the nodes, line width, etc.) can be
+specified.</li>
 </ul>
 </li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Creates a base figure with lower and upper limits from </span>
-<span class="co"># 0 to 1. By default, figure is 6 x 6 inches (? x ? cm), </span>
-<span class="co"># and has guidelines to aid with development and </span>
-<span class="co"># positioning for the diagram.</span>
-<span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span>
-
-<span class="co"># Add a rectangle with the text 'Node-01' centered at </span>
-<span class="co"># the (x,y) coordinates (0.3,0.8). Input is formatted </span>
-<span class="co"># as: 'Text|x=coordinate|y=coordinate' - each element </span>
-<span class="co"># is separated by the '|' symbol.</span>
-<span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="st">'Node-01|x=.3|y=.8'</span> <span class="op">)</span>
-
-<span class="co"># Add multiple nodes with text at different y-axis </span>
-<span class="co"># positions.</span>
-<span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="st">'Node-02|x=.3|y=.6'</span>, <span class="st">'Node-03|x=.3|y=.4'</span> <span class="op">)</span> <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Creates a base figure with lower and upper limits from 0 to 1</span></span>
+<span><span class="fu"><a href="../reference/pd_base_figure.html">pd_base_figure</a></span><span class="op">(</span> new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Specify nodes to add</span></span>
+<span><span class="va">lst_nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span> </span>
+<span>    <span class="st">'N01'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">.3</span>, y <span class="op">=</span> <span class="fl">.8</span><span class="op">)</span>, string <span class="op">=</span> <span class="st">'Node-01'</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span> </span>
+<span>    <span class="st">'N02'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">.3</span>, y <span class="op">=</span> <span class="fl">.6</span><span class="op">)</span>, string <span class="op">=</span> <span class="st">'Node-02'</span>,</span>
+<span>    <span class="co"># Connect line from Node-02 to Node-01</span></span>
+<span>    to <span class="op">=</span> <span class="st">'top - N01.bottom'</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span> </span>
+<span>    <span class="st">'N03'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">.3</span>, y <span class="op">=</span> <span class="fl">.4</span><span class="op">)</span>, string <span class="op">=</span> <span class="st">'Node-03'</span>,</span>
+<span>    <span class="co"># Connect line from Node-03 to Node-02</span></span>
+<span>    to <span class="op">=</span> <span class="st">'top - N02.bottom'</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Draw nodes on figure, setting all node backgrounds to white via </span></span>
+<span><span class="co"># 'col' argument in the 'polygon' function</span></span>
+<span><span class="fu"><a href="../reference/pd_draw_nodes.html">pd_draw_nodes</a></span><span class="op">(</span> <span class="va">lst_nodes</span>, args.polygon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span> col <span class="op">=</span> <span class="st">'white'</span> <span class="op">)</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="Tutorial_files/figure-html/unnamed-chunk-2-1.png" width="339.84"></p>
 </div>
-<div id="determining-spacing-between-nodes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#determining-spacing-between-nodes" class="anchor"></a>3) Determining spacing between nodes</h2>
-<p>Once nodes have been created, it can be helpful to know the dimensions of a node and the distance between two nodes. Furthermore, we often will want to adjust node locations so that two nodes are a fixed distance apart from each other. The <em>pathdiagrams</em> package provides several built-in functions to allow users to quickly compute these values. For example, consider the creation of two nodes, ‘N01’ and ‘N02’:</p>
+<div class="section level2">
+<h2 id="determining-spacing-between-nodes">3) Determining spacing between nodes<a class="anchor" aria-label="anchor" href="#determining-spacing-between-nodes"></a>
+</h2>
+<p>Rather than specifying values for the x and y-axis, users can instead
+specify the location of subsequent nodes relative to a previously
+created node, to facilitate adding nodes with equivalent distances from
+each other.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span>
-
-<span class="co"># Initial creation of nodes</span>
-<span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  N01 <span class="op">=</span> <span class="st">'Node-01|x=.3|y=.861'</span>,
-  N02 <span class="op">=</span> <span class="st">'Node-02|x=.3|y=.339'</span>
-<span class="op">)</span>
-<span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, output <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pd_base_figure.html">pd_base_figure</a></span><span class="op">(</span> new <span class="op">=</span> <span class="cn">FALSE</span>, guidelines <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">lst_nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="co"># Specify first node</span></span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span> </span>
+<span>    <span class="st">'N01'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> x <span class="op">=</span> <span class="fl">.5</span>, y <span class="op">=</span> <span class="fl">.9</span> <span class="op">)</span>, string <span class="op">=</span> <span class="st">'Node-01'</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="co"># Subsequent node locations are relative to first node, based on node's height </span></span>
+<span>  <span class="co"># and width</span></span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span> </span>
+<span>    <span class="st">'N02'</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> N01.center <span class="op">=</span> <span class="op">-</span><span class="fl">1.25</span>, N01.bottom <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span> <span class="op">)</span>, string <span class="op">=</span> <span class="st">'Node-02'</span>,</span>
+<span>    to <span class="op">=</span> <span class="st">'top - N01.bottom'</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span> </span>
+<span>    <span class="st">'N03'</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> N01.center <span class="op">=</span> <span class="fl">0</span>, N01.bottom <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span> <span class="op">)</span>, string <span class="op">=</span> <span class="st">'Node-03'</span>,</span>
+<span>    to <span class="op">=</span> <span class="st">'top - N01.bottom'</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span> </span>
+<span>    <span class="st">'N04'</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> N01.center <span class="op">=</span> <span class="fl">1.25</span>, N01.bottom <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span> <span class="op">)</span>, string <span class="op">=</span> <span class="st">'Node-04'</span>,</span>
+<span>    to <span class="op">=</span> <span class="st">'top - N01.bottom'</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/pd_draw_nodes.html">pd_draw_nodes</a></span><span class="op">(</span> <span class="va">lst_nodes</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="Tutorial_files/figure-html/unnamed-chunk-3-1.png" width="339.84"></p>
+</div>
+<div class="section level2">
+<h2 id="node-aesthetics-shape-fill-color-etc-">4) Node aesthetics (shape, fill color, etc.)<a class="anchor" aria-label="anchor" href="#node-aesthetics-shape-fill-color-etc-"></a>
+</h2>
+<p>Users can provide lists of arguments to change node and text
+characteristics:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Determine size of node 'N01'</span>
-<span class="fu"><a href="../reference/size.html">size</a></span><span class="op">(</span> <span class="va">nodes</span><span class="op">$</span><span class="va">N01</span> <span class="op">)</span>
-<span class="co">#&gt;     width    height </span>
-<span class="co">#&gt; 0.3380210 0.1074443</span>
-
-<span class="co"># Determine distance between nodes </span>
-<span class="co"># along the y-axis</span>
-<span class="fu"><a href="../reference/sep.html">sep</a></span><span class="op">(</span> <span class="va">nodes</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="st">'N01'</span>, <span class="st">'N02'</span> <span class="op">)</span>, 
-     dimension <span class="op">=</span> <span class="st">'y-axis'</span> <span class="op">)</span>
-<span class="co">#&gt; [1] 0.4145557</span>
-
-<span class="co"># Determine new y-axis position </span>
-<span class="co"># for 'N02' so that it is the </span>
-<span class="co"># desired distance from 'N01'</span>
-<span class="fu"><a href="../reference/sep.html">sep</a></span><span class="op">(</span> <span class="va">nodes</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="st">'N01'</span>, <span class="st">'N02'</span> <span class="op">)</span>, 
-     dimension <span class="op">=</span> <span class="st">'y-axis'</span>, desired <span class="op">=</span> <span class="fl">.1</span> <span class="op">)</span>
-<span class="co">#&gt;               new_y </span>
-<span class="co">#&gt; 0.4145557 0.6535557</span></code></pre></div>
-<p>Once we have determined the new y-axis coordinate, we can update the code for the node creation such that the nodes ‘N01’ and ‘N02’ are the appropriate distance apart from each other:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span>
-
-<span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  N01 <span class="op">=</span> <span class="st">'Node-01|x=.3|y=.861'</span>,
-  N02 <span class="op">=</span> <span class="st">'Node-02|x=.3|y=.639'</span>
-<span class="op">)</span>
-<span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, output <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pd_base_figure.html">pd_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">lst_nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span></span>
+<span>    <span class="st">'N01'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> x <span class="op">=</span> <span class="fl">.25</span>, y <span class="op">=</span> <span class="fl">.7</span> <span class="op">)</span>, string <span class="op">=</span> <span class="st">'N01'</span>,</span>
+<span>    <span class="co"># Node is an ellipse instead of a rectangle</span></span>
+<span>    shape <span class="op">=</span> <span class="st">'ellipse'</span>, </span>
+<span>    <span class="co"># Change color and line width of border for node</span></span>
+<span>    args.polygon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span> col <span class="op">=</span> <span class="st">'grey'</span>, lwd <span class="op">=</span> <span class="fl">3</span> <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span></span>
+<span>    <span class="st">'N02'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> x <span class="op">=</span> <span class="fl">.75</span>, y <span class="op">=</span> <span class="fl">.7</span> <span class="op">)</span>, string <span class="op">=</span> <span class="st">'N02'</span>,</span>
+<span>    <span class="co"># Change font size and color</span></span>
+<span>    args.text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span> cex <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">'red'</span> <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/pd_node.html">pd_node</a></span><span class="op">(</span></span>
+<span>    <span class="st">'N03'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> x <span class="op">=</span> <span class="fl">.5</span>, x <span class="op">=</span> <span class="fl">.3</span> <span class="op">)</span>, string <span class="op">=</span> <span class="st">'N03'</span>,</span>
+<span>    to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="st">'top &lt;- N01.bottom'</span>, <span class="st">'top -&gt; N02.bottom'</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="co"># Change line width and color</span></span>
+<span>    args.arrows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>      col <span class="op">=</span> <span class="st">'blue'</span>, lwd <span class="op">=</span> <span class="fl">3</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/pd_draw_nodes.html">pd_draw_nodes</a></span><span class="op">(</span> <span class="va">lst_nodes</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="Tutorial_files/figure-html/unnamed-chunk-4-1.png" width="339.84"></p>
 </div>
-<div id="node-aesthetics-shape-fill-color-etc-" class="section level2">
-<h2 class="hasAnchor">
-<a href="#node-aesthetics-shape-fill-color-etc-" class="anchor"></a>4) Node aesthetics (shape, fill color, etc.)</h2>
-<p>Multiple options controlling the aesthetics of a node can be included. Options, separated by the pipe symbol ‘|’, are added to the end of the input string with the text content and x and y-axis position. Options for nodes are in the form ‘n_=’ with the underscore replaced by an appropriate letter. For example, to change a node’s fill color to red, the full input string would be:</p>
-<p>‘Text content|x=value|y=value|nc=red’</p>
-<p>The following figure showcases the range of options and how the options should be specified:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span>
-
-<span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  <span class="co"># Change shape to ellipse</span>
-  N01 <span class="op">=</span> <span class="st">'Node-01|x=.5|y=.9|ns=circle'</span>,
-  <span class="co"># Change fill color to grey</span>
-  N02 <span class="op">=</span> <span class="st">'Node-02|x=.5|y=.7|nc=grey80'</span>,
-  <span class="co"># Change border color to red</span>
-  N03 <span class="op">=</span> <span class="st">'Node-03|x=.5|y=.5|nb=red'</span>,
-  <span class="co"># Change padding around text</span>
-  N03a <span class="op">=</span> <span class="st">'Node-03a|x=.175|y=.5|np=1.5'</span>,
-  <span class="co"># Change padding around text</span>
-  N03b <span class="op">=</span> <span class="st">'Node-03b|x=.825|y=.5|nx=.23|ny=.15'</span>,
-  <span class="co"># Change border width</span>
-  N04 <span class="op">=</span> <span class="st">'Node-04|x=.5|y=.3|nw=4'</span>,
-  <span class="co"># Change border type</span>
-  N05 <span class="op">=</span> <span class="st">'Node-05|x=.5|y=.1|nt=3'</span>
-<span class="op">)</span>
-<span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, output <span class="op">=</span> <span class="cn">TRUE</span>, text.size <span class="op">=</span> <span class="fl">.85</span> <span class="op">)</span>
-
-<span class="co"># How to specify options</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="fl">.5</span>, <span class="fl">.5</span>, <span class="fl">.5</span>, <span class="fl">.175</span>, <span class="fl">.825</span>, <span class="fl">.5</span>, <span class="fl">.5</span> <span class="op">)</span>, 
-      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="fl">.825</span>, <span class="fl">.625</span>, <span class="fl">0.425</span>, <span class="fl">.375</span>, <span class="fl">.38</span>, <span class="fl">.225</span>, <span class="fl">.025</span> <span class="op">)</span>,
-      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="st">'ns=circle'</span>, <span class="st">'nc=grey80'</span>, <span class="st">'nb=red'</span>, 
-         <span class="st">'np=1.5'</span>, <span class="st">'nx=.23|ny=.15'</span>, <span class="st">'nw=4'</span>, 
-         <span class="st">'nt=3'</span> <span class="op">)</span>,
-      cex <span class="op">=</span> <span class="fl">.85</span>, xpd <span class="op">=</span> <span class="cn">NA</span>
-<span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="text-aesthetics-size-color-etc-">5) Text aesthetics (size, color, etc.)<a class="anchor" aria-label="anchor" href="#text-aesthetics-size-color-etc-"></a>
+</h2>
+<p>Multiple options are also available for controlling the aesthetics of
+the text content of a node. Again, options separated by the pipe symbol
+‘|; are added to the end of the input string. Options for text
+aesthetics are in the form ’t_=’ with the underscore replaced by an
+appropriate letter. For example, to change the color of the text in a
+node to red, the full input string would be:</p>
+<p>‘Text content|x=value|y=value|tc=red’</p>
+<p>The following figure showcases the range of options and how the
+options should be specified:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="co"># Change text size</span></span>
+<span>  N01 <span class="op">=</span> <span class="st">'Text-01|x=.5|y=.9|ts=2'</span>,</span>
+<span>  <span class="co"># Change text color</span></span>
+<span>  N02 <span class="op">=</span> <span class="st">'Text-02|x=.5|y=.65|tc=red'</span>,</span>
+<span>  <span class="co"># Multiple lines of text</span></span>
+<span>  N03 <span class="op">=</span> <span class="st">'Text-03\nText-04|x=.5|y=.4'</span>,</span>
+<span>  <span class="co"># Change spacing between lines</span></span>
+<span>  N04 <span class="op">=</span> <span class="st">'Text-05\nText-06|x=.5|y=.15|th=.08'</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, output <span class="op">=</span> <span class="cn">TRUE</span>, text.size <span class="op">=</span> <span class="fl">.85</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># How to specify options</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span> <span class="fl">.5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="fl">.78</span>, <span class="fl">.58</span>, <span class="fl">.02</span> <span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="st">'ts=2'</span>, <span class="st">'tc=red'</span>, <span class="st">'th=.08'</span> <span class="op">)</span>,</span>
+<span>      cex <span class="op">=</span> <span class="fl">.85</span>, xpd <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="Tutorial_files/figure-html/unnamed-chunk-5-1.png" width="339.84"></p>
 </div>
-<div id="text-aesthetics-size-color-etc-" class="section level2">
-<h2 class="hasAnchor">
-<a href="#text-aesthetics-size-color-etc-" class="anchor"></a>5) Text aesthetics (size, color, etc.)</h2>
-<p>Multiple options are also available for controlling the aesthetics of the text content of a node. Again, options separated by the pipe symbol ‘|; are added to the end of the input string. Options for text aesthetics are in the form ’t_=’ with the underscore replaced by an appropriate letter. For example, to change the color of the text in a node to red, the full input string would be:</p>
-<p>‘Text content|x=value|y=value|tc=red’</p>
-<p>The following figure showcases the range of options and how the options should be specified:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span>
-
-<span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  <span class="co"># Change text size</span>
-  N01 <span class="op">=</span> <span class="st">'Text-01|x=.5|y=.9|ts=2'</span>,
-  <span class="co"># Change text color</span>
-  N02 <span class="op">=</span> <span class="st">'Text-02|x=.5|y=.65|tc=red'</span>,
-  <span class="co"># Multiple lines of text</span>
-  N03 <span class="op">=</span> <span class="st">'Text-03\nText-04|x=.5|y=.4'</span>,
-  <span class="co"># Change spacing between lines</span>
-  N04 <span class="op">=</span> <span class="st">'Text-05\nText-06|x=.5|y=.15|th=.08'</span>
-<span class="op">)</span>
-<span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, output <span class="op">=</span> <span class="cn">TRUE</span>, text.size <span class="op">=</span> <span class="fl">.85</span> <span class="op">)</span>
-
-<span class="co"># How to specify options</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span> <span class="fl">.5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="fl">.78</span>, <span class="fl">.58</span>, <span class="fl">.02</span> <span class="op">)</span>,
-      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="st">'ts=2'</span>, <span class="st">'tc=red'</span>, <span class="st">'th=.08'</span> <span class="op">)</span>,
-      cex <span class="op">=</span> <span class="fl">.85</span>, xpd <span class="op">=</span> <span class="cn">NA</span>
-<span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="bold-and-italic-text">6) Bold and italic text<a class="anchor" aria-label="anchor" href="#bold-and-italic-text"></a>
+</h2>
+<p>Forthcoming.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="co"># Bold text</span></span>
+<span>  N01 <span class="op">=</span> <span class="st">'**Bold** text|x=.5|y=.9'</span>,</span>
+<span>  N02 <span class="op">=</span> <span class="st">'**Bold** text\n   More  **Bold** text|x=.5|y=.65'</span>,</span>
+<span>  <span class="co"># Italic text</span></span>
+<span>  N01 <span class="op">=</span> <span class="st">'*Italic* text|x=.5|y=.4'</span>,</span>
+<span>  N02 <span class="op">=</span> <span class="st">'*Italic* text\n   More *italic* text|x=.5|y=.15'</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, output <span class="op">=</span> <span class="cn">TRUE</span>, text.size <span class="op">=</span> <span class="fl">.85</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="Tutorial_files/figure-html/unnamed-chunk-6-1.png" width="339.84"></p>
 </div>
-<div id="bold-and-italic-text" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bold-and-italic-text" class="anchor"></a>6) Bold and italic text</h2>
-<p>Forthcoming.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span>
-
-<span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  <span class="co"># Bold text</span>
-  N01 <span class="op">=</span> <span class="st">'**Bold** text|x=.5|y=.9'</span>,
-  N02 <span class="op">=</span> <span class="st">'**Bold** text\n   More  **Bold** text|x=.5|y=.65'</span>,
-  <span class="co"># Italic text</span>
-  N01 <span class="op">=</span> <span class="st">'*Italic* text|x=.5|y=.4'</span>,
-  N02 <span class="op">=</span> <span class="st">'*Italic* text\n   More *italic* text|x=.5|y=.15'</span>
-<span class="op">)</span>
-<span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, output <span class="op">=</span> <span class="cn">TRUE</span>, text.size <span class="op">=</span> <span class="fl">.85</span> <span class="op">)</span></code></pre></div>
-<p><img src="Tutorial_files/figure-html/unnamed-chunk-7-1.png" width="339.84"></p>
-</div>
-<div id="arrows-and-lines-connecting-nodes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#arrows-and-lines-connecting-nodes" class="anchor"></a>7) Arrows and lines connecting nodes</h2>
-<p>The <em>pathdiagrams</em> package also allows a user to add either arrows or lines to connect nodes. Details of what lines to draw and the aesthetics of these lines are specified via a call to the ‘paths’ argument for the ‘add_nodes’ function.</p>
-<p>When nodes are labeled, a line from one node to another can be added via a input string of the following form:</p>
+<div class="section level2">
+<h2 id="arrows-and-lines-connecting-nodes">7) Arrows and lines connecting nodes<a class="anchor" aria-label="anchor" href="#arrows-and-lines-connecting-nodes"></a>
+</h2>
+<p>The <em>pathdiagrams</em> package also allows a user to add either
+arrows or lines to connect nodes. Details of what lines to draw and the
+aesthetics of these lines are specified via a call to the ‘paths’
+argument for the ‘add_nodes’ function.</p>
+<p>When nodes are labeled, a line from one node to another can be added
+via a input string of the following form:</p>
 <p>‘Node label|start position|Node label|end position’</p>
-<p>There are 8 positions that a user can specify: ‘top’, ‘topright’, ‘right’, ‘bottomright’, ‘bottom’, ‘bottomleft’, ‘left’, and ‘topleft’.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span>
-
-<span class="co"># Define nodes</span>
-<span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  N01 <span class="op">=</span> <span class="st">'Node-01|x=.1|y=.5'</span>,
-  N02 <span class="op">=</span> <span class="st">'Node-02|x=.9|y=.5'</span>
-<span class="op">)</span>
-
-<span class="co"># Arrow from node 'N01' to 'N02'</span>
-<span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  <span class="st">'N01|right|N02|left'</span>
-<span class="op">)</span>
-
-<span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, <span class="va">paths</span>, output <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></code></pre></div>
+<p>There are 8 positions that a user can specify: ‘top’, ‘topright’,
+‘right’, ‘bottomright’, ‘bottom’, ‘bottomleft’, ‘left’, and
+‘topleft’.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define nodes</span></span>
+<span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  N01 <span class="op">=</span> <span class="st">'Node-01|x=.1|y=.5'</span>,</span>
+<span>  N02 <span class="op">=</span> <span class="st">'Node-02|x=.9|y=.5'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Arrow from node 'N01' to 'N02'</span></span>
+<span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">'N01|right|N02|left'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, <span class="va">paths</span>, output <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span></code></pre></div>
+<p><img src="Tutorial_files/figure-html/unnamed-chunk-7-1.png" width="339.84"></p>
+<p>In cases where a user wants to add a line that is not defined
+relative to a pair of nodes, one can provide the x and y-axis
+coordinates instead:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define nodes</span></span>
+<span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  N01 <span class="op">=</span> <span class="st">'Node-01|x=.5|y=.75'</span>,</span>
+<span>  N02 <span class="op">=</span> <span class="st">'Node-02|x=.5|y=.25'</span>,</span>
+<span>  N03 <span class="op">=</span> <span class="st">'Node-03|x=.9|y=.5'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="co"># Arrow between Node-01 and Node-02</span></span>
+<span>  <span class="st">'N01|bottom|N02|top'</span>,</span>
+<span>  <span class="co"># Arrow defined at fixed coordinates</span></span>
+<span>  <span class="st">'x,y|.5,.5|x,y|.7,.5'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, <span class="va">paths</span>, output <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="Tutorial_files/figure-html/unnamed-chunk-8-1.png" width="339.84"></p>
-<p>In cases where a user wants to add a line that is not defined relative to a pair of nodes, one can provide the x and y-axis coordinates instead:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span>
-
-<span class="co"># Define nodes</span>
-<span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  N01 <span class="op">=</span> <span class="st">'Node-01|x=.5|y=.75'</span>,
-  N02 <span class="op">=</span> <span class="st">'Node-02|x=.5|y=.25'</span>,
-  N03 <span class="op">=</span> <span class="st">'Node-03|x=.9|y=.5'</span>
-<span class="op">)</span>
-
-<span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  <span class="co"># Arrow between Node-01 and Node-02</span>
-  <span class="st">'N01|bottom|N02|top'</span>,
-  <span class="co"># Arrow defined at fixed coordinates</span>
-  <span class="st">'x,y|.5,.5|x,y|.7,.5'</span>
-<span class="op">)</span>
-
-<span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, <span class="va">paths</span>, output <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></code></pre></div>
+<p>As before, additional options, separated by the pipe symbol ‘|’, can
+be added to the end of the input string that control the aesthetics of
+the lines:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define nodes</span></span>
+<span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  N01 <span class="op">=</span> <span class="st">'Node-01|x=.25|y=.25'</span>,</span>
+<span>  N02 <span class="op">=</span> <span class="st">'Node-02|x=.25|y=.75'</span>,</span>
+<span>  N03 <span class="op">=</span> <span class="st">'Node-03|x=.75|y=.75'</span>,</span>
+<span>  N04 <span class="op">=</span> <span class="st">'Node-04|x=.75|y=.25'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="co"># Arrow between Node-01 and Node-04</span></span>
+<span>  <span class="st">'N01|right|N04|left'</span>,</span>
+<span>  <span class="co"># Line between Node-01 and Node-02</span></span>
+<span>  <span class="st">'N01|top|N02|bottom|lp=0|ll=0'</span>,</span>
+<span>  <span class="co"># Double-headed arrow</span></span>
+<span>  <span class="st">'N02|right|N03|left|cd=&lt;-&gt;'</span>,</span>
+<span>  <span class="co"># Set line width and color</span></span>
+<span>  <span class="st">'N03|bottom|N04|top|lw=4|lc=red'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, <span class="va">paths</span>, output <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="Tutorial_files/figure-html/unnamed-chunk-9-1.png" width="339.84"></p>
-<p>As before, additional options, separated by the pipe symbol ‘|’, can be added to the end of the input string that control the aesthetics of the lines:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_base_figure.html">create_base_figure</a></span><span class="op">(</span> guidelines <span class="op">=</span> <span class="cn">FALSE</span>, new <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">)</span>
-
-<span class="co"># Define nodes</span>
-<span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  N01 <span class="op">=</span> <span class="st">'Node-01|x=.25|y=.25'</span>,
-  N02 <span class="op">=</span> <span class="st">'Node-02|x=.25|y=.75'</span>,
-  N03 <span class="op">=</span> <span class="st">'Node-03|x=.75|y=.75'</span>,
-  N04 <span class="op">=</span> <span class="st">'Node-04|x=.75|y=.25'</span>
-<span class="op">)</span>
-
-<span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-  <span class="co"># Arrow between Node-01 and Node-04</span>
-  <span class="st">'N01|right|N04|left'</span>,
-  <span class="co"># Line between Node-01 and Node-02</span>
-  <span class="st">'N01|top|N02|bottom|lp=0|ll=0'</span>,
-  <span class="co"># Double-headed arrow</span>
-  <span class="st">'N02|right|N03|left|cd=&lt;-&gt;'</span>,
-  <span class="co"># Set line width and color</span>
-  <span class="st">'N03|bottom|N04|top|lw=4|lc=red'</span>
-<span class="op">)</span>
-
-<span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_nodes.html">add_nodes</a></span><span class="op">(</span> <span class="va">inputs</span>, <span class="va">paths</span>, output <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></code></pre></div>
-<p><img src="Tutorial_files/figure-html/unnamed-chunk-10-1.png" width="339.84"></p>
 </div>
   </div>
 
@@ -349,11 +368,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Kevin Potter.</p>
+  <p></p>
+<p>Developed by Kevin Potter.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
@@ -361,6 +382,8 @@
 
   
 
+
+  
 
   </body>
 </html>

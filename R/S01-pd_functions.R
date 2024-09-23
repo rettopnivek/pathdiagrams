@@ -3,12 +3,13 @@
 # email: kevin.w.potter@gmail.com
 # Please email me directly if you
 # have any questions or comments
-# Last updated 2024-09-14
+# Last updated 2024-09-23
 
 # Table of contents
 # 1) Internal functions
 #   1.1) pd_int_add.node_shape
 #   1.2) pd_int_add.node_text
+#   1.3) pd_int_add.args
 # 2) Path diagram functions
 #   2.1) pd_base_figure
 #   2.2) pd_node
@@ -17,6 +18,10 @@
 #     2.4.1) Update xy
 #     2.4.2) Add paths
 #     2.4.3) Add nodes
+# 3) Helper functions
+#   3.1) xy
+#   3.2) wh
+#   3.3) pd_node_template
 
 #### 1) Internal functions ####
 
@@ -184,6 +189,13 @@ pd_int_add.node_text <- function(
     # Close 'Width/height not specified'
   }
 
+  # Default values given null inputs
+  if ( is.null(cex) ) cex <- 1
+  if ( is.null(spacing) ) spacing <- 0.5
+  if ( is.null(align) ) align <- 'center'
+  if ( is.null(col) ) col = 'black'
+  if ( is.null(ignore_asterisk) ) ignore_asterisk <- TRUE
+
   lst_lines <- lapply(
     strsplit( string, split = '\n', fixed = TRUE )[[1]],
     function(s) {
@@ -302,15 +314,22 @@ pd_int_add.node_text <- function(
     num_H*int_lines +
     num_H*spacing*(int_lines + 1)
 
-  num_HL <- c(
-    rep( NA, int_lines + 1 ),
-    rep( NA, int_lines )
-  )
-  num_HL[ seq( 1, int_lines + (int_lines + 1), 2 ) ] <- num_H*spacing
-  num_HL[ seq( 2, int_lines + (int_lines + 1), 2 ) ] <- num_H
+  num_HL <- rep( -num_H*spacing, int_lines )
 
-  num_HL <- (num_HL |> cumsum() |> rev()) - num_H/2
-  num_HL <- num_HL[ seq( 2, int_lines + (int_lines + 1), 2 ) ]
+  # if more than one line
+  if ( int_lines > 1 ) {
+
+    # Loop over lines
+    for (l in 2:int_lines) {
+
+      num_HL[l] <-
+        num_HL[l-1] - num_H - num_H*spacing
+
+      # Close 'Loop over lines'
+    }
+
+    # Close 'if more than one line'
+  }
 
   # If width not specified
   if ( is.na( wh['w'] ) ) {
@@ -358,15 +377,17 @@ pd_int_add.node_text <- function(
       # Add text to figure
       if ( add ) {
 
+        # print(cex)
         text(
           xy['x'] + num_adj + lst_lines[[l]]$x,
-          xy['y'] + num_HL[l] - num_HT/2 - num_H,
+          xy['y'] + num_HL[l] + num_HT/2,
           lst_lines[[l]]$line,
           cex = cex,
           font = lst_lines[[l]]$font,
-          pos = 3,
+          pos = 1,
           col = col,
-          xpd = NA
+          xpd = NA,
+          offset = 0
         )
 
         # Close 'Add text to figure'
@@ -376,6 +397,39 @@ pd_int_add.node_text <- function(
   )
 
   return( wh )
+}
+
+#### 1.3) pd_int_add.args ####
+# Add Arguments to a List
+#
+# Function to add new elements to a list without
+# overwriting existing elements.
+#
+# @param x A list.
+# @param y A named list.
+#
+# @returns A list.
+
+pd_int_add.args <- function(
+    x,
+    y ) {
+
+  # Loop over elements in y
+  for ( e in seq_along(y) ) {
+
+    # If element does not exist in x
+    if ( is.null( x[[ names(y)[e] ]] ) ) {
+
+      # Add to x
+      x[[ names(y)[e] ]] <- y[[e]]
+
+      # Close 'If element does not exist in x'
+    }
+
+    # Close 'Loop over elements in y'
+  }
+
+  return( x )
 }
 
 #### 2) Path diagram functions ####
@@ -417,6 +471,7 @@ pd_int_add.node_text <- function(
 #'   window is generated.
 #'
 #' @examples
+#' \dontrun{
 #' # Default (6 x 6 inches)
 #' pd_base_figure()
 #'
@@ -428,6 +483,7 @@ pd_int_add.node_text <- function(
 #'
 #' # US letter (Portrait)
 #' pd_base_figure( default = 'US letter', orientation = 'portrait' )
+#' }
 #'
 #' @export
 
@@ -714,31 +770,12 @@ pd_node <- function(
     # Close 'Default arguments for text'
   }
 
-  # Default text size
-  if ( is.null( args.text$cex ) ) args.text$cex <- 1
-  # Default text color
-  if ( is.null( args.text$col ) ) args.text$col <- 'black'
-
   # Initialize wh
   if ( is.null(wh) ) {
 
     wh <- c( w = NA, h = NA )
 
     # Close 'Initialize wh'
-  }
-
-  # Compute wh from text
-  if ( string != '' ) {
-
-    wh <- pd_int_add.node_text(
-      string,
-      xy,
-      wh,
-      cex = args.text$cex,
-      add = F
-    )
-
-    # Close 'Compute wh from text'
   }
 
   lst[[ node ]] <- list(
@@ -840,7 +877,43 @@ pd_draw_nodes <- function(
 
   chr_nodes <- names(inputs)
 
-  #### 2.4.1) Update xy ####
+  #### 2.4.1) Update wh ####
+
+  # Loop over nodes
+  for ( n in seq_along(inputs) ) {
+
+    # Update arguments for text
+    if ( !is.null( args.text ) ) {
+
+      inputs[[n]]$args.text <- pd_int_add.args(
+        inputs[[n]]$args.text,
+        args.text
+      )
+
+      # Close 'Update arguments for text'
+    }
+
+    # Width or height not specified
+    if ( any( is.na( inputs[[n]]$wh ) ) ) {
+
+      inputs[[n]]$wh <- pd_int_add.node_text(
+        string = inputs[[n]]$string,
+        xy = inputs[[n]]$xy,
+        wh = inputs[[n]]$wh,
+        cex = inputs[[n]]$args.text$cex,
+        col = inputs[[n]]$args.text$col,
+        align = inputs[[n]]$args.text$align,
+        spacing = inputs[[n]]$args.text$spacing,
+        add = F
+      )
+
+      # Close 'Width or height not specified'
+    }
+
+    # Close 'Loop over nodes'
+  }
+
+  #### 2.4.2) Update xy ####
 
   # Update xy as needed
   for ( n in seq_along(inputs) ) {
@@ -873,15 +946,15 @@ pd_draw_nodes <- function(
         }
       )
 
-      lgc_nodes <- chr_nodes %in% chr_node_from
-
-      lst_node_from <- pd_node_dimensions(
-        inputs[[ chr_nodes[lgc_nodes] ]]$xy,
-        inputs[[ chr_nodes[lgc_nodes] ]]$wh
-      )
-
       # Loop over x and y
       for ( i in 1:2 ) {
+
+        lgc_nodes <- chr_nodes %in% chr_node_from[i]
+
+        lst_node_from <- pd_node_dimensions(
+          inputs[[ chr_nodes[lgc_nodes] ]]$xy,
+          inputs[[ chr_nodes[lgc_nodes] ]]$wh
+        )
 
         # Check if specified from a given node
         if ( chr_node_from[i] == chr_nodes[lgc_nodes] ) {
@@ -922,7 +995,7 @@ pd_draw_nodes <- function(
     # Close 'Update xy as needed'
   }
 
-  #### 2.4.2) Add paths ####
+  #### 2.4.3) Add paths ####
 
   # Add paths
   for ( n in seq_along(inputs) ) {
@@ -1022,6 +1095,8 @@ pd_draw_nodes <- function(
           num_path['x1'] <- lst_node_to[[ chr_node_parts[2] ]]['x']
           num_path['y1'] <- lst_node_to[[ chr_node_parts[2] ]]['y']
 
+          # print( lst_node_to )
+
           # Close else for 'If x|y coordinates specified'
         }
         names( num_path ) <- c( 'x0', 'x1', 'y0', 'y1' )
@@ -1058,10 +1133,15 @@ pd_draw_nodes <- function(
     # Close 'Add paths'
   }
 
-  #### 2.4.3) Add nodes ####
+  #### 2.4.4) Add nodes ####
 
   # Add nodes
   for ( n in seq_along(inputs) ) {
+
+    inputs[[n]]$args.polygon <- pd_int_add.args(
+      inputs[[n]]$args.polygon,
+      args.polygon
+    )
 
     pd_int_add.node_shape(
       xy = inputs[[n]]$xy,
@@ -1076,10 +1156,157 @@ pd_draw_nodes <- function(
       wh = inputs[[n]]$wh,
       cex = inputs[[n]]$args.text$cex,
       col = inputs[[n]]$args.text$col,
+      align = inputs[[n]]$args.text$align,
+      spacing = inputs[[n]]$args.text$spacing,
       add = TRUE
     )
+    # print( num_wh )
 
     # Close 'Add nodes'
   }
 
+  invisible( inputs )
 }
+
+#### 3) Helper functions ####
+
+#### 3.1) xy ####
+#' Vector for X and Y Coordinates
+#'
+#' Function to produce named vector with x and
+#' y coordinates to pass to [pathdiagrams::pd_node].
+#'
+#' @param x A numeric value between 0 and 1.
+#' @param y A numeric value between 0 and 1.
+#'
+#' @returns A named vector.
+#'
+#' @export
+
+xy <- function(
+    x,
+    y ) {
+
+  num_xy <- c( x = x, y = y )
+
+  return( num_xy )
+}
+
+#### 3.2) wh ####
+#' Vector for width and height
+#'
+#' Function to produce named vector with width
+#' and height to pass to [pathdiagrams::pd_node].
+#'
+#' @param w A numeric value between 0 and 1.
+#' @param h A numeric value between 0 and 1.
+#'
+#' @returns A named vector.
+#'
+#' @export
+
+wh <- function(
+    w,
+    h ) {
+
+  num_wh <- c( w = w, h = h )
+
+  return( num_wh )
+}
+
+#### 3.3) pd_node_template ####
+#' Create Template for Nodes
+#'
+#' Function to generate template code for
+#' creating nodes in a path diagram.
+#'
+#' @param n A integer value, the number of nodes
+#'   to include in the template code.
+#'
+#' @returns A message to the console window with the
+#' template code.
+#'
+#' @export
+
+pd_node_template <- function(
+    n ) {
+
+  chr_start <-
+    'lst_nodes <- list() |>\n'
+
+  chr_nodes <- as.character(
+    1:n
+  )
+  chr_nodes[ (1:n) < 10 ] <-
+    paste0( '0', chr_nodes[ (1:n) < 10] )
+  chr_nodes <- paste0( 'N', chr_nodes )
+
+  chr_node <- sapply(
+    1:n, function(i) {
+
+      if ( i == 1 ) {
+
+        chr_current <- paste0(
+          "  pd_node(\n",
+          "    '", chr_nodes[i], "', xy = xy(0.5, 0.9), ",
+          "wh = wh( 0.15, NA ),\n",
+          "    string = 'Placeholder',\n",
+          "    args.polygon = list( col = 'white' )\n",
+          "  )"
+        )
+
+      } else {
+
+        chr_current <- paste0(
+          "  pd_node(\n",
+          "    '", chr_nodes[i], "', from = c(",
+          chr_nodes[i-1], ".center = 0, ",
+          chr_nodes[i-1], ".bottom = -1.5), ",
+          "wh = wh( 0.15, NA ),\n",
+          "    string = 'Placeholder',\n",
+          "    to = 'top - ",
+          chr_nodes[i-1], ".bottom',\n",
+          "    args.polygon = list( col = 'white' )\n",
+          "  )"
+        )
+
+      }
+
+    }
+  )
+
+  message(
+    paste0(
+      chr_start,
+      paste( chr_node, collapse = ' |>\n' )
+    )
+  )
+
+}
+
+# pd_base_figure( new = TRUE, guidelines = FALSE )
+#
+# lst_nodes <- list() |>
+#   pd_node(
+#     'N01', xy = xy(0.5, 0.8),
+#     string = 'Node-01'
+#   ) |>
+#   pd_node(
+#     'N02', from = c(N01.center = -1.25, N01.bottom = -1.5),
+#     string = 'Node-02\nLine 2',
+#     to = 'top - N01.bottom'
+#   ) |>
+#   pd_node(
+#     'N03', from = c(N01.center = 0, N01.bottom = -1.5),
+#     string = 'Node-03',
+#     to = 'top - N01.bottom'
+#   ) |>
+#   pd_node(
+#     'N04', from = c(N01.center = 1.25, N01.bottom = -1.5),
+#     string = 'Node-04',
+#     to = 'top - N01.bottom'
+#   )
+#
+# pd_draw_nodes( lst_nodes, args.polygon = list( col = 'white' ),
+#                args.text = list( cex = .8 ) )
+

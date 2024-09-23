@@ -2,12 +2,15 @@ reference:
 - title: "Node and Text Functions"
   desc: >
     Functions to create figures and add
-    nodes and text to them.
+    nodes for a path diagram.
 - contents:
   - pd_base_figure
+  - pd_draw_nodes
   - pd_node
   - pd_node_dimensions
-  - pd_draw_nodes
+  - pd_node_template
+  - wh
+  - xy
 - title: "Legacy functions"
   desc: >
     Functions from version 1.0.0 of the package,
@@ -21,3 +24,8 @@ reference:
   - sep
   - size
   - distribute
+- title: "Miscellaneous"
+  desc: >
+
+- contents:
+  - pathdiagrams-package

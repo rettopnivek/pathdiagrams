@@ -3,23 +3,16 @@
 # email: kevin.w.potter@gmail.com
 # Please email me directly if you
 # have any questions or comments
-# Last updated 2022-03-24
+# Last updated 2024-09-14
 
 # Package development
-# library(devtools)
-# library(roxygen2)
-
-# Website URL: https://rettopnivek.github.io/pathdiagrams/
-
-# To update documentation
-# devtools::document()
-
-# To build website
-# pkgdown::build_site()
+# - To update man pages
+#   devtools::document()
+# - To update website
+#   pkgdown::build_site()
 
 #' Tools to Create Path Diagrams
 #'
-#' @docType package
 #' @name pathdiagrams-package
 #'
 #' @description
@@ -33,4 +26,4 @@
 #' how to use the package is available at
 #' https://rettopnivek.github.io/pathdiagrams/.
 #'
-NULL
+"_PACKAGE"

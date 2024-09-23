@@ -34,112 +34,105 @@ The *pathdiagrams* package provides an extension to base R's plotting tools for 
   
 ## 2) Creating a diagram and adding nodes
   
-Creation of a path diagram proceeds in two steps:
+Creation of a path diagram proceeds in three steps:
 
-1. Create a blank figure using 'create_base_figure';
+1. Create a blank figure using 'pd_base_figure';
     + The x and y-axis boundaries for the figure are between 0 and 1.
     + By default, guidelines are provided to help with positioning.
-2. Add nodes and lines/arrows via functions like 'add_nodes'.
-    + Nodes can be created via the 'add_nodes' function per an input string of the format: 'Text content|x=value|y=value'.
+2. Create a list with details on the nodes to draw using 'pd_node';
+    + The function needs a name for the node, a vector giving the x and y-axis locations, and the text content for the node.
     + Nodes are created centered at the specified x and y-axis values.
-    + Multiple nodes can be created by providing a vector of text strings.
+    + Multiple calls to 'pd_node' can be strung together using the pipe operator '|>'.
+3. Draw the nodes on the figure using 'pd_draw_node'.
+    + Global options (fill color for the nodes, line width, etc.) can be specified.
   
 ```{r,fig.height = 3.54, fig.width = 3.54}
-# Creates a base figure with lower and upper limits from 
-# 0 to 1. By default, figure is 6 x 6 inches (? x ? cm), 
-# and has guidelines to aid with development and 
-# positioning for the diagram.
-create_base_figure( new = FALSE )
+# Creates a base figure with lower and upper limits from 0 to 1
+pd_base_figure( new = FALSE )
 
-# Add a rectangle with the text 'Node-01' centered at 
-# the (x,y) coordinates (0.3,0.8). Input is formatted 
-# as: 'Text|x=coordinate|y=coordinate' - each element 
-# is separated by the '|' symbol.
-add_nodes( 'Node-01|x=.3|y=.8' )
+# Specify nodes to add
+lst_nodes <- list() |> 
+  pd_node( 
+    'N01', c(x = .3, y = .8), string = 'Node-01'
+  ) |>
+  pd_node( 
+    'N02', c(x = .3, y = .6), string = 'Node-02',
+    # Connect line from Node-02 to Node-01
+    to = 'top - N01.bottom'
+  ) |> 
+  pd_node( 
+    'N03', c(x = .3, y = .4), string = 'Node-03',
+    # Connect line from Node-03 to Node-02
+    to = 'top - N02.bottom'
+  )
 
-# Add multiple nodes with text at different y-axis 
-# positions.
-add_nodes( c( 'Node-02|x=.3|y=.6', 'Node-03|x=.3|y=.4' ) )
+# Draw nodes on figure, setting all node backgrounds to white via 
+# 'col' argument in the 'polygon' function
+pd_draw_nodes( lst_nodes, args.polygon = list( col = 'white' ) )
 ```
 
 ## 3) Determining spacing between nodes
 
-Once nodes have been created, it can be helpful to know the dimensions of a node and the distance between two nodes. Furthermore, we often will want to adjust node locations so that two nodes are a fixed distance apart from each other. The *pathdiagrams* package provides several built-in functions to allow users to quickly compute these values. For example, consider the creation of two nodes, 'N01' and 'N02':
+Rather than specifying values for the x and y-axis, users can instead specify the location of subsequent nodes relative to a previously created node, to facilitate adding nodes with equivalent distances from each other. 
 
 ```{r,fig.height = 3.54, fig.width = 3.54}
-create_base_figure( new = FALSE )
+pd_base_figure( new = FALSE, guidelines = FALSE )
 
-# Initial creation of nodes
-inputs <- c(
-  N01 = 'Node-01|x=.3|y=.861',
-  N02 = 'Node-02|x=.3|y=.339'
-)
-nodes <- add_nodes( inputs, output = TRUE )
+lst_nodes <- list() |> 
+  # Specify first node
+  pd_node( 
+    'N01', c( x = .5, y = .9 ), string = 'Node-01'
+  ) |> 
+  # Subsequent node locations are relative to first node, based on node's height 
+  # and width
+  pd_node( 
+    'N02', from = c( N01.center = -1.25, N01.bottom = -1.5 ), string = 'Node-02',
+    to = 'top - N01.bottom'
+  ) |> 
+  pd_node( 
+    'N03', from = c( N01.center = 0, N01.bottom = -1.5 ), string = 'Node-03',
+    to = 'top - N01.bottom'
+  ) |> 
+  pd_node( 
+    'N04', from = c( N01.center = 1.25, N01.bottom = -1.5 ), string = 'Node-04',
+    to = 'top - N01.bottom'
+  )
 
-# Determine size of node 'N01'
-size( nodes$N01 )
-
-# Determine distance between nodes 
-# along the y-axis
-sep( nodes, c( 'N01', 'N02' ), 
-     dimension = 'y-axis' )
-
-# Determine new y-axis position 
-# for 'N02' so that it is the 
-# desired distance from 'N01'
-sep( nodes, c( 'N01', 'N02' ), 
-     dimension = 'y-axis', desired = .1 )
-```
-
-Once we have determined the new y-axis coordinate, we can update the code for the node creation such that the nodes 'N01' and 'N02' are the appropriate distance apart from each other:
-
-```{r,fig.height = 3.54, fig.width = 3.54}
-create_base_figure( new = FALSE )
-
-inputs <- c(
-  N01 = 'Node-01|x=.3|y=.861',
-  N02 = 'Node-02|x=.3|y=.639'
-)
-nodes <- add_nodes( inputs, output = TRUE )
+pd_draw_nodes( lst_nodes )
 ```
 
 ## 4) Node aesthetics (shape, fill color, etc.)
 
-Multiple options controlling the aesthetics of a node can be included. Options, separated by the pipe symbol '|', are added to the end of the input string with the text content and x and y-axis position. Options for nodes are in the form 'n_=' with the underscore replaced by an appropriate letter. For example, to change a node's fill color to red, the full input string would be:
-
-'Text content|x=value|y=value|nc=red'
-
-The following figure showcases the range of options and how the options should be specified:
+Users can provide lists of arguments to change node and text characteristics:
 
 ```{r,fig.height = 3.54, fig.width = 3.54}
-create_base_figure( guidelines = FALSE, new = FALSE )
+pd_base_figure( guidelines = FALSE, new = FALSE )
 
-inputs <- c(
-  # Change shape to ellipse
-  N01 = 'Node-01|x=.5|y=.9|ns=circle',
-  # Change fill color to grey
-  N02 = 'Node-02|x=.5|y=.7|nc=grey80',
-  # Change border color to red
-  N03 = 'Node-03|x=.5|y=.5|nb=red',
-  # Change padding around text
-  N03a = 'Node-03a|x=.175|y=.5|np=1.5',
-  # Change padding around text
-  N03b = 'Node-03b|x=.825|y=.5|nx=.23|ny=.15',
-  # Change border width
-  N04 = 'Node-04|x=.5|y=.3|nw=4',
-  # Change border type
-  N05 = 'Node-05|x=.5|y=.1|nt=3'
-)
-nodes <- add_nodes( inputs, output = TRUE, text.size = .85 )
+lst_nodes <- list() |> 
+  pd_node(
+    'N01', c( x = .25, y = .7 ), string = 'N01',
+    # Node is an ellipse instead of a rectangle
+    shape = 'ellipse', 
+    # Change color and line width of border for node
+    args.polygon = list( col = 'grey', lwd = 3 )
+  ) |> 
+  pd_node(
+    'N02', c( x = .75, y = .7 ), string = 'N02',
+    # Change font size and color
+    args.text = list( cex = 2, col = 'red' )
+  ) |> 
+  pd_node(
+    'N03', c( x = .5, x = .3 ), string = 'N03',
+    to = c(
+      'top <- N01.bottom', 'top -> N02.bottom'
+    ),
+    # Change line width and color
+    args.arrows = list(
+      col = 'blue', lwd = 3
+    )
+  )
 
-# How to specify options
-text( c( .5, .5, .5, .175, .825, .5, .5 ), 
-      c( .825, .625, 0.425, .375, .38, .225, .025 ),
-      c( 'ns=circle', 'nc=grey80', 'nb=red', 
-         'np=1.5', 'nx=.23|ny=.15', 'nw=4', 
-         'nt=3' ),
-      cex = .85, xpd = NA
-)
+pd_draw_nodes( lst_nodes )
 ```
 
 ## 5) Text aesthetics (size, color, etc.)

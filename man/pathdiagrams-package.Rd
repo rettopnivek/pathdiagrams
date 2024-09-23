@@ -2,6 +2,7 @@
 % Please edit documentation in R/S00-pathdiagrams-package.R
 \docType{package}
 \name{pathdiagrams-package}
+\alias{pathdiagrams}
 \alias{pathdiagrams-package}
 \title{Tools to Create Path Diagrams}
 \description{
@@ -13,4 +14,8 @@ via the command \code{ls(pos = "package:pathdiagrams")}.
 A website with function documentation and vignettes on
 how to use the package is available at
 https://rettopnivek.github.io/pathdiagrams/.
+}
+\author{
+\strong{Maintainer}: Kevin Potter \email{kevin.w.potter@gmail.com}
+
 }
