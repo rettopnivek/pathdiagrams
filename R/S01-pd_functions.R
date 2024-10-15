@@ -3,7 +3,7 @@
 # email: kevin.w.potter@gmail.com
 # Please email me directly if you
 # have any questions or comments
-# Last updated 2024-09-23
+# Last updated 2024-10-15
 
 # Table of contents
 # 1) Internal functions
@@ -692,13 +692,15 @@ pd_base_figure = function(
 #'   to draw.
 #' @param from An optional named vector of two values, giving
 #'   the offset from a specified node for the x and y-axis.
-#'   Units are relative, based on the size of the referent
+#'   Units are relative. Height is relative to a node using
+#'   one line of text. Width is relative to the referent
 #'   node (e.g., a value of -2 for the y-axis will place the
-#'   new node below at twice the height of the referent
-#'   node). Names for the vector are the referent node,
-#'   followed by a period, followed by the location
+#'   new node to the left of the referent node based on
+#'   twice its width). Names for the vector are the referent
+#'   node, followed by a period, followed by the location
 #'   on the referent node to use as reference (e.g.,
-#'   'N01.bottom').
+#'   'N01.bottom'). If no referent node is specified
+#'   uses absolute x and y-axis values instead.
 #' @param to A character vector, where each string
 #'   indicates the arrows from the current node
 #'   and where they should connect to. Format is
@@ -915,6 +917,35 @@ pd_draw_nodes <- function(
 
   #### 2.4.2) Update xy ####
 
+  # Determine number of lines of text per node
+  int_lines <- sapply(
+    seq_along(inputs),
+    function(n) sum( grepl( '\n', inputs[[n]]$string, fixed = TRUE ) )
+  ) + 1
+
+  # Extract node heights
+  num_node_h <- sapply(
+    seq_along(inputs), function(n) inputs[[n]]$wh[2]
+  )
+  names( num_node_h ) <- names(inputs)
+
+  # Determine height of one line of text
+  if ( any(int_lines == 1) ) {
+
+    num_node_h_1 <- mean(
+      num_node_h[ int_lines == 1 ]
+    )
+
+    # Close 'Determine height of one line of text'
+  } else {
+
+    num_node_h_1 <- mean(
+      num_node_h[ int_lines > 0 ] / int_lines[ int_lines > 0 ]
+    )
+
+    # Close else for 'Determine height of one line of text'
+  }
+
   # Update xy as needed
   for ( n in seq_along(inputs) ) {
 
@@ -949,37 +980,68 @@ pd_draw_nodes <- function(
       # Loop over x and y
       for ( i in 1:2 ) {
 
+        lgc_no_nodes <- TRUE
         lgc_nodes <- chr_nodes %in% chr_node_from[i]
 
-        lst_node_from <- pd_node_dimensions(
-          inputs[[ chr_nodes[lgc_nodes] ]]$xy,
-          inputs[[ chr_nodes[lgc_nodes] ]]$wh
-        )
+        # If specified from any nodes
+        if ( any( lgc_nodes ) ) {
 
-        # Check if specified from a given node
-        if ( chr_node_from[i] == chr_nodes[lgc_nodes] ) {
+          # Check if specified from a given node
+          if ( chr_node_from[i] == chr_nodes[lgc_nodes] ) {
 
-          chr_pos <- strsplit(
-            chr_from[i], split = '.', fixed = TRUE
-          )[[1]][2]
+            lst_node_from <- pd_node_dimensions(
+              inputs[[ chr_nodes[lgc_nodes] ]]$xy,
+              inputs[[ chr_nodes[lgc_nodes] ]]$wh
+            )
 
-          num_size <- c(
-            w = lst_node_from$right[1] - lst_node_from$left[1],
-            h = lst_node_from$top[2] - lst_node_from$bottom[2]
-          )
-          # print( lst_node_from[[ chr_pos ]] )
+            chr_pos <- strsplit(
+              chr_from[i], split = '.', fixed = TRUE
+            )[[1]][2]
 
-          num_xy[i] <-
-            lst_node_from[[ chr_pos ]][i] + num_size[i]*num_from[i]
+            num_size <- c(
+              w = lst_node_from$right[1] - lst_node_from$left[1],
+              h = lst_node_from$top[2] - lst_node_from$bottom[2]
+            )
+            # print( lst_node_from[[ chr_pos ]] )
 
-          # print( chr_pos )
 
-          # Close 'Check if specified from a given node'
-        } else {
+            # Specify width
+            if ( i == 1 ) {
+
+              num_xy[i] <-
+                lst_node_from[[ chr_pos ]][i] +
+                num_from[i]*num_size[i]
+
+              # Close 'Specify height'
+            }
+
+            # Specify height
+            if ( i == 2 ) {
+
+              num_xy[i] <-
+                lst_node_from[[ chr_pos ]][i] +
+                num_from[i]*num_node_h_1 +
+                .5*inputs[[n]]$wh[i]*sign(num_from[i])
+
+              # Close 'Specify height'
+            }
+
+            # print( chr_pos )
+
+            lgc_no_nodes <- FALSE
+
+            # Close 'Check if specified from a given node'
+          }
+
+          # Close 'If specified from any nodes'
+        }
+
+        # If not from a specific node
+        if ( lgc_no_nodes ) {
 
           num_xy[i] <- num_from[i]
 
-          # Close else from 'Check if specified from a given node'
+          # Close else from 'If not from a specific node'
         }
 
         # Close 'Loop over x and y'

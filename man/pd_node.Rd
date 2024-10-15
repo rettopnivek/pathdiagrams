@@ -53,13 +53,15 @@ to draw.}
 
 \item{from}{An optional named vector of two values, giving
 the offset from a specified node for the x and y-axis.
-Units are relative, based on the size of the referent
+Units are relative. Height is relative to a node using
+one line of text. Width is relative to the referent
 node (e.g., a value of -2 for the y-axis will place the
-new node below at twice the height of the referent
-node). Names for the vector are the referent node,
-followed by a period, followed by the location
+new node to the left of the referent node based on
+twice its width). Names for the vector are the referent
+node, followed by a period, followed by the location
 on the referent node to use as reference (e.g.,
-'N01.bottom').}
+'N01.bottom'). If no referent node is specified
+uses absolute x and y-axis values instead.}
 
 \item{to}{A character vector, where each string
 indicates the arrows from the current node
