@@ -1162,6 +1162,7 @@ pd_draw_nodes <- function(
           # Close else for 'If x|y coordinates specified'
         }
         names( num_path ) <- c( 'x0', 'x1', 'y0', 'y1' )
+        # print( num_path )
 
         int_code <- 0
         if ( chr_path[2] == '->' ) int_code <- 2
@@ -1183,6 +1184,7 @@ pd_draw_nodes <- function(
         lst_arrows$y0 <- num_path['y0']
         lst_arrows$y1 <- num_path['y1']
         lst_arrows$code <- int_code
+        lst_arrows$xpd <- NA
 
         do.call( arrows, lst_arrows )
 
